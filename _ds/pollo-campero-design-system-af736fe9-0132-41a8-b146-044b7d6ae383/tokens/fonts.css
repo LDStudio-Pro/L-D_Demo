@@ -1,0 +1,83 @@
+/* ============================================================
+   Pollo Campero — Webfont declarations
+   Exo = workhorse sans (UI + headlines). Display/script faces
+   are accent-only (hand-drawn, lively brand personality).
+   ============================================================ */
+
+/* ---- Exo : primary typeface ---- */
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../assets/fonts/Exo-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---- Bushcraft One : chunky hand-drawn display ---- */
+@font-face {
+  font-family: "Bushcraft One";
+  src: url("../assets/fonts/BushcraftOne.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Guthen Bloots : flowing brush signature (the "Pollo" feel) ---- */
+@font-face {
+  font-family: "Guthen Bloots";
+  src: url("../assets/fonts/GuthenBloots.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Just Tell Me What : casual marker handwriting ---- */
+@font-face {
+  font-family: "Just Tell Me What";
+  src: url("../assets/fonts/JustTellMeWhat.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

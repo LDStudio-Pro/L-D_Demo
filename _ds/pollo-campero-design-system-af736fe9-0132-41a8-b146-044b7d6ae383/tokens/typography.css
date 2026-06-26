@@ -1,0 +1,43 @@
+/* ============================================================
+   Pollo Campero — Typography tokens
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-heading: "Exo", "Helvetica Neue", Arial, sans-serif;   /* punchy caps headlines */
+  --font-body:    "Exo", "Helvetica Neue", Arial, sans-serif;   /* UI + running text     */
+  --font-display: "Bushcraft One", "Exo", sans-serif;           /* chunky hand-drawn pop  */
+  --font-script:  "Guthen Bloots", "Brush Script MT", cursive;  /* flowing signature      */
+  --font-marker:  "Just Tell Me What", "Comic Sans MS", cursive;/* casual handwriting     */
+
+  /* ---- Weights ---- */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium:  500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:    700; /* @kind font */
+  --fw-black:   900; /* @kind font */
+
+  /* ---- Type scale (1.250 major-third, 16px base) ---- */
+  --text-2xs:  0.694rem;  /* 11px  — legal / captions   */
+  --text-xs:   0.8rem;    /* 12.8  — labels / meta       */
+  --text-sm:   0.9rem;    /* 14.4  — secondary           */
+  --text-base: 1rem;      /* 16     — body               */
+  --text-md:   1.125rem;  /* 18     — lead body          */
+  --text-lg:   1.5rem;    /* 24     — h4 / card title     */
+  --text-xl:   1.953rem;  /* 31     — h3                 */
+  --text-2xl:  2.441rem;  /* 39     — h2                 */
+  --text-3xl:  3.052rem;  /* 49     — h1                 */
+  --text-4xl:  3.815rem;  /* 61     — hero               */
+  --text-5xl:  5.96rem;   /* 95     — display / slides   */
+
+  /* ---- Line heights ---- */
+  --lh-tight:   1.04; /* @kind font */  /* big display caps */
+  --lh-snug:    1.18; /* @kind font */  /* headings */
+  --lh-normal:  1.5;  /* @kind font */  /* body */
+  --lh-relaxed: 1.7;  /* @kind font */  /* long-form prose */
+
+  /* ---- Letter spacing ---- */
+  --ls-tight:  -0.01em; /* @kind font */
+  --ls-normal: 0;       /* @kind font */
+  --ls-wide:   0.04em;  /* @kind font */
+  --ls-caps:   0.06em;  /* @kind font */
+}

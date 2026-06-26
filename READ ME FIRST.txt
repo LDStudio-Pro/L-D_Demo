@@ -1,0 +1,54 @@
+CAMPERO COURSE PLATFORM — DEMO BUNDLE
+=====================================
+
+WHAT THIS IS
+  A self-contained demo of the Campero Course Builder + Player. It runs in your
+  web browser from a tiny local server (no install for viewers, no internet
+  account needed). The two apps share your browser's storage, so a course you
+  build in the Builder shows up in the Player automatically.
+
+HOW TO RUN IT (pick your platform)
+
+  WINDOWS
+    1. Unzip this folder somewhere (e.g. your Desktop).
+    2. Double-click  start-demo.bat
+    3. Your browser opens to the demo start page. Keep the little black window
+       open during the demo; close it to stop the server.
+    (Needs Python or Node installed. If you have neither, install Python from
+     python.org and tick "Add Python to PATH", then run start-demo.bat again.)
+
+  MAC
+    1. Unzip this folder.
+    2. Double-click  start-demo.command
+       (First time: if nothing happens, open Terminal in this folder and run
+        chmod +x start-demo.command  — or right-click the file > Open.)
+    3. Your browser opens to the demo start page. Keep the Terminal window open;
+       press Ctrl+C to stop.
+
+  ANY PLATFORM (manual)
+    Open a terminal in this folder and run:   python -m http.server 8099
+    Then visit:   http://localhost:8099/demo-start.html
+
+ON THE START PAGE
+  - "Load sample course & open Builder"  -> seeds a ready-made course and opens
+    the authoring tool (recipe cards, manager sign-off, spot-the-violation,
+    badges, and more already built out).
+  - "Load sample course & open Player"   -> jump straight to the learner view.
+  - "Reset demo"                         -> clears everything for a clean start.
+
+THE BEST MOMENT TO SHOW
+  Author or tweak something in the Builder, then open the Player — you'll see
+  your course as a learner: read-aloud audio, Pollito reacting to answers,
+  badges, and the Passport screen.
+
+GOOD TO KNOW (set expectations)
+  This is a single-user, in-browser prototype. Edits save only to the browser
+  that made them — there's no shared cloud, login, or multi-author save yet.
+  That's intentional: production authoring, multi-user, and learner reporting
+  run through the LMS (the platform exports SCORM 1.2 / 2004 + xAPI).
+
+FILES IN THIS FOLDER
+  demo-start.html ........ the demo launcher page (start here)
+  Course Builder.dc.html . the authoring tool
+  Course Player.dc.html .. the learner experience
+  _ds/, assets/, support.js  required runtime + design-system files (don't move)

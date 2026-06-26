@@ -1,0 +1,70 @@
+/* ============================================================
+   Pollo Campero — Color tokens
+   Canonical values from the brand Pantone sheet (ColoresCAMPERO).
+   ============================================================ */
+:root {
+  /* ---- Core brand (Pantone-accurate) ---- */
+  --pc-orange:        #FF4D00;  /* Pantone 1655C — primary energy / doodles */
+  --pc-amber:         #FF8300;  /* Pantone 151C  — warm secondary orange   */
+  --pc-yellow:        #FFD100;  /* Pantone 109C  — logo yellow / sunshine  */
+  --pc-lime:          #B4BD00;  /* Pantone 390C  — fresh sides / green      */
+  --pc-maroon:        #5E2A2B;  /* Pantone 490C  — logo outline / deep ink  */
+  --pc-grape:         #512E91;  /* Pantone 2091C — rare pop accent          */
+
+  /* ---- Tints & shades (derived, harmonious) ---- */
+  --pc-orange-700:    #C93B00;  /* pressed / deep orange       */
+  --pc-orange-300:    #FF8A47;  /* hover wash / light orange   */
+  --pc-orange-100:    #FFE3D2;  /* faint orange surface        */
+  --pc-yellow-600:    #E0B400;  /* yellow shadow / border      */
+  --pc-yellow-100:    #FFF4CC;  /* faint yellow surface        */
+  --pc-lime-700:      #8A9000;  /* deep olive                  */
+  --pc-lime-100:      #EFF1CC;  /* faint lime surface          */
+  --pc-maroon-800:    #3F1B1C;  /* darkest ink                 */
+  --pc-maroon-300:    #8A5A5B;  /* muted maroon / secondary ink*/
+
+  /* ---- Neutrals (warm, food-friendly) ---- */
+  --pc-cream:         #FFFBF3;  /* page background (warm white) */
+  --pc-bone:          #F4EDE0;  /* card / panel neutral         */
+  --pc-sand:          #E7DCC9;  /* hairline / muted fill        */
+  --pc-stone:         #B7AC9A;  /* disabled / placeholder       */
+  --pc-ink:           #2A1A12;  /* default text on light        */
+  --pc-white:         #FFFFFF;
+  --pc-black:         #1A0F0A;
+
+  /* ============================================================
+     Semantic aliases — reach for these in components.
+     ============================================================ */
+  --color-bg:               var(--pc-cream);
+  --color-surface:          var(--pc-white);
+  --color-surface-warm:     var(--pc-bone);
+  --color-surface-sunken:   var(--pc-sand);
+
+  --color-text:             var(--pc-ink);
+  --color-text-strong:      var(--pc-maroon);
+  --color-text-muted:       var(--pc-maroon-300);
+  --color-text-on-dark:     var(--pc-cream);
+  --color-text-on-brand:    var(--pc-white);
+
+  --color-primary:          var(--pc-orange);
+  --color-primary-hover:    var(--pc-orange-300);
+  --color-primary-press:    var(--pc-orange-700);
+  --color-primary-soft:     var(--pc-orange-100);
+
+  --color-accent-yellow:    var(--pc-yellow);
+  --color-accent-lime:      var(--pc-lime);
+  --color-accent-grape:     var(--pc-grape);
+
+  --color-border:           var(--pc-sand);
+  --color-border-strong:    var(--pc-maroon);
+  --color-focus-ring:       var(--pc-amber);
+
+  /* status — kept inside the warm brand family */
+  --color-success:          var(--pc-lime-700);
+  --color-warning:          var(--pc-amber);
+  --color-danger:           #C0392B;
+  --color-info:             var(--pc-grape);
+
+  /* the dark "ink" base used for footers / reverse blocks */
+  --color-ink-surface:      var(--pc-maroon);
+  --color-ink-surface-2:    var(--pc-maroon-800);
+}

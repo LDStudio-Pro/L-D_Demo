@@ -1,0 +1,30 @@
+/* ============================================================
+   Pollo Campero — Spacing & layout tokens
+   8px base rhythm.
+   ============================================================ */
+:root {
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* component padding presets */
+  --pad-chip:     6px 14px;
+  --pad-btn-sm:   8px 16px;
+  --pad-btn:      13px 26px;
+  --pad-btn-lg:   18px 38px;
+  --pad-card:     24px;
+  --pad-section:  64px;
+
+  /* content widths */
+  --width-prose:     68ch;   /* @kind spacing */
+  --width-container: 1200px; /* @kind spacing */
+  --width-narrow:    760px;  /* @kind spacing */
+}
