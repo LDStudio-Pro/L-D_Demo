@@ -26,6 +26,9 @@
     @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
     .block-row:hover .block-actions { opacity: 1 !important; }
     .mod-row:hover .mod-actions { opacity: 1 !important; }
+    .mod-row:hover .mod-grip { color: rgba(94,42,43,.55) !important; }
+    .mod-grip:hover { color: #FF4D00 !important; }
+    .mod-grip:active { cursor: grabbing !important; }
     .sec-row:hover .sec-actions { opacity: 1 !important; }
     .prev-block:hover { background: rgba(255,77,0,.05) !important; }
     .prev-block:hover .prev-edit-badge { opacity: 1 !important; }
@@ -365,7 +368,7 @@
         <div style="padding:0 8px;display:flex;flex-direction:column;gap:4px">
           <sc-for list="{{ moduleGroups }}" as="g" hint-placeholder-count="2">
             <sc-if value="{{ g.isRealSection }}" hint-placeholder-val="{{ false }}">
-              <div class="sec-row" style="display:flex;align-items:center;gap:4px;padding:9px 4px 4px;margin-top:4px;border-top:1.5px solid rgba(94,42,43,.08)">
+              <div class="sec-row" data-secid="{{ g.sectionId }}" style="display:flex;align-items:center;gap:4px;padding:9px 4px 4px;margin-top:4px;border-top:1.5px solid rgba(94,42,43,.08)">
                 <span style="font-size:12px;font-weight:800;color:rgba(94,42,43,.45);letter-spacing:1px;flex-shrink:0">§{{ g.secNum }}</span>
                 <input type="text" value="{{ g.title }}" onChange="{{ g.onRename }}" style="flex:1;min-width:0;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#5E2A2B;text-transform:uppercase;letter-spacing:.5px;border:1.5px solid transparent;background:transparent;border-radius:5px;padding:2px 5px;outline:none" style-focus="border-color:rgba(94,42,43,.2);background:#fff">
                 <div class="sec-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;flex-shrink:0">
@@ -382,8 +385,9 @@
               </div>
             </sc-if>
             <sc-for list="{{ g.modules }}" as="m" hint-placeholder-count="3">
-              <div onClick="{{ m.onClick }}" class="mod-row" style="padding:10px 10px;border-radius:12px;background:{{ m.bg }};border:2px solid {{ m.border }};cursor:pointer;transition:all .15s;position:relative">
+              <div onClick="{{ m.onClick }}" class="mod-row" data-modidx="{{ m.idx }}" style="padding:10px 10px;border-radius:12px;background:{{ m.bg }};border:2px solid {{ m.border }};cursor:pointer;transition:all .15s;position:relative">
                 <div style="display:flex;align-items:center;gap:8px">
+                  <div onMouseDown="{{ m.onDragStart }}" class="mod-grip" title="Drag to reorder · or move into a section" style="cursor:grab;color:rgba(94,42,43,.32);font-size:15px;line-height:1;flex-shrink:0;padding:0 1px;user-select:none" aria-label="Drag to reorder module">⠿</div>
                   <div style="width:4px;height:36px;border-radius:2px;background:{{ m.color }};flex-shrink:0"></div>
                   <div style="width:28px;height:28px;border-radius:8px;background:{{ m.iconBg }};display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">{{ m.icon }}</div>
                   <div style="flex:1;min-width:0">
@@ -3002,6 +3006,8 @@ class Component extends DCLogic {
       const active = i === s.selectedModule;
       return {
         ...m, sectionId: m.sectionId || null,
+        idx: i,
+        onDragStart: e => this._startModDrag(i, e),
         num: `0${i+1}`,
         bg: active ? `${m.color}10` : 'transparent',
         border: active ? m.color : 'transparent',
@@ -5382,6 +5388,90 @@ class Component extends DCLogic {
     const sorted = sections.length ? this.resortBySection(mods, sections) : mods;
     const sel = sorted.indexOf(m);
     this.setState({ modules: sorted, selectedModule: sel < 0 ? this.state.selectedModule : sel, selectedBlock: null });
+  }
+
+  // ── Drag-and-drop module reordering (pointer-based; ▲▼ remain as an a11y fallback) ──
+  // Mirrors the splitter pattern: a grip's mousedown captures document mousemove/mouseup.
+  // Visuals (drag ghost + drop line) are imperative body-appended elements, decoupled from
+  // the dc re-render so dragging stays smooth. Drop adopts the neighbouring module's section
+  // (or a section header's id), then resortBySection clusters/normalises the order.
+  _ensureDragEls() {
+    if (!this._dragGhost) {
+      const g = document.createElement('div');
+      g.style.cssText = 'position:fixed;z-index:99999;pointer-events:none;left:0;top:0;padding:8px 12px;border-radius:10px;background:#fff;border:2px solid #FF4D00;box-shadow:0 8px 24px rgba(94,42,43,.28);font-family:Exo,sans-serif;font-size:13px;font-weight:800;color:#3d1a1b;max-width:220px;opacity:.96;transform:translate(12px,8px);display:none';
+      document.body.appendChild(g); this._dragGhost = g;
+    }
+    if (!this._dropLine) {
+      const l = document.createElement('div');
+      l.style.cssText = 'position:fixed;z-index:99998;pointer-events:none;height:3px;border-radius:2px;background:#FF4D00;box-shadow:0 0 0 1px rgba(255,77,0,.3);display:none';
+      document.body.appendChild(l); this._dropLine = l;
+    }
+  }
+  _startModDrag(i, e) {
+    if (e) { e.stopPropagation(); e.preventDefault(); }
+    const m = this.state.modules[i];
+    if (!m) return;
+    this._md = { idx: i, drop: null };
+    this._ensureDragEls();
+    this._dragGhost.textContent = (m.icon ? m.icon + '  ' : '') + (m.title || 'Module');
+    this._dragGhost.style.display = 'none';   // shown on first move, so a plain click doesn't flicker
+    this._dropLine.style.display = 'none';
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'grabbing';
+    this.setState({ selectedModule: i, selectedBlock: null });
+    this._mdMove = (ev) => this._modDragMove(ev);
+    this._mdUp = () => this._modDragEnd();
+    document.addEventListener('mousemove', this._mdMove, true);
+    document.addEventListener('mouseup', this._mdUp, true);
+  }
+  _modDragMove(ev) {
+    if (!this._md) return;
+    const gh = this._dragGhost, line = this._dropLine;
+    if (gh) { gh.style.display = 'block'; gh.style.left = ev.clientX + 'px'; gh.style.top = ev.clientY + 'px'; }
+    const el = document.elementFromPoint(ev.clientX, ev.clientY);
+    const row = el && el.closest ? el.closest('.mod-row') : null;
+    const sec = el && el.closest ? el.closest('.sec-row') : null;
+    let drop = null;
+    if (row && row.hasAttribute('data-modidx')) {
+      const rect = row.getBoundingClientRect();
+      const before = ev.clientY < rect.top + rect.height / 2;
+      drop = { t: parseInt(row.getAttribute('data-modidx'), 10), before };
+      if (line) { line.style.display = 'block'; line.style.left = rect.left + 'px'; line.style.width = rect.width + 'px'; line.style.top = (before ? rect.top - 1 : rect.bottom - 1) + 'px'; }
+    } else if (sec && sec.hasAttribute('data-secid')) {
+      const rect = sec.getBoundingClientRect();
+      drop = { secHeader: sec.getAttribute('data-secid') || '' };
+      if (line) { line.style.display = 'block'; line.style.left = rect.left + 'px'; line.style.width = rect.width + 'px'; line.style.top = (rect.bottom - 1) + 'px'; }
+    } else if (line) { line.style.display = 'none'; }
+    this._md.drop = drop;
+  }
+  _modDragEnd() {
+    if (this._mdMove) document.removeEventListener('mousemove', this._mdMove, true);
+    if (this._mdUp) document.removeEventListener('mouseup', this._mdUp, true);
+    this._mdMove = null; this._mdUp = null;
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+    if (this._dragGhost) this._dragGhost.style.display = 'none';
+    if (this._dropLine) this._dropLine.style.display = 'none';
+    const md = this._md; this._md = null;
+    if (!md || !md.drop) return;   // plain click (no move) → no-op
+    const sections = this.state.sections || [];
+    const mods = JSON.parse(JSON.stringify(this.state.modules));
+    const dragMod = mods[md.idx];
+    if (!dragMod) return;
+    const drop = md.drop;
+    if (drop.secHeader !== undefined) {
+      dragMod.sectionId = drop.secHeader || null;   // dropped on a header → join that section (empty-section friendly)
+    } else {
+      const targetMod = mods[drop.t];
+      if (!targetMod || targetMod === dragMod) return;
+      dragMod.sectionId = targetMod.sectionId || null;
+      mods.splice(md.idx, 1);
+      const p = mods.indexOf(targetMod);
+      mods.splice(drop.before ? p : p + 1, 0, dragMod);
+    }
+    const sorted = this.resortBySection(mods, sections);   // clusters by section + stable within
+    const sel = sorted.indexOf(dragMod);
+    this.setState({ modules: sorted, selectedModule: sel < 0 ? 0 : sel, selectedBlock: null });
   }
 
   addRole() {
