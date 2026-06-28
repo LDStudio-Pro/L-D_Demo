@@ -40,9 +40,32 @@
       box-shadow: 0 0 0 5px rgba(26,102,255,.4); border-radius: 6px; }
     .sr-only { position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
       overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    /* ══ Premium interaction & motion layer — tactile, "expensive" learner feel ══ */
+    button, [role="button"], a, label[style*="cursor:pointer"], select {
+      transition: transform .16s cubic-bezier(.34,1.56,.64,1), filter .18s cubic-bezier(.22,1,.36,1),
+        box-shadow .22s cubic-bezier(.22,1,.36,1), background-color .18s ease, border-color .18s ease, color .16s ease; }
+    button:hover, [role="button"]:hover, label[style*="cursor:pointer"]:hover { transform: translateY(-1.5px); filter: brightness(1.04); }
+    button:active, [role="button"]:active, label[style*="cursor:pointer"]:active { transform: translateY(0) scale(.975); filter: brightness(.97); transition-duration: .06s; }
+    button:disabled, button[style*="not-allowed"] { transform: none !important; filter: none !important; }
+    input[type=text], input[type=number], textarea, select {
+      transition: border-color .18s ease, box-shadow .2s cubic-bezier(.22,1,.36,1), background-color .18s ease; }
+    /* Cinematic modal/overlay backdrop blur (dc normalizes inline styles WITH spaces) */
+    div[style*="position: fixed"][style*="rgba(0, 0, 0"], div[style*="position: fixed"][style*="rgba(26, 10, 11"],
+    div[style*="position: fixed"][style*="rgba(30, 10, 10"] {
+      backdrop-filter: blur(4px) saturate(1.08); -webkit-backdrop-filter: blur(4px) saturate(1.08); }
+    /* Premium reading column — center every top-level lesson block (data-lblk) at a
+       comfortable measure instead of edge-to-edge full-bleed. Chat/timeline sub-rows
+       reuse .lb but have NO data-lblk, so they're unaffected. */
+    .lb[data-lblk] { max-width: 880px; margin-left: auto; margin-right: auto; }
+    /* Refined scrollbar */
+    ::-webkit-scrollbar { width: 9px; height: 9px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(94,42,43,.20); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(94,42,43,.34); background-clip: padding-box; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration:.001ms!important; animation-iteration-count:1!important;
         transition-duration:.001ms!important; scroll-behavior:auto!important; }
+      button:hover, [role="button"]:hover, label[style*="cursor:pointer"]:hover { transform:none!important; }
     }
   </style>
 </helmet>
@@ -83,9 +106,12 @@
       </div>
 
       <sc-if value="{{ showLangChoice }}" hint-placeholder-val="{{ true }}">
-        <div style="width:100%;max-width:360px;margin-top:16px;display:flex;gap:10px;animation:fadeIn .7s .6s ease both">
-          <button onClick="{{ setLangEn }}" style="flex:1;background:{{ langEnBg }};color:white;border:2px solid {{ langEnBorder }};padding:11px 0;border-radius:50px;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s">🇺🇸 English</button>
-          <button onClick="{{ setLangEs }}" style="flex:1;background:{{ langEsBg }};color:white;border:2px solid {{ langEsBorder }};padding:11px 0;border-radius:50px;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s">🇬🇹 Español</button>
+        <div style="width:100%;max-width:360px;margin-top:18px;animation:fadeIn .7s .6s ease both">
+          <div style="text-align:center;font-size:9px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:9px">Language · Idioma</div>
+          <div style="display:flex;gap:10px">
+            <button onClick="{{ setLangEn }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;background:{{ langEnBg }};color:white;border:1.5px solid {{ langEnBorder }};padding:12px 0;border-radius:14px;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;letter-spacing:.3px;cursor:pointer;transition:all .2s"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.16);font-size:11px;font-weight:900;letter-spacing:.5px">EN</span>English</button>
+            <button onClick="{{ setLangEs }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;background:{{ langEsBg }};color:white;border:1.5px solid {{ langEsBorder }};padding:12px 0;border-radius:14px;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;letter-spacing:.3px;cursor:pointer;transition:all .2s"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.16);font-size:11px;font-weight:900;letter-spacing:.5px">ES</span>Español</button>
+          </div>
         </div>
       </sc-if>
     </div>
@@ -620,6 +646,14 @@
                 <div style="font-size:10px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🧠 {{ b.eyebrow }}</div>
                 <div style="font-size:18px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;margin-bottom:8px">{{ b.title }}</div>
                 <div style="font-size:15px;color:{{ textColor }};line-height:1.65;margin-bottom:20px">{{ b.question }}</div>
+                <sc-if value="{{ b.qHasMedia }}" hint-placeholder-val="{{ false }}">
+                  <sc-if value="{{ b.qMediaIsImage }}" hint-placeholder-val="{{ true }}">
+                    <img src="{{ b.qMediaUrl }}" alt="" style="width:100%;max-height:300px;object-fit:cover;border-radius:16px;margin-bottom:20px;border:1.5px solid rgba(94,42,43,.1);box-shadow:0 8px 24px rgba(94,42,43,.1)">
+                  </sc-if>
+                  <sc-if value="{{ b.qMediaIsVideo }}" hint-placeholder-val="{{ false }}">
+                    <video src="{{ b.qMediaUrl }}" controls playsinline style="width:100%;border-radius:16px;margin-bottom:20px;border:1.5px solid rgba(94,42,43,.1);background:#000"></video>
+                  </sc-if>
+                </sc-if>
                 <sc-if value="{{ b.showMrHint }}" hint-placeholder-val="{{ false }}">
                   <div style="font-size:11px;font-weight:700;color:{{ b.color }};margin-bottom:10px;letter-spacing:.5px">{{ b.mrHint }}</div>
                 </sc-if>
@@ -628,6 +662,9 @@
                     <sc-for list="{{ b.options }}" as="opt" hint-placeholder-count="4">
                       <div onClick="{{ opt.onSelect }}" role="{{ opt.optRole }}" tabIndex="{{ opt.optTabIdx }}" aria-checked="{{ opt.ariaChecked }}" aria-label="{{ opt.optAria }}" style="padding:14px 16px;border-radius:15px;border:3px solid {{ opt.border }};background:{{ opt.bg }};cursor:{{ opt.cursor }};transition:all .2s;display:flex;align-items:center;gap:12px" style-hover="transform:translateX(5px)">
                         <div style="width:32px;height:32px;border-radius:{{ opt.dotRadius }};border:3px solid {{ opt.dotBorder }};background:{{ opt.dotBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:900;color:{{ opt.dotColor }};transition:all .2s">{{ opt.indicator }}</div>
+                        <sc-if value="{{ opt.hasImg }}" hint-placeholder-val="{{ false }}">
+                          <img src="{{ opt.optImg }}" alt="" style="width:68px;height:68px;object-fit:cover;border-radius:11px;flex-shrink:0;border:1.5px solid rgba(94,42,43,.12)">
+                        </sc-if>
                         <div style="font-size:14px;color:{{ opt.textColor }};line-height:1.4;font-weight:{{ opt.fw }}">{{ opt.text }}</div>
                         <sc-if value="{{ opt.showResult }}" hint-placeholder-val="{{ false }}">
                           <div style="margin-left:auto;font-size:18px">{{ opt.resultIcon }}</div>
@@ -803,6 +840,45 @@
                     <div style="font-size:13px;color:{{ textColor }};line-height:1.6">{{ b.fbBody }}</div>
                   </div>
                 </sc-if>
+              </div>
+            </sc-if>
+
+            <!-- CONVERSATION / CHAT -->
+            <sc-if value="{{ b.isChat }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:24px 20px">
+                <div style="font-size:10px;font-weight:700;color:{{ b.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:14px">💬 {{ b.title }}</div>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ b.messages }}" as="msg" hint-placeholder-count="2">
+                    <div class="lb" style="display:flex;justify-content:{{ msg.rowJustify }}">
+                      <div style="max-width:80%;display:flex;flex-direction:column;gap:3px">
+                        <span style="font-size:11px;font-weight:700;color:{{ msg.nameColor }};padding:0 8px">{{ msg.name }}</span>
+                        <div style="background:{{ msg.bubbleBg }};color:{{ msg.bubbleColor }};border:1.5px solid {{ msg.bubbleBorder }};border-radius:{{ msg.bubbleRadius }};padding:12px 15px;font-size:15px;line-height:1.5;box-shadow:0 2px 8px rgba(94,42,43,.08)">{{ msg.text }}</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- TIMELINE -->
+            <sc-if value="{{ b.isTimeline }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:24px 20px">
+                <div style="font-size:10px;font-weight:700;color:{{ b.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">📅 {{ b.title }}</div>
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ b.events }}" as="ev" hint-placeholder-count="3">
+                    <div class="lb" style="display:flex;gap:14px">
+                      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+                        <div style="width:14px;height:14px;border-radius:50%;background:{{ ev.dotColor }};box-shadow:0 0 0 4px {{ b.cardTint }}"></div>
+                        <div style="width:2px;flex:1;background:{{ ev.connectorColor }};min-height:20px"></div>
+                      </div>
+                      <div style="padding-bottom:22px;flex:1;min-width:0">
+                        <div style="font-size:11px;font-weight:800;color:{{ ev.dateColor }};text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">{{ ev.date }}</div>
+                        <div style="font-size:16px;font-weight:700;color:{{ headingColor }};line-height:1.3;margin-bottom:4px">{{ ev.evTitle }}</div>
+                        <sc-if value="{{ ev.hasDetail }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:{{ ev.detailColor }};line-height:1.55">{{ ev.detail }}</div></sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
               </div>
             </sc-if>
 
@@ -1042,6 +1118,14 @@
         <div style="flex:1;overflow-y:auto;padding:24px 20px;animation:slideUp .4s ease">
           <div style="display:inline-block;font-size:10px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1.5px;border:1.5px solid #512E91;border-radius:50px;padding:3px 12px;margin-bottom:14px">{{ currentQType }}</div>
           <div style="font-size:19px;font-weight:700;color:{{ headingColor }};line-height:1.5;margin-bottom:24px">{{ currentQText }}</div>
+          <sc-if value="{{ assessQHasMedia }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ assessQMediaIsImage }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ assessQMediaUrl }}" alt="" style="width:100%;max-height:300px;object-fit:cover;border-radius:16px;margin-bottom:24px;border:1.5px solid {{ borderColor }};box-shadow:0 8px 24px rgba(94,42,43,.1)">
+            </sc-if>
+            <sc-if value="{{ assessQMediaIsVideo }}" hint-placeholder-val="{{ false }}">
+              <video src="{{ assessQMediaUrl }}" controls playsinline style="width:100%;border-radius:16px;margin-bottom:24px;border:1.5px solid {{ borderColor }};background:#000"></video>
+            </sc-if>
+          </sc-if>
           <sc-if value="{{ assessShowMrHint }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:12px;font-weight:700;color:#512E91;margin-bottom:14px;letter-spacing:.5px">{{ assessMrHint }}</div>
           </sc-if>
@@ -1050,6 +1134,9 @@
               <sc-for list="{{ assessOptions }}" as="ao" hint-placeholder-count="4">
                 <div onClick="{{ ao.onSelect }}" role="{{ ao.optRole }}" tabIndex="0" aria-checked="{{ ao.ariaChecked }}" aria-label="{{ ao.text }}" style="padding:16px 18px;border-radius:16px;border:3px solid {{ ao.border }};background:{{ ao.bg }};cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .2s" style-hover="transform:translateX(5px)">
                   <div style="width:34px;height:34px;border-radius:{{ ao.dotRadius }};border:3px solid {{ ao.dotBorder }};background:{{ ao.dotBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:900;font-size:13px;color:{{ ao.dotColor }};transition:all .2s">{{ ao.indicator }}</div>
+                  <sc-if value="{{ ao.hasImg }}" hint-placeholder-val="{{ false }}">
+                    <img src="{{ ao.optImg }}" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:12px;flex-shrink:0;border:1.5px solid rgba(94,42,43,.12)">
+                  </sc-if>
                   <div style="font-size:15px;color:{{ textColor }};line-height:1.4;font-weight:{{ ao.fw }}">{{ ao.text }}</div>
                 </div>
               </sc-for>
@@ -1281,11 +1368,13 @@ class Component extends DCLogic {
         draw.forEach((d, di) => {
           const q = isEs ? this.localizeContent(pool[d.qi] || {}) : (pool[d.qi] || {});
           const opts = Array.isArray(q.options) ? q.options : [];
+          const med = Array.isArray(q.optMedia) ? q.optMedia : [];
           const order = (Array.isArray(d.optOrder) && d.optOrder.length) ? d.optOrder : opts.map((_, k) => k);
           const shuffledOpts = order.map(oi => opts[oi]);
+          const shuffledMed = order.map(oi => med[oi] || '');
           const newCorrect = order.indexOf(typeof q.correct === 'number' ? q.correct : 0);
           const newMulti = (Array.isArray(q.correctMulti) ? q.correctMulti : []).map(ci => order.indexOf(ci)).filter(x => x >= 0);
-          const qcontent = { ...q, options: shuffledOpts, correct: newCorrect >= 0 ? newCorrect : 0, correctMulti: newMulti };
+          const qcontent = { ...q, options: shuffledOpts, optMedia: shuffledMed, correct: newCorrect >= 0 ? newCorrect : 0, correctMulti: newMulti };
           const rb = this.resolveBlock({ type: 'quiz', content: qcontent }, 1000 + i * 50 + di, mod, s, t, th, isEs);
           rb.idx = i;                                 // share original block index for TOC/scroll
           rb.eyebrow = (isEs ? 'BANCO DE PREGUNTAS' : 'QUESTION BANK') + ' · ' + (di + 1) + '/' + draw.length;
@@ -1316,7 +1405,7 @@ class Component extends DCLogic {
       statement:['Statement','Declaración'], quotes:['Quotes','Citas'],
       recipe:['Recipe Card','Ficha de receta'], ack:['Acknowledge & Sign','Reconocer y firmar'], compare:['Compare','Comparar'], signoff:['Skills Sign-Off','Verificación'], findissues:['Spot the Issues','Detecta los problemas'],
     };
-    const ICON = { hero:'🚩', objectives:'🎯', text:'📄', video:'📹', audio:'🎧', image:'🖼️', pdf:'📑', callout:'🐔', accordion:'📂', tabs:'🗂️', flashcards:'🔖', process:'🔢', hotspot:'📍', scenario:'🧭', quiz:'🧠', qbank:'🎲', lock:'🔒', button:'🔘', gallery:'🖼️', embed:'🌐', chart:'📊', table:'📋', statement:'💬', quotes:'❝', recipe:'🍳', ack:'✍️', compare:'🔁', signoff:'🏅', findissues:'🔎' };
+    const ICON = { hero:'🚩', objectives:'🎯', text:'📄', video:'📹', audio:'🎧', image:'🖼️', pdf:'📑', callout:'🐔', accordion:'📂', tabs:'🗂️', flashcards:'🔖', process:'🔢', hotspot:'📍', scenario:'🧭', quiz:'🧠', qbank:'🎲', lock:'🔒', button:'🔘', gallery:'🖼️', embed:'🌐', chart:'📊', table:'📋', statement:'💬', quotes:'❝', recipe:'🍳', ack:'✍️', compare:'🔁', signoff:'🏅', findissues:'🔎', chat:'💬', timeline:'📅' };
     const out = [];
     raw.forEach((blk, i) => {
       if (blk.type === 'divider' || blk.type === 'spacer' || blk.type === 'continue') return; // structural blocks aren't navigable sections
@@ -1560,6 +1649,7 @@ class Component extends DCLogic {
       isSpacer: type==='spacer', isContinue: type==='continue', isChart: type==='chart', isTable: type==='table',
       isStatement: type==='statement', isQuotes: type==='quotes',
       isRecipe: type==='recipe', isAck: type==='ack', isCompare: type==='compare', isSignoff: type==='signoff', isFindissues: type==='findissues',
+      isChat: type==='chat', isTimeline: type==='timeline',
       fmtBg: FMT_BG[st.bg] || 'transparent', fmtPadTop: fmtPad, fmtPadBot: fmtPad,
       fmtBorder: st.noDivider ? 'none' : ('1px solid ' + th.borderColor),
       color: mod.color, colorBg: mod.color + '18', cardTint: mod.color + '10',
@@ -1894,6 +1984,29 @@ class Component extends DCLogic {
           fbColor: good ? '#7d8500' : '#c85f00',
           fbBody: hasSel ? (choices[sel].feedback || '') : '' };
       }
+      case 'chat': {
+        const msgs = Array.isArray(c.messages) ? c.messages : [];
+        return { ...base, title: c.title || '',
+          messages: msgs.map(m => ({
+            isYou: m.from === 'you',
+            name: m.name || (m.from === 'you' ? (isEs ? 'Tú' : 'You') : (isEs ? 'Ellos' : 'Them')),
+            text: m.text || '',
+            rowJustify: m.from === 'you' ? 'flex-end' : 'flex-start',
+            bubbleBg: m.from === 'you' ? mod.color : th.cardBg,
+            bubbleColor: m.from === 'you' ? '#fff' : th.textColor,
+            bubbleBorder: m.from === 'you' ? mod.color : th.borderColor,
+            bubbleRadius: m.from === 'you' ? '18px 18px 5px 18px' : '18px 18px 18px 5px',
+            nameColor: th.subtextColor })) };
+      }
+      case 'timeline': {
+        const evs = Array.isArray(c.events) ? c.events : [];
+        return { ...base, title: c.title || '',
+          events: evs.map((ev, idx) => ({
+            date: ev.date || '', evTitle: ev.title || '', detail: ev.detail || '',
+            hasDetail: !!(ev.detail && ev.detail.trim()),
+            connectorColor: idx === evs.length - 1 ? 'transparent' : th.borderColor,
+            dotColor: mod.color, dateColor: mod.color, detailColor: th.subtextColor })) };
+      }
       case 'quiz': {
         const qType = c.qType || 'mc';
         const isFill = qType === 'fill';
@@ -1910,8 +2023,9 @@ class Component extends DCLogic {
         const selSet = st.selSet || {};
         const selIdxs = Object.keys(selSet).filter(k => selSet[k]).map(Number).sort((a,b)=>a-b);
         const fillText = st.text || '';
-        const rawOpts = isTf ? [(isEs?'Verdadero':'True'), (isEs?'Falso':'False')]
-                             : (Array.isArray(c.options) ? c.options.filter(Boolean) : []);
+        const optMedia = Array.isArray(c.optMedia) ? c.optMedia : [];
+        const rawOptObjs = isTf ? [{text:(isEs?'Verdadero':'True'),img:''},{text:(isEs?'Falso':'False'),img:''}]
+                             : (Array.isArray(c.options) ? c.options.map((tx,k)=>({text:tx||'',img:optMedia[k]||''})).filter(o=>String(o.text).trim()!==''||o.img) : []);
         // Matching
         const pairs = Array.isArray(c.pairs) ? c.pairs.filter(p => p && (p.l || p.r)) : [];
         const matchSel = st.match || {};
@@ -1939,7 +2053,8 @@ class Component extends DCLogic {
         }) : [];
         const isAnswered = isFill ? (fillText.trim().length > 0) : isMr ? (selIdxs.length > 0) : isMatch ? matchAllAnswered : isSort ? (sortItems.length > 0) : (selected != null);
         const correctSel = isFill ? fillCorrect : isMr ? mrCorrect : isMatch ? matchCorrect : isSort ? sortCorrect : (selected === correct);
-        const options = rawOpts.map((text, oi) => {
+        const options = rawOptObjs.map((o, oi) => {
+          const text = o.text;
           const sel = isMr ? !!selSet[oi] : (selected === oi);
           const isCorrect = isMr ? correctMulti.includes(oi) : (oi === correct);
           let border=th.borderColor, bg=th.cardBg, dotBorder=th.subtextColor,
@@ -1952,7 +2067,7 @@ class Component extends DCLogic {
             else if (sel) { border='#FF4D00'; bg='rgba(255,77,0,.08)'; dotBorder='#FF4D00'; dotBg='#FF4D00'; dotColor='white'; textColor=th.subtextColor; showResult=true; resultIcon='❌'; }
             else { textColor=th.subtextColor; }
           }
-          return { text, indicator: isMr ? (sel?'✓':'') : (letters[oi]||'?'), dotRadius: radius,
+          return { text, optImg: o.img, hasImg: !!o.img, indicator: isMr ? (sel?'✓':'') : (letters[oi]||'?'), dotRadius: radius,
             border, bg, dotBorder, dotBg, dotColor, textColor, fw, showResult, resultIcon,
             optRole: isMr ? 'checkbox' : 'radio', ariaChecked: sel ? 'true' : 'false', optTabIdx: submitted ? '-1' : '0',
             optAria: text + (submitted ? (isCorrect ? (isEs?' (correcta)':' (correct)') : (sel ? (isEs?' (incorrecta)':' (incorrect)') : '')) : ''),
@@ -1971,7 +2086,10 @@ class Component extends DCLogic {
             options: matchRightOpts.map(r => ({ value: r, label: r })),
             onChange: submitted ? () => {} : (e) => this.setState({ kq: { ...s.kq, [key]: { ...st, match: { ...matchSel, [idx]: e.target.value } } } }) };
         });
+        const qmedia = c.qMedia && c.qMedia.url ? c.qMedia : null;
         return { ...base, eyebrow: t.kcEyebrow, title: t.kcTitle, question: this.subName(c.question || ''),
+          qHasMedia: !!qmedia, qMediaUrl: qmedia ? qmedia.url : '',
+          qMediaIsImage: !!qmedia && qmedia.kind !== 'video', qMediaIsVideo: !!qmedia && qmedia.kind === 'video',
           isFill, isMatch, showOptions: !isFill && !isMatch && !isSort, options, matchRows,
           optsRole: isMr ? 'group' : 'radiogroup',
           isSort, sortRows,
@@ -2499,11 +2617,13 @@ class Component extends DCLogic {
     return draw.map(d => {
       const q = pool[d.qi] || {};
       const opts = Array.isArray(q.options) ? q.options : [];
+      const med = Array.isArray(q.optMedia) ? q.optMedia : [];
       const order = (Array.isArray(d.optOrder) && d.optOrder.length) ? d.optOrder : opts.map((_, k) => k);
       const shuffledOpts = order.map(oi => opts[oi]);
+      const shuffledMed = order.map(oi => med[oi] || '');
       const newCorrect = order.indexOf(typeof q.correct === 'number' ? q.correct : 0);
       const newMulti = (Array.isArray(q.correctMulti) ? q.correctMulti : []).map(ci => order.indexOf(ci)).filter(x => x >= 0);
-      return { ...q, options: shuffledOpts, correct: newCorrect >= 0 ? newCorrect : 0, correctMulti: newMulti };
+      return { ...q, options: shuffledOpts, optMedia: shuffledMed, correct: newCorrect >= 0 ? newCorrect : 0, correctMulti: newMulti };
     });
   }
 
@@ -2522,12 +2642,13 @@ class Component extends DCLogic {
     const letters=['A','B','C','D','E','F'];
     const cur=s.aAnswers[s.aQ];
     const mrSel=Array.isArray(cur)?cur:[];
+    const med=Array.isArray(q.optMedia)?q.optMedia:[];
     return q.options.map((text,i) => {
       const sel=isMr ? mrSel.includes(i) : (cur===i);
       let border=th.borderColor,bg=th.cardBg,dotBorder=th.subtextColor,
           dotBg='transparent',dotColor=th.subtextColor,fw='400';
       if(sel){border='#512E91';bg='rgba(81,46,145,.08)';dotBorder='#512E91';dotBg='#512E91';dotColor='white';fw='600';}
-      return {text,
+      return {text, optImg: med[i]||'', hasImg: !!(med[i]),
         indicator: isMr ? (sel?'✓':'') : (letters[i]||'X'),
         dotRadius: isMr ? '8px' : '50%',
         border,bg,dotBorder,dotBg,dotColor,fw,
@@ -2910,6 +3031,10 @@ class Component extends DCLogic {
       showAssessResults:scr==='assess'&&s.aDone,
       currentQType:currentQ.type||'',
       currentQText:currentQ.question||'',
+      assessQHasMedia:!!(currentQ.qMedia&&currentQ.qMedia.url),
+      assessQMediaUrl:currentQ.qMedia?currentQ.qMedia.url:'',
+      assessQMediaIsImage:!!(currentQ.qMedia&&currentQ.qMedia.kind!=='video'),
+      assessQMediaIsVideo:!!(currentQ.qMedia&&currentQ.qMedia.kind==='video'),
       assessShowOptions:currentQ.qType!=='fill',
       assessIsFill:currentQ.qType==='fill',
       assessOptsRole:currentQ.qType==='mr'?'group':'radiogroup',
