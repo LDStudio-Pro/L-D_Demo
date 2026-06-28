@@ -453,7 +453,7 @@
                 <div style="height:4px;background:linear-gradient(90deg,{{ previewModColor }},#FFD100)"></div>
 
                 <!-- Live blocks -->
-                <div style="padding-bottom:8px">
+                <div style="padding-bottom:8px;--head:{{ themeHeadFontCss }}">
 
                   <!-- Insert at very top -->
                   <div onClick="{{ insertAtTop }}" class="ins-zone" title="Add a block here" style="position:relative;height:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">
@@ -479,7 +479,7 @@
                       <sc-if value="{{ pb.isHero }}" hint-placeholder-val="{{ true }}">
                         <div style="padding:22px 18px">
                           <div style="display:inline-block;font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;background:{{ pb.colorBg }};border-radius:50px;padding:3px 12px;margin-bottom:10px">Module {{ selectedModuleNum }}</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:22px;font-weight:900;color:#5E2A2B;text-transform:uppercase;line-height:1.15;margin-bottom:8px"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:22px;font-weight:900;color:#5E2A2B;text-transform:uppercase;line-height:1.15;margin-bottom:8px;font-family:var(--head)"></div>
                           <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:rgba(61,26,27,.85);line-height:1.6"></div>
                         </div>
                       </sc-if>
@@ -3477,6 +3477,7 @@ class Component extends DCLogic {
       mediaLibrary: Array.isArray(c.mediaLibrary) ? c.mediaLibrary : [],
       theme: c.theme || { accent: '#FF4D00', headingFont: 'Exo' },
       selectedModule: 0, selectedBlock: null, tab: 'content',
+      leftCollapsed: false,   // Modules panel always open when a course opens (in-session collapse is fine)
     });
   }
   newCourse() {
