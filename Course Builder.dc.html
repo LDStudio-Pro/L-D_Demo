@@ -237,6 +237,13 @@
           <div style="font-size:14px;color:rgba(94,42,43,.74);margin-top:4px">Reusable assets across every course · {{ mediaCountLabel }}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
+          <div style="position:relative;display:flex;align-items:center">
+            <span style="position:absolute;left:11px;font-size:13px;color:rgba(94,42,43,.45);pointer-events:none">🔍</span>
+            <input type="text" value="{{ mediaSearch }}" onChange="{{ onMediaSearch }}" placeholder="Search assets…" style="padding:9px 12px 9px 32px;border-radius:8px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;width:190px" style-focus="border-color:#FF4D00">
+          </div>
+          <select value="{{ mediaSort }}" onChange="{{ onMediaSort }}" title="Sort assets" style="padding:9px 12px;border-radius:8px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#5E2A2B;cursor:pointer;outline:none">
+            <sc-for list="{{ mediaSortOpts }}" as="o"><option value="{{ o.v }}" selected="{{ o.selected }}">{{ o.l }}</option></sc-for>
+          </select>
           <div style="display:flex;gap:3px;background:rgba(94,42,43,.06);border-radius:9px;padding:3px">
             <button onClick="{{ setFilterAll }}" style="padding:6px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;background:{{ filterAllBg }};color:{{ filterAllColor }}">All</button>
             <button onClick="{{ setFilterMine }}" style="padding:6px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;background:{{ filterMineBg }};color:{{ filterMineColor }}">Mine</button>
@@ -245,22 +252,33 @@
         </div>
       </div>
       <div style="flex:1;overflow-y:auto;padding:18px 32px 40px">
-        <sc-if value="{{ globalMediaEmpty }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ mediaTrulyEmpty }}" hint-placeholder-val="{{ true }}">
           <div style="padding:48px 24px;text-align:center;border-radius:18px;border:2px dashed rgba(94,42,43,.18);background:#fff;max-width:520px;margin:8px auto">
             <div style="font-size:40px;margin-bottom:10px">📁</div>
             <div style="font-size:16px;font-weight:800;color:#5E2A2B;margin-bottom:4px">No assets yet</div>
             <div style="font-size:14px;color:rgba(94,42,43,.74);line-height:1.5">Upload an image, video, audio, or PDF once and reuse it in any course's media blocks.</div>
           </div>
         </sc-if>
+        <sc-if value="{{ mediaNoMatch }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:40px 24px;text-align:center;border-radius:18px;border:2px dashed rgba(94,42,43,.18);background:#fff;max-width:520px;margin:8px auto">
+            <div style="font-size:34px;margin-bottom:8px">🔍</div>
+            <div style="font-size:15px;font-weight:800;color:#5E2A2B;margin-bottom:4px">No assets match “{{ mediaSearch }}”</div>
+            <div style="font-size:14px;color:rgba(94,42,43,.74)">Try a different search term or clear the box.</div>
+          </div>
+        </sc-if>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">
           <sc-for list="{{ globalMediaCards }}" as="ga" hint-placeholder-count="6">
             <div style="border:1.5px solid rgba(94,42,43,.12);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 10px 26px rgba(94,42,43,.1)">
-              <div style="height:104px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:36px">
+              <div onClick="{{ ga.onPreview }}" style="height:104px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:36px;cursor:{{ ga.previewCursor }};position:relative">
                 <sc-if value="{{ ga.isImage }}" hint-placeholder-val="{{ true }}"><img src="{{ ga.url }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
                 <sc-if value="{{ ga.isImage }}" hint-placeholder-val="{{ false }}"><span>{{ ga.icon }}</span></sc-if>
+                <sc-if value="{{ ga.isImage }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;bottom:6px;right:6px;font-size:11px;background:rgba(43,20,22,.7);color:#fff;border-radius:5px;padding:2px 6px;font-weight:700">🔍 Preview</span></sc-if>
               </div>
               <div style="padding:9px 10px;display:flex;flex-direction:column;gap:6px">
-                <div style="font-size:11px;font-weight:700;color:#FF4D00;letter-spacing:1px">{{ ga.kindLabel }}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                  <span style="font-size:11px;font-weight:700;color:#FF4D00;letter-spacing:1px">{{ ga.kindLabel }}</span>
+                  <sc-if value="{{ ga.sizeStr }}" hint-placeholder-val="{{ true }}"><span style="font-size:10px;font-weight:700;color:rgba(94,42,43,.5)">{{ ga.sizeStr }}</span></sc-if>
+                </div>
                 <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(94,42,43,.12);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00">
                 <div style="font-size:10px;color:rgba(94,42,43,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ ga.author }}<sc-if value="{{ ga.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ ga.dateStr }}</sc-if></div>
                 <button onClick="{{ ga.onRemove }}" style="padding:6px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:13px;cursor:pointer">🗑 Remove</button>
@@ -2783,6 +2801,19 @@
     </div>
   </sc-if>
 
+  <!-- ══ MEDIA PREVIEW LIGHTBOX ══ -->
+  <sc-if value="{{ mediaLightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(20,8,8,.78);display:flex;align-items:center;justify-content:center;z-index:140;animation:fadeIn .18s ease;padding:32px" onClick="{{ closeMediaLightbox }}">
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:90vw;max-height:90vh;align-items:center" onClick="{{ stopProp }}">
+        <img src="{{ mediaLightboxUrl }}" style="max-width:90vw;max-height:78vh;object-fit:contain;border-radius:12px;box-shadow:0 24px 64px rgba(0,0,0,.5)">
+        <div style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.95);border-radius:10px;padding:9px 16px">
+          <span style="font-size:14px;font-weight:800;color:#3d1a1b">{{ mediaLightboxName }}</span>
+          <button onClick="{{ closeMediaLightbox }}" style="padding:6px 14px;border-radius:8px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;cursor:pointer">Close</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
@@ -2865,6 +2896,9 @@ class Component extends DCLogic {
     toast: null,
     bankTagFilter: { lang: '', store: '', role: '' },
     globalMedia: [],
+    mediaSearch: '',
+    mediaSort: 'new',
+    mediaLightbox: null,
     settingsSection: 'general',
     commentDraft: '',
     translateModal: false,
@@ -3716,6 +3750,29 @@ class Component extends DCLogic {
   }
   renameGlobalMedia(id, name) { const list = this.state.globalMedia.map(a => a.id === id ? { ...a, name } : a); this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
   removeGlobalMedia(id) { const list = this.state.globalMedia.filter(a => a.id !== id); this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
+  _restoreGlobalMedia(a) { if (!a || this.state.globalMedia.some(x => x.id === a.id)) return; const list = [...this.state.globalMedia, a]; this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
+  // How many blocks (across the open course + all saved courses) reference this asset's url.
+  // Assets are copied by url into block content, so this is a "won't break copies but you lose the
+  // reusable original" warning, Rise-style in-use protection.
+  _mediaUsageCount(url) {
+    if (!url) return 0;
+    let n = 0;
+    const scan = mods => (mods || []).forEach(m => (m.blocks || []).forEach(b => { try { if (JSON.stringify(b).indexOf(url) >= 0) n++; } catch (e) {} }));
+    scan(this.state.modules);
+    (this.state.library || []).forEach(c => { if (c.id === this.state.currentCourseId) return; scan(c.modules); });
+    return n;
+  }
+  askDeleteGlobalMedia(id) {
+    const a = (this.state.globalMedia || []).find(x => x.id === id);
+    if (!a) return;
+    const n = this._mediaUsageCount(a.url);
+    const msg = n > 0
+      ? `In use in ${n} block${n > 1 ? 's' : ''} across your courses. Removing it from the library won't delete those copies, but you'll lose the reusable original. You can undo right after.`
+      : 'This removes the asset from your reusable library. You can undo right after.';
+    this.setState({ confirmDelete: { type: 'media', id, title: (a.name || a.kind || 'this asset'), msg } });
+  }
+  openMediaLightbox(url, name) { this.setState({ mediaLightbox: { url, name } }); }
+  closeMediaLightbox() { this.setState({ mediaLightbox: null }); }
   useGlobalMedia(asset) { this.useMediaAsset(asset); }
   // Promote a course asset into the global library (copy, deduped by url)
   saveAssetToGlobal(asset) {
@@ -5216,15 +5273,27 @@ class Component extends DCLogic {
     const cd = this.state.confirmDelete; if (!cd) return;
     if (cd.type === 'module') { this.deleteModule(cd.index); this._showToast('Module deleted'); }
     else if (cd.type === 'role') { this.deleteRole(cd.id); this._showToast('Role deleted'); }
+    else if (cd.type === 'media') {
+      const a = (this.state.globalMedia || []).find(x => x.id === cd.id);
+      this.removeGlobalMedia(cd.id);
+      this._showToast('Asset removed', a ? (() => this._restoreGlobalMedia(a)) : null);
+    }
     this.setState({ confirmDelete: null });
   }
-  _showToast(msg) {
-    this.setState({ toast: { msg } });
+  // Optional undoFn lets non-history deletions (e.g. global media in localStorage) restore themselves;
+  // module/role deletes pass none and fall back to the history undo().
+  _showToast(msg, undoFn) {
+    this.setState({ toast: { msg, undoFn: undoFn || null } });
     if (this._toastTimer) clearTimeout(this._toastTimer);
     this._toastTimer = setTimeout(() => this.setState({ toast: null }), 6000);
   }
   dismissToast() { if (this._toastTimer) clearTimeout(this._toastTimer); this.setState({ toast: null }); }
-  undoFromToast() { if (this._toastTimer) clearTimeout(this._toastTimer); this.setState({ toast: null }); this.undo(); }
+  undoFromToast() {
+    const t = this.state.toast;
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this.setState({ toast: null });
+    if (t && t.undoFn) t.undoFn(); else this.undo();
+  }
 
   dupeModule(i) {
     const mods = [...this.state.modules];
@@ -5633,7 +5702,19 @@ class Component extends DCLogic {
             const fmtDate = iso => { if (!iso) return ''; try { return new Date(iso).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); } catch(e){ return ''; } };
             const tf = s.bankTagFilter || { lang:'', store:'', role:'' };
             const tagMatch = b => { const t = b.tags || {}; if (tf.lang && t.lang !== tf.lang) return false; if (tf.store && t.store !== tf.store) return false; if (tf.role && t.role !== tf.role) return false; return true; };
-            const gmShown = gm.filter(mineF), banksShown = banks.filter(mineF).filter(tagMatch), tplsShown = tpls.filter(mineF);
+            const dataUrlBytes = u => { if (!u || u.slice(0,5) !== 'data:') return 0; const i = u.indexOf(','); return i < 0 ? 0 : Math.round((u.length - i - 1) * 0.75); };
+            const fmtSize = n => { if (!n) return ''; if (n < 1024) return n + ' B'; if (n < 1048576) return Math.round(n/1024) + ' KB'; return (n/1048576).toFixed(1) + ' MB'; };
+            const mq = (s.mediaSearch || '').trim().toLowerCase();
+            const msort = s.mediaSort || 'new';
+            const gmSorted = gm.filter(mineF)
+              .filter(a => !mq || (a.name || '').toLowerCase().indexOf(mq) >= 0 || (a.kind || '').toLowerCase().indexOf(mq) >= 0)
+              .slice().sort((a,b) => {
+                if (msort === 'name') return (a.name || '').localeCompare(b.name || '');
+                if (msort === 'type') return (a.kind || '').localeCompare(b.kind || '');
+                if (msort === 'old') return (a.createdAt || '').localeCompare(b.createdAt || '');
+                return (b.createdAt || '').localeCompare(a.createdAt || '');
+              });
+            const gmShown = gmSorted, banksShown = banks.filter(mineF).filter(tagMatch), tplsShown = tpls.filter(mineF);
             return {
               bankLangOpts: this._bankLangOpts(), bankStoreOpts: this._bankStoreOpts(), bankRoleOpts: this._bankRoleOpts(),
               dashHasBanks: banks.length > 0,
@@ -5642,8 +5723,20 @@ class Component extends DCLogic {
               onBankFilterStore: e => this.setBankTagFilter('store', e.target.value),
               onBankFilterRole: e => this.setBankTagFilter('role', e.target.value),
               mediaCountLabel: gmShown.length + (gmShown.length === 1 ? ' asset' : ' assets'), globalMediaEmpty: gmShown.length === 0,
+              mediaHasAny: gm.filter(mineF).length > 0,
+              mediaTrulyEmpty: gm.filter(mineF).length === 0,
+              mediaNoMatch: gm.filter(mineF).length > 0 && gmShown.length === 0,
+              mediaSearch: s.mediaSearch || '',
+              onMediaSearch: e => this.setState({ mediaSearch: e.target.value }),
+              mediaSort: msort,
+              onMediaSort: e => this.setState({ mediaSort: e.target.value }),
+              mediaSortOpts: [{v:'new',l:'Newest first'},{v:'old',l:'Oldest first'},{v:'name',l:'Name (A–Z)'},{v:'type',l:'Type'}].map(o => ({ ...o, selected: o.v === msort })),
               onGlobalMediaFile: e => this.onGlobalMediaFile(e),
-              globalMediaCards: gmShown.map(a => ({ id: a.id, name: a.name || a.kind, url: a.url, isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(), author: a.author || '—', dateStr: fmtDate(a.createdAt), onRename: e => this.renameGlobalMedia(a.id, e.target.value), onRemove: () => this.removeGlobalMedia(a.id) })),
+              mediaLightboxOpen: !!s.mediaLightbox,
+              mediaLightboxUrl: s.mediaLightbox ? s.mediaLightbox.url : '',
+              mediaLightboxName: s.mediaLightbox ? s.mediaLightbox.name : '',
+              closeMediaLightbox: () => this.closeMediaLightbox(),
+              globalMediaCards: gmShown.map(a => ({ id: a.id, name: a.name || a.kind, url: a.url, isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(), sizeStr: fmtSize(dataUrlBytes(a.url)), author: a.author || '—', dateStr: fmtDate(a.createdAt), previewCursor: a.kind === 'image' ? 'zoom-in' : 'default', onRename: e => this.renameGlobalMedia(a.id, e.target.value), onPreview: a.kind === 'image' ? (() => this.openMediaLightbox(a.url, a.name || a.kind)) : null, onRemove: () => this.askDeleteGlobalMedia(a.id) })),
               bankCountLabel: banksShown.length + (banksShown.length === 1 ? ' bank' : ' banks'),
               dashBankCards: banksShown.map(b => {
                 const t = b.tags || {};
