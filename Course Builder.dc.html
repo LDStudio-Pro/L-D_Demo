@@ -2176,6 +2176,9 @@
 
         <!-- Author-editable question list (full quiz shape: text + type + options + correct answers) -->
         <div style="font-size:14px;color:rgba(94,42,43,.74);margin-bottom:14px">{{ assessHint }} Leave the list empty to fall back to the built-in default set.</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <button onClick="{{ openAiQuiz }}" style="flex:1;padding:12px;border-radius:12px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B" title="Draft questions from a lesson with Claude — you review before adding">✨ Generate with AI</button>
+        </div>
         <div style="display:flex;gap:8px;margin-bottom:16px">
           <button onClick="{{ onOpenAssessImport }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Pick questions from one or more reusable banks">🎲 Insert from a Question Bank</button>
           <button onClick="{{ saveAssessAsBank }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(94,42,43,.18);background:#FAF5EE;color:rgba(94,42,43,.74);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Save this assessment as a reusable global bank">💾 Save to a Bank</button>
@@ -2393,6 +2396,28 @@
             </sc-for>
           </select>
           <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px;line-height:1.4">Uses the multilingual voice model — the same voice speaks English or Spanish based on the script. <sc-if value="{{ elevenKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:#7d8500">✓ Key saved</b></sc-if></div>
+        </div>
+
+        <!-- AI Assistant (provider-agnostic; author-time only, key never published) -->
+        <div style="padding:20px;border-radius:18px;border:2px solid rgba(94,42,43,.12);background:#FFFFFF">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,77,0,.12);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">✨</div>
+            <div style="flex:1">
+              <div style="font-size:15px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:3px">AI Assistant</div>
+              <div style="font-size:14px;color:rgba(94,42,43,.74)">Connect Claude to draft quiz questions from a lesson. Your key is stored only on this device and is <b>never</b> written into the published course.</div>
+            </div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Provider</div>
+          <select disabled style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.12);background:#F4EDE0;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#5E2A2B;margin-bottom:12px;cursor:not-allowed"><option>Anthropic · Claude</option></select>
+          <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">API key</div>
+          <input type="password" value="{{ aiKeyVal }}" onChange="{{ onAiKey }}" placeholder="sk-ant-… (paste your Claude API key)" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;margin-bottom:12px" style-focus="border-color:#FF4D00">
+          <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Model</div>
+          <select value="{{ aiModelVal }}" onChange="{{ onAiModel }}" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FFFFFF;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#5E2A2B;outline:none;cursor:pointer;margin-bottom:12px">
+            <sc-for list="{{ aiModelOptions }}" as="am" hint-placeholder-count="3"><option value="{{ am.id }}" selected="{{ am.selected }}">{{ am.name }}</option></sc-for>
+          </select>
+          <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Base URL <span style="font-weight:600;text-transform:none;letter-spacing:0">(optional — for a proxy / gateway)</span></div>
+          <input type="text" value="{{ aiBaseUrlVal }}" onChange="{{ onAiBaseUrl }}" placeholder="https://api.anthropic.com" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00">
+          <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px;line-height:1.4">Generate quiz questions from the <b>Assessment</b> tab (✨ Generate with AI). You always review before anything is added. <sc-if value="{{ aiKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:#7d8500">✓ Key saved</b></sc-if></div>
         </div>
 
         <!-- Gamification -->
@@ -2904,6 +2929,78 @@
     </div>
   </sc-if>
 
+  <!-- ══ AI: GENERATE QUIZ QUESTIONS ══ -->
+  <sc-if value="{{ aiModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(30,10,10,.55);display:flex;align-items:center;justify-content:center;z-index:140;animation:fadeIn .2s ease;padding:28px" onClick="{{ closeAiQuiz }}">
+      <div style="background:#fff;border-radius:20px;width:680px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+        <div style="padding:18px 24px;border-bottom:1.5px solid rgba(94,42,43,.1);display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div style="font-size:17px;font-weight:900;color:#5E2A2B">✨ Generate quiz questions with AI</div>
+          <button onClick="{{ closeAiQuiz }}" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;color:#5E2A2B;font-size:14px;cursor:pointer">✕</button>
+        </div>
+        <div style="overflow-y:auto;padding:18px 24px 22px;display:flex;flex-direction:column;gap:14px">
+          <sc-if value="{{ aiNoKey }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px 14px;border-radius:12px;background:rgba(255,77,0,.07);border:1.5px solid rgba(255,77,0,.25);font-size:13px;color:#5E2A2B;line-height:1.5">🔑 Add your Claude API key in <b>Settings → AI Assistant</b> first. It stays on this device and is never published.</div>
+          </sc-if>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="flex:2;min-width:200px">
+              <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Base questions on this lesson</div>
+              <select value="{{ aiSourceVal }}" onChange="{{ onAiSource }}" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#5E2A2B;cursor:pointer;outline:none">
+                <sc-for list="{{ aiSourceOptions }}" as="ao" hint-placeholder-count="4"><option value="{{ ao.value }}" selected="{{ ao.selected }}">{{ ao.label }}</option></sc-for>
+              </select>
+            </div>
+            <div style="flex:1;min-width:90px">
+              <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">How many</div>
+              <input type="number" min="1" max="20" value="{{ aiCount }}" onChange="{{ onAiCount }}" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00">
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Focus (optional)</div>
+            <input type="text" value="{{ aiTopic }}" onChange="{{ onAiTopic }}" placeholder="e.g. handwashing steps, allergen handling…" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00">
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <button onClick="{{ onGenerateAiQuiz }}" style="padding:11px 20px;border-radius:10px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #5E2A2B">✨ Generate</button>
+            <sc-if value="{{ aiHasStatus }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:rgba(94,42,43,.74);line-height:1.4">{{ aiStatus }}</span></sc-if>
+          </div>
+
+          <sc-if value="{{ aiHasResults }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1.5px solid rgba(94,42,43,.1);padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="font-size:12px;font-weight:800;color:#FF4D00;text-transform:uppercase;letter-spacing:1px">Review · {{ aiSelCount }} selected</div>
+              <div style="display:flex;gap:6px">
+                <button onClick="{{ onAiSelectAll }}" style="padding:4px 10px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">Select all</button>
+                <button onClick="{{ onAiSelectNone }}" style="padding:4px 10px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">None</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ aiResults }}" as="aq" hint-placeholder-count="3">
+                <div onClick="{{ aq.onToggle }}" style="border:1.5px solid {{ aq.border }};border-radius:11px;padding:11px 12px;background:{{ aq.bg }};cursor:pointer;display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:flex-start;gap:8px">
+                    <span style="font-size:16px;line-height:1.2">{{ aq.check }}</span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:11px;font-weight:800;color:#512E91;letter-spacing:.5px;margin-bottom:3px">{{ aq.typeLabel }}</div>
+                      <div style="font-size:14px;font-weight:700;color:#3d1a1b;line-height:1.4">{{ aq.question }}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:3px;margin-left:24px">
+                    <sc-for list="{{ aq.options }}" as="op" hint-placeholder-count="4">
+                      <div style="font-size:13px;display:flex;gap:7px;align-items:baseline">
+                        <span style="font-size:11px;font-weight:800;color:{{ op.markColor }};min-width:14px">{{ op.mark }}</span>
+                        <span style="{{ op.optStyle }}">{{ op.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:4px">
+              <button onClick="{{ closeAiQuiz }}" style="padding:11px 18px;border-radius:10px;border:1.5px solid rgba(94,42,43,.18);background:#fff;color:rgba(94,42,43,.74);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Cancel</button>
+              <button onClick="{{ confirmAiQuiz }}" style="padding:11px 20px;border-radius:10px;border:none;background:#512E91;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #2f1a55">Add {{ aiSelCount }} to assessment</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
@@ -2989,6 +3086,18 @@ class Component extends DCLogic {
     mediaSearch: '',
     mediaSort: 'new',
     mediaLightbox: null,
+    aiProvider: 'anthropic',
+    aiKey: '',
+    aiModel: 'claude-sonnet-4-6',
+    aiBaseUrl: '',
+    aiModalOpen: false,
+    aiSourceModule: 0,
+    aiCount: 5,
+    aiTopic: '',
+    aiBusy: false,
+    aiStatus: '',
+    aiResults: [],
+    aiSel: {},
     settingsSection: 'general',
     commentDraft: '',
     replyTo: null,
@@ -3366,6 +3475,14 @@ class Component extends DCLogic {
       if (elKey && elKey.trim()) this.setState({ elevenKey: elKey.trim() });
       const elVoice = localStorage.getItem('campero_elevenlabs_voice');
       if (elVoice && elVoice.trim()) this.setState({ elevenVoice: elVoice.trim() });
+      // AI connector (author-local only, NEVER written into the published config)
+      const aiCfg = JSON.parse(localStorage.getItem('campero_ai_connector') || 'null');
+      if (aiCfg && typeof aiCfg === 'object') this.setState({
+        aiProvider: aiCfg.provider || 'anthropic',
+        aiKey: aiCfg.apiKey || '',
+        aiModel: aiCfg.model || 'claude-sonnet-4-6',
+        aiBaseUrl: aiCfg.baseUrl || '',
+      });
       const tpls = JSON.parse(localStorage.getItem('campero_block_templates') || 'null');
       if (tpls && Array.isArray(tpls)) this.setState({ blockTemplates: tpls });
       // Global question banks — reusable across ALL courses (author-local).
@@ -4722,6 +4839,83 @@ class Component extends DCLogic {
   ]; }
   setElevenKey(v) { this.setState({ elevenKey: v }); try { localStorage.setItem('campero_elevenlabs_key', v || ''); } catch (e) {} }
   setElevenVoice(v) { this.setState({ elevenVoice: v }); try { localStorage.setItem('campero_elevenlabs_voice', v || ''); } catch (e) {} }
+
+  // ── AI-assisted authoring (provider-agnostic connector; author-time only, key NEVER published) ──
+  get AI_MODELS() { return [
+    { id: 'claude-opus-4-8',  name: 'Claude Opus 4.8 — highest quality' },
+    { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6 — balanced (recommended)' },
+    { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5 — fastest & cheapest' },
+  ]; }
+  _persistAi() { try { localStorage.setItem('campero_ai_connector', JSON.stringify({ provider: this.state.aiProvider, apiKey: this.state.aiKey, model: this.state.aiModel, baseUrl: this.state.aiBaseUrl })); } catch (e) {} }
+  setAiKey(v) { this.setState({ aiKey: v }); setTimeout(() => this._persistAi(), 0); }
+  setAiModel(v) { this.setState({ aiModel: v }); setTimeout(() => this._persistAi(), 0); }
+  setAiBaseUrl(v) { this.setState({ aiBaseUrl: v }); setTimeout(() => this._persistAi(), 0); }
+  // Gather a lesson's prose for grounding — skip ids/media/data-URLs.
+  _collectStrings(obj, out, depth) {
+    if (depth > 6 || out.join(' ').length > 8000) return;
+    if (typeof obj === 'string') { const t = obj.trim(); if (t && t.length > 1 && t.slice(0, 5) !== 'data:') out.push(t); return; }
+    if (Array.isArray(obj)) { obj.forEach(x => this._collectStrings(x, out, depth + 1)); return; }
+    if (obj && typeof obj === 'object') {
+      const SKIP = ['id','type','color','icon','url','imageUrl','photo','src','media','optMedia','leftImage','rightImage','audioData','mp3','dataUrl','focalX','focalY'];
+      Object.keys(obj).forEach(k => { if (SKIP.indexOf(k) < 0) this._collectStrings(obj[k], out, depth + 1); });
+    }
+  }
+  _lessonText(modIdx) {
+    const m = this.state.modules[modIdx]; if (!m) return '';
+    const out = []; if (m.title) out.push(m.title);
+    (m.blocks || []).forEach(b => this._collectStrings(b.content || {}, out, 0));
+    return out.join('\n').slice(0, 7000);
+  }
+  openAiQuiz() { this.setState({ aiModalOpen: true, aiSourceModule: this.state.selectedModule || 0, aiResults: [], aiSel: {}, aiStatus: '', aiBusy: false }); }
+  closeAiQuiz() { this.setState({ aiModalOpen: false }); }
+  toggleAiSel(i) { const sel = { ...this.state.aiSel }; sel[i] = !sel[i]; this.setState({ aiSel: sel }); }
+  setAllAiSel(v) { const sel = {}; (this.state.aiResults || []).forEach((_, i) => sel[i] = !!v); this.setState({ aiSel: sel }); }
+  _normAiQ(q) {
+    if (!q || !q.question) return null;
+    if (q.qType === 'tf') return { qType: 'tf', question: String(q.question), options: ['True', 'False'], correct: (q.correct === 1 ? 1 : 0) };
+    let opts = Array.isArray(q.options) ? q.options.map(String).filter(s => s.trim()) : [];
+    while (opts.length < 2) opts.push('');
+    let c = parseInt(q.correct, 10); if (isNaN(c) || c < 0 || c >= opts.length) c = 0;
+    return { qType: 'mc', question: String(q.question), options: opts.slice(0, 6), correct: c };
+  }
+  async generateAiQuiz() {
+    const key = (this.state.aiKey || '').trim();
+    if (!key) { this.setState({ aiStatus: 'Add your Claude API key in Settings → AI Assistant first.' }); return; }
+    const n = Math.max(1, Math.min(20, parseInt(this.state.aiCount, 10) || 5));
+    const src = this._lessonText(this.state.aiSourceModule);
+    if (!src || src.length < 20) { this.setState({ aiStatus: 'That lesson has too little text to generate from. Add content or pick another lesson.' }); return; }
+    const topic = (this.state.aiTopic || '').trim();
+    this.setState({ aiBusy: true, aiStatus: 'Generating with Claude…', aiResults: [], aiSel: {} });
+    const schema = { type: 'object', additionalProperties: false, required: ['questions'], properties: { questions: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['qType', 'question', 'options', 'correct'], properties: { qType: { type: 'string', enum: ['mc', 'tf'] }, question: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correct: { type: 'integer' } } } } } };
+    const sys = 'You are an instructional designer writing knowledge-check questions for a frontline restaurant training course. Write clear, job-relevant questions grounded ONLY in the provided lesson text. For multiple-choice ("mc") give exactly 4 plausible options with one correct answer; "correct" is the 0-based index. For true/false ("tf") set options to ["True","False"] and "correct" to 0 (true) or 1 (false). Do not invent facts the lesson does not support.';
+    const user = 'Write ' + n + ' knowledge-check questions' + (topic ? ' focused on: ' + topic : '') + ' based on this lesson.\n\nLESSON:\n' + src;
+    const base = ((this.state.aiBaseUrl || '').trim() || 'https://api.anthropic.com').replace(/\/$/, '');
+    try {
+      const res = await fetch(base + '/v1/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: this.state.aiModel || 'claude-sonnet-4-6', max_tokens: 2048, system: sys, output_config: { format: { type: 'json_schema', schema } }, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) { let msg = ''; try { const e = await res.json(); msg = (e.error && e.error.message) || ''; } catch (_) {} this.setState({ aiBusy: false, aiStatus: 'API error ' + res.status + (msg ? ': ' + msg : '') + '. Check your key and model.' }); return; }
+      const data = await res.json();
+      const tb = (data.content || []).find(b => b.type === 'text');
+      let parsed; try { parsed = JSON.parse(tb ? tb.text : '{}'); } catch (_) { this.setState({ aiBusy: false, aiStatus: 'Could not parse the AI response. Try again.' }); return; }
+      const qs = (parsed.questions || []).map(q => this._normAiQ(q)).filter(Boolean);
+      if (!qs.length) { this.setState({ aiBusy: false, aiStatus: 'No questions returned. Try a different lesson or topic.' }); return; }
+      const sel = {}; qs.forEach((_, i) => sel[i] = true);
+      this.setState({ aiBusy: false, aiStatus: '✨ Generated ' + qs.length + ' — review, then add the ones you want.', aiResults: qs, aiSel: sel });
+    } catch (err) {
+      this.setState({ aiBusy: false, aiStatus: 'Network error calling Claude. If your browser blocks it (CORS), set a proxy Base URL in Settings.' });
+    }
+  }
+  confirmAiQuiz() {
+    const chosen = (this.state.aiResults || []).filter((_, i) => this.state.aiSel[i]);
+    if (!chosen.length) { this.setState({ aiModalOpen: false }); return; }
+    this.assessEdit(aq => { chosen.forEach(q => aq.push(JSON.parse(JSON.stringify(q)))); });
+    if (!this.state.assessEnabled) this.setState({ assessEnabled: true });
+    this.setState({ aiModalOpen: false, aiResults: [], aiSel: {}, aiStatus: '', aiTopic: '' });
+    this._showToast(chosen.length + ' question' + (chosen.length > 1 ? 's' : '') + ' added to the assessment');
+  }
   async generateElevenLabsVO() {
     if (this.state.voGenBusy) return;
     const key = (this.state.elevenKey || '').trim();
@@ -7025,6 +7219,45 @@ class Component extends DCLogic {
       }),
       stopProp: e => e.stopPropagation(),
       stopEnter: e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } },
+
+      // ── AI Assistant (Settings card + Generate-quiz modal) ──
+      aiKeyVal: s.aiKey || '',
+      onAiKey: e => this.setAiKey(e.target.value),
+      aiKeySet: !!(s.aiKey && s.aiKey.trim()),
+      aiModelVal: s.aiModel || 'claude-sonnet-4-6',
+      onAiModel: e => this.setAiModel(e.target.value),
+      aiModelOptions: this.AI_MODELS.map(m => ({ ...m, selected: m.id === (s.aiModel || 'claude-sonnet-4-6') })),
+      aiBaseUrlVal: s.aiBaseUrl || '',
+      onAiBaseUrl: e => this.setAiBaseUrl(e.target.value),
+      openAiQuiz: () => this.openAiQuiz(),
+      aiModalOpen: !!s.aiModalOpen,
+      closeAiQuiz: () => this.closeAiQuiz(),
+      aiBusy: !!s.aiBusy,
+      aiStatus: s.aiStatus || '',
+      aiHasStatus: !!(s.aiStatus && s.aiStatus.trim()),
+      aiCount: s.aiCount,
+      onAiCount: e => this.setState({ aiCount: e.target.value }),
+      aiTopic: s.aiTopic || '',
+      onAiTopic: e => this.setState({ aiTopic: e.target.value }),
+      aiSourceVal: String(s.aiSourceModule || 0),
+      onAiSource: e => this.setState({ aiSourceModule: parseInt(e.target.value, 10) || 0 }),
+      aiSourceOptions: (s.modules || []).map((m, i) => ({ value: String(i), label: 'Module ' + ('0' + (i + 1)).slice(-2) + ' · ' + (m.title || 'Untitled'), selected: i === (s.aiSourceModule || 0) })),
+      onGenerateAiQuiz: () => this.generateAiQuiz(),
+      aiNoKey: !(s.aiKey && s.aiKey.trim()),
+      aiHasResults: (s.aiResults || []).length > 0,
+      aiSelCount: (s.aiResults || []).filter((_, i) => s.aiSel[i]).length,
+      onAiSelectAll: () => this.setAllAiSel(true),
+      onAiSelectNone: () => this.setAllAiSel(false),
+      confirmAiQuiz: () => this.confirmAiQuiz(),
+      aiResults: (s.aiResults || []).map((q, i) => ({
+        idx: i, selected: !!s.aiSel[i], onToggle: () => this.toggleAiSel(i),
+        question: q.question,
+        typeLabel: q.qType === 'tf' ? 'TRUE / FALSE' : 'MULTIPLE CHOICE',
+        bg: s.aiSel[i] ? 'rgba(81,46,145,.06)' : '#FAF5EE',
+        border: s.aiSel[i] ? '#512E91' : 'rgba(94,42,43,.12)',
+        check: s.aiSel[i] ? '☑' : '☐',
+        options: (q.options || []).map((o, oi) => ({ text: o, correct: oi === q.correct, mark: oi === q.correct ? '✓' : String.fromCharCode(65 + oi), markColor: oi === q.correct ? '#7d8500' : 'rgba(94,42,43,.5)', optStyle: oi === q.correct ? 'font-weight:700;color:#5d6b00' : 'color:#3d1a1b' })),
+      })),
 
       // Branching tab
       langBranch: s.langBranch, storeBranch: s.storeBranch, roleBranch: s.roleBranch,
