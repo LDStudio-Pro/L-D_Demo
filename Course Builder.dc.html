@@ -2724,6 +2724,29 @@
     </div>
   </sc-if>
 
+  <!-- ══ CONFIRM DELETE DIALOG ══ -->
+  <sc-if value="{{ confirmDeleteOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:120;animation:fadeIn .2s ease" onClick="{{ cancelConfirmDelete }}">
+      <div style="background:#fff;border-radius:20px;width:420px;max-width:92vw;padding:26px;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+        <div style="font-size:17px;font-weight:900;color:#5E2A2B;margin-bottom:8px">Delete “{{ confirmDeleteTitle }}”?</div>
+        <div style="font-size:14px;color:rgba(94,42,43,.74);line-height:1.5;margin-bottom:20px">This removes the module and its blocks. You can undo right after.</div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button onClick="{{ cancelConfirmDelete }}" style="padding:11px 18px;border-radius:10px;border:1.5px solid rgba(94,42,43,.18);background:#fff;color:rgba(94,42,43,.74);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Cancel</button>
+          <button onClick="{{ confirmDeleteYes }}" style="padding:11px 20px;border-radius:10px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #c23a00">Delete</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ══ UNDO TOAST (bottom-left, Rise-style) ══ -->
+  <sc-if value="{{ toastShow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:20px;bottom:20px;z-index:130;display:flex;align-items:center;gap:14px;background:#2b1416;color:#fff;border-radius:12px;padding:13px 16px;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:slideUp .25s ease">
+      <span style="font-size:14px;font-weight:600">{{ toastMsg }}</span>
+      <button onClick="{{ undoFromToast }}" style="padding:6px 14px;border-radius:8px;border:none;background:#FF8300;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;cursor:pointer">Undo</button>
+      <button onClick="{{ dismissToast }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:13px;cursor:pointer" title="Dismiss">✕</button>
+    </div>
+  </sc-if>
+
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
@@ -2802,6 +2825,8 @@ class Component extends DCLogic {
     assessImportOpen: false,
     assessImportBankId: null,
     assessImportSel: {},
+    confirmDelete: null,
+    toast: null,
     globalMedia: [],
     settingsSection: 'general',
     commentDraft: '',
@@ -2958,7 +2983,7 @@ class Component extends DCLogic {
         upColor: i===0 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
         downColor: i===s.modules.length-1 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
         onDupe: e => { e.stopPropagation(); this.dupeModule(i); },
-        onDelete: e => { e.stopPropagation(); this.deleteModule(i); },
+        onDelete: e => { e.stopPropagation(); this.askDeleteModule(i); },
       };
     });
   }
@@ -5108,6 +5133,25 @@ class Component extends DCLogic {
     const mods = this.state.modules.filter((_,idx)=>idx!==i);
     this.setState({ modules: mods, selectedModule: Math.min(this.state.selectedModule, mods.length-1), selectedBlock: null });
   }
+  // ── Destructive-action safety: confirm dialog + generic Undo toast ──
+  // Undo reuses the global history stack (undo()), so the toast's Undo reverts the deletion.
+  askDeleteModule(i) {
+    const m = this.state.modules[i];
+    this.setState({ confirmDelete: { type: 'module', index: i, title: (m && m.title) || 'this module' } });
+  }
+  cancelConfirmDelete() { this.setState({ confirmDelete: null }); }
+  confirmDeleteYes() {
+    const cd = this.state.confirmDelete; if (!cd) return;
+    if (cd.type === 'module') { this.deleteModule(cd.index); this._showToast('Module deleted'); }
+    this.setState({ confirmDelete: null });
+  }
+  _showToast(msg) {
+    this.setState({ toast: { msg } });
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => this.setState({ toast: null }), 6000);
+  }
+  dismissToast() { if (this._toastTimer) clearTimeout(this._toastTimer); this.setState({ toast: null }); }
+  undoFromToast() { if (this._toastTimer) clearTimeout(this._toastTimer); this.setState({ toast: null }); this.undo(); }
 
   dupeModule(i) {
     const mods = [...this.state.modules];
@@ -6402,6 +6446,15 @@ class Component extends DCLogic {
           }),
         };
       })(),
+      // Destructive-action confirm dialog + Undo toast
+      confirmDeleteOpen: !!s.confirmDelete,
+      confirmDeleteTitle: s.confirmDelete ? (s.confirmDelete.title || 'this item') : '',
+      confirmDeleteYes: () => this.confirmDeleteYes(),
+      cancelConfirmDelete: () => this.cancelConfirmDelete(),
+      toastShow: !!s.toast,
+      toastMsg: s.toast ? s.toast.msg : '',
+      undoFromToast: () => this.undoFromToast(),
+      dismissToast: () => this.dismissToast(),
       // Spanish translation workflow
       ...(() => {
         const entries = this.translatableEntries();
