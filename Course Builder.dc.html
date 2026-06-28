@@ -424,6 +424,9 @@
                   <sc-if value="{{ m.locked }}" hint-placeholder-val="{{ false }}">
                     <span style="font-size:12px">🔒</span>
                   </sc-if>
+                  <sc-if value="{{ m.hasOpenComments }}" hint-placeholder-val="{{ false }}">
+                    <span title="Open review comments" style="font-size:11px;font-weight:800;color:#FF4D00;background:rgba(255,77,0,.12);border-radius:50px;padding:1px 7px">💬 {{ m.openComments }}</span>
+                  </sc-if>
                 </div>
               </div>
             </sc-for>
@@ -1907,8 +1910,16 @@
         <!-- Review / comments panel -->
         <sc-if value="{{ rightIsReview }}" hint-placeholder-val="{{ false }}">
           <div style="padding:16px;display:flex;flex-direction:column;gap:12px;animation:fadeIn .2s ease">
-            <div style="font-size:12px;font-weight:700;color:#FF4D00;text-transform:uppercase;letter-spacing:1.5px">💬 Review Comments</div>
-            <div style="font-size:13px;color:rgba(94,42,43,.74)">{{ reviewSummary }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="font-size:12px;font-weight:700;color:#FF4D00;text-transform:uppercase;letter-spacing:1.5px">💬 Review Comments</div>
+              <button onClick="{{ openCommentDigest }}" style="padding:5px 11px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:800;color:#5E2A2B;cursor:pointer" style-hover="border-color:#FF4D00;color:#FF4D00" title="See every comment across the course">📋 All feedback</button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+              <div style="font-size:13px;color:rgba(94,42,43,.74)">{{ reviewSummary }}</div>
+              <sc-if value="{{ reviewHasComments }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ toggleReviewFilter }}" title="Show open comments only" style="padding:4px 9px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer;white-space:nowrap">{{ reviewFilterLabel }}</button>
+              </sc-if>
+            </div>
 
             <sc-if value="{{ reviewHasSelection }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;flex-direction:column;gap:8px">
@@ -1919,19 +1930,58 @@
                       <span style="font-size:12px;font-weight:700;color:{{ cm.statusColor }}">{{ cm.statusLabel }}</span>
                     </div>
                     <div style="font-size:14px;color:#3d1a1b;line-height:1.5;white-space:pre-wrap">{{ cm.text }}</div>
+                    <sc-if value="{{ cm.hasMentions }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-wrap:wrap;gap:4px">
+                        <sc-for list="{{ cm.mentionPills }}" as="mp" hint-placeholder-count="1"><span style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.1);border-radius:50px;padding:2px 8px">@{{ mp.name }}</span></sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ cm.hasReplies }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:7px;margin-left:8px;padding-left:10px;border-left:2px solid rgba(94,42,43,.14)">
+                        <sc-for list="{{ cm.replies }}" as="rp" hint-placeholder-count="1">
+                          <div style="display:flex;flex-direction:column;gap:3px">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                              <span style="font-size:12px;font-weight:900;color:#5E2A2B">{{ rp.author }}</span>
+                              <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:rgba(94,42,43,.6)">{{ rp.when }}</span><button onClick="{{ rp.onDelete }}" style="border:none;background:transparent;color:#FF4D00;font-size:12px;cursor:pointer" title="Delete reply">🗑</button></div>
+                            </div>
+                            <div style="font-size:13px;color:#3d1a1b;line-height:1.45;white-space:pre-wrap">{{ rp.text }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
                       <span style="font-size:12px;color:rgba(94,42,43,.74)">{{ cm.when }}</span>
                       <div style="display:flex;gap:5px">
+                        <button onClick="{{ cm.onReply }}" style="padding:4px 9px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">↩ Reply</button>
                         <button onClick="{{ cm.onToggle }}" style="padding:4px 9px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">{{ cm.resolveLabel }}</button>
                         <button onClick="{{ cm.onDelete }}" style="width:26px;border-radius:6px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:13px;cursor:pointer" title="Delete comment">🗑</button>
                       </div>
                     </div>
+                    <sc-if value="{{ cm.isReplying }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:5px;margin-left:8px;padding:8px;border-radius:9px;background:rgba(94,42,43,.04)">
+                        <textarea value="{{ replyDraft }}" onChange="{{ onReplyDraft }}" rows="2" placeholder="Write a reply…" style="width:100%;box-sizing:border-box;padding:7px 9px;border-radius:8px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+                        <sc-if value="{{ hasTeamRoster }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;flex-wrap:wrap;gap:4px">
+                            <sc-for list="{{ cm.replyMentionRoster }}" as="rm" hint-placeholder-count="2"><button onClick="{{ rm.onInsert }}" style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ rm.name }}</button></sc-for>
+                          </div>
+                        </sc-if>
+                        <div style="display:flex;gap:6px">
+                          <button onClick="{{ cm.onSubmitReply }}" style="padding:5px 13px;border-radius:7px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;cursor:pointer">Reply</button>
+                          <button onClick="{{ cm.onCancelReply }}" style="padding:5px 13px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">Cancel</button>
+                        </div>
+                      </div>
+                    </sc-if>
                   </div>
                 </sc-for>
               </div>
               <div style="display:flex;flex-direction:column;gap:6px;padding-top:6px;border-top:1.5px solid rgba(94,42,43,.1)">
                 <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px">Add a comment as {{ commentAuthor }}</div>
-                <textarea value="{{ commentDraft }}" onChange="{{ onCommentDraft }}" rows="3" placeholder="Leave a note for reviewers…" style="width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+                <textarea value="{{ commentDraft }}" onChange="{{ onCommentDraft }}" rows="3" placeholder="Leave a note for reviewers… use @ to mention a teammate" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:9px;border:1.5px solid rgba(94,42,43,.15);background:#FFF;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+                <sc-if value="{{ hasTeamRoster }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+                    <span style="font-size:11px;color:rgba(94,42,43,.55)">Mention:</span>
+                    <sc-for list="{{ commentMentionRoster }}" as="cmr" hint-placeholder-count="2"><button onClick="{{ cmr.onInsert }}" style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ cmr.name }}</button></sc-for>
+                  </div>
+                </sc-if>
                 <button onClick="{{ onAddComment }}" style="align-self:flex-start;padding:7px 16px;border-radius:8px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #5E2A2B">💬 Comment</button>
               </div>
             </sc-if>
@@ -2814,6 +2864,46 @@
     </div>
   </sc-if>
 
+  <!-- ══ COMMENTS DIGEST (course-wide "All feedback") ══ -->
+  <sc-if value="{{ digestOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:135;animation:fadeIn .2s ease;padding:32px" onClick="{{ closeCommentDigest }}">
+      <div style="background:#fff;border-radius:20px;width:660px;max-width:94vw;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+        <div style="padding:18px 24px;border-bottom:1.5px solid rgba(94,42,43,.1);display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div style="font-size:17px;font-weight:900;color:#5E2A2B">📋 {{ digestTitle }}</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button onClick="{{ toggleReviewFilter }}" style="padding:5px 11px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer">{{ reviewFilterLabel }}</button>
+            <button onClick="{{ closeCommentDigest }}" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;color:#5E2A2B;font-size:14px;cursor:pointer">✕</button>
+          </div>
+        </div>
+        <div style="overflow-y:auto;padding:16px 24px 24px;display:flex;flex-direction:column;gap:14px">
+          <sc-if value="{{ digestEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:36px 16px;text-align:center;border-radius:14px;border:2px dashed rgba(94,42,43,.16);background:#FAF5EE;color:rgba(94,42,43,.74);font-size:14px">No comments yet. Select a block and add the first note.</div>
+          </sc-if>
+          <sc-for list="{{ digestGroups }}" as="dg" hint-placeholder-count="2">
+            <div style="border:1.5px solid rgba(94,42,43,.12);border-radius:12px;overflow:hidden">
+              <div onClick="{{ dg.onGoto }}" style="padding:10px 12px;background:#FAF5EE;cursor:pointer;display:flex;flex-direction:column;gap:2px" style-hover="background:rgba(255,77,0,.06)">
+                <div style="font-size:11px;font-weight:800;color:#FF4D00;letter-spacing:.5px">{{ dg.heading }}</div>
+                <div style="font-size:13px;font-weight:700;color:#3d1a1b">{{ dg.blockLabel }} <span style="font-size:11px;color:rgba(94,42,43,.5);font-weight:600">· open ↗</span></div>
+              </div>
+              <div style="padding:8px 12px;display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ dg.items }}" as="di" hint-placeholder-count="2">
+                  <div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(94,42,43,.07);padding-top:7px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                      <span style="font-size:12px;font-weight:900;color:#5E2A2B">{{ di.author }} <span style="font-size:11px;font-weight:600;color:rgba(94,42,43,.55)">· {{ di.when }}</span></span>
+                      <span style="font-size:11px;font-weight:700;color:{{ di.statusColor }}">{{ di.statusLabel }}</span>
+                    </div>
+                    <div style="font-size:13px;color:#3d1a1b;line-height:1.45;white-space:pre-wrap">{{ di.text }}</div>
+                    <sc-if value="{{ di.replyLabel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:rgba(94,42,43,.6)">{{ di.replyLabel }} replies</span></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
@@ -2901,6 +2991,10 @@ class Component extends DCLogic {
     mediaLightbox: null,
     settingsSection: 'general',
     commentDraft: '',
+    replyTo: null,
+    replyDraft: '',
+    reviewFilter: 'all',
+    digestOpen: false,
     translateModal: false,
     translateBox: '',
     clipboardBlock: null,
@@ -3042,6 +3136,8 @@ class Component extends DCLogic {
         ...m, sectionId: m.sectionId || null,
         idx: i,
         onDragStart: e => this._startModDrag(i, e),
+        openComments: (m.blocks || []).reduce((n, b) => n + ((b.comments || []).filter(c => !c.resolved).length), 0),
+        hasOpenComments: (m.blocks || []).some(b => (b.comments || []).some(c => !c.resolved)),
         num: `0${i+1}`,
         bg: active ? `${m.color}10` : 'transparent',
         border: active ? m.color : 'transparent',
@@ -4786,7 +4882,14 @@ class Component extends DCLogic {
     this.setState({ modules: mods });
   }
 
-  // ── Review comments (per-block, multi-author) ──
+  // ── Review comments (per-block, multi-author; threaded replies + @mentions + digest) ──
+  // Parse @Name tokens against the team roster → mentions[] (UI-only; no delivery in Phase 1).
+  _parseMentions(text) {
+    const team = (this.state.team || []).map(t => (typeof t === 'object' ? (t.name || t.label || '') : t)).filter(Boolean);
+    const out = [];
+    team.forEach(name => { const re = new RegExp('@' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i'); if (re.test(text)) out.push(name); });
+    return out;
+  }
   addBlockComment() {
     const text = (this.state.commentDraft || '').trim();
     if (!text) return;
@@ -4794,7 +4897,7 @@ class Component extends DCLogic {
     const block = mods[this.state.selectedModule]?.blocks?.[this.state.selectedBlock];
     if (!block) return;
     const list = Array.isArray(block.comments) ? block.comments : [];
-    list.push({ id: 'cm' + Date.now(), author: this.state.currentAuthor || 'Author', text, at: new Date().toISOString(), resolved: false });
+    list.push({ id: 'cm' + Date.now(), author: this.state.currentAuthor || 'Author', text, at: new Date().toISOString(), resolved: false, replies: [], mentions: this._parseMentions(text) });
     block.comments = list;
     this.setState({ modules: mods, commentDraft: '' });
   }
@@ -4812,6 +4915,40 @@ class Component extends DCLogic {
     block.comments = block.comments.filter(c => c.id !== id);
     this.setState({ modules: mods });
   }
+  // Threaded replies
+  startReply(id) { this.setState({ replyTo: id, replyDraft: '' }); }
+  cancelReply() { this.setState({ replyTo: null, replyDraft: '' }); }
+  addCommentReply(commentId) {
+    const text = (this.state.replyDraft || '').trim();
+    if (!text) return;
+    const mods = JSON.parse(JSON.stringify(this.state.modules));
+    const block = mods[this.state.selectedModule]?.blocks?.[this.state.selectedBlock];
+    if (!block || !Array.isArray(block.comments)) return;
+    block.comments = block.comments.map(c => {
+      if (c.id !== commentId) return c;
+      const replies = Array.isArray(c.replies) ? c.replies : [];
+      replies.push({ id: 'rp' + Date.now(), author: this.state.currentAuthor || 'Author', text, at: new Date().toISOString(), mentions: this._parseMentions(text) });
+      return { ...c, replies };
+    });
+    this.setState({ modules: mods, replyTo: null, replyDraft: '' });
+  }
+  deleteCommentReply(commentId, replyId) {
+    const mods = JSON.parse(JSON.stringify(this.state.modules));
+    const block = mods[this.state.selectedModule]?.blocks?.[this.state.selectedBlock];
+    if (!block || !Array.isArray(block.comments)) return;
+    block.comments = block.comments.map(c => c.id === commentId ? { ...c, replies: (c.replies || []).filter(r => r.id !== replyId) } : c);
+    this.setState({ modules: mods });
+  }
+  // Insert an @mention into the active compose box (comment or a reply)
+  insertMention(name, into) {
+    if (into === 'reply') this.setState({ replyDraft: ((this.state.replyDraft || '').replace(/\s*$/, '') + ' @' + name + ' ').replace(/^\s+/, '') });
+    else this.setState({ commentDraft: ((this.state.commentDraft || '').replace(/\s*$/, '') + ' @' + name + ' ').replace(/^\s+/, '') });
+  }
+  toggleReviewFilter() { this.setState({ reviewFilter: this.state.reviewFilter === 'open' ? 'all' : 'open' }); }
+  // Comments digest (course-wide "all feedback")
+  openCommentDigest() { this.setState({ digestOpen: true }); }
+  closeCommentDigest() { this.setState({ digestOpen: false }); }
+  gotoComment(modIdx, blockIdx) { this.setState({ selectedModule: modIdx, selectedBlock: blockIdx, rightTab: 'review', digestOpen: false }); }
 
   // ── Spanish translation workflow (per-field `*_es` + export/import) ──
   get TFIELDS() { return {
@@ -5905,13 +6042,39 @@ class Component extends DCLogic {
       rightIsBranch: s.rightTab === 'branch',
       rightIsInfo:   s.rightTab === 'info',
 
-      // Review comments (per-block, multi-author)
+      // Review comments (per-block, multi-author; threaded replies + @mentions + course digest)
       ...(() => {
         const comments = Array.isArray(selBlock?.comments) ? selBlock.comments : [];
         const fmt = (iso) => { try { return new Date(iso).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch (e) { return ''; } };
         let courseOpen = 0;
         (s.modules || []).forEach(m => (m.blocks || []).forEach(b => (b.comments || []).forEach(c => { if (!c.resolved) courseOpen++; })));
         const openCount = comments.filter(c => !c.resolved).length;
+        const team = (s.team || []).map(t => (typeof t === 'object' ? (t.name || t.label || '') : t)).filter(Boolean);
+        const mentionRoster = into => team.map(name => ({ name, onInsert: () => this.insertMention(name, into) }));
+        const pills = c => (c.mentions || []).map(n => ({ name: n }));
+        const flt = s.reviewFilter || 'all';
+        const shown = flt === 'open' ? comments.filter(c => !c.resolved) : comments;
+        const blockMeta = t => (this.BLOCK_META[t] || {}).type || 'Block';
+        // Course-wide digest
+        const digestGroups = [];
+        let digestTotal = 0;
+        (s.modules || []).forEach((m, mi) => (m.blocks || []).forEach((b, bi) => {
+          const cs = Array.isArray(b.comments) ? b.comments : [];
+          const sub = flt === 'open' ? cs.filter(c => !c.resolved) : cs;
+          if (!sub.length) return;
+          digestTotal += sub.length;
+          digestGroups.push({
+            modIdx: mi, blockIdx: bi,
+            heading: 'Module ' + ('0' + (mi + 1)).slice(-2) + ' · ' + (m.title || 'Module'),
+            blockLabel: blockMeta(b.type) + (b.label ? ' — ' + b.label : ''),
+            onGoto: () => this.gotoComment(mi, bi),
+            items: sub.map(c => ({
+              author: c.author || 'Author', when: fmt(c.at), text: c.text || '',
+              statusLabel: c.resolved ? '✓ Resolved' : '● Open', statusColor: c.resolved ? '#7d8500' : '#FF4D00',
+              replyLabel: (c.replies && c.replies.length) ? ('💬 ' + c.replies.length) : '',
+            })),
+          });
+        }));
         return {
           rReviewColor: rtb('review').color, rReviewBorder: rtb('review').border,
           setRightReview: () => this.setState({ rightTab: 'review' }),
@@ -5923,11 +6086,23 @@ class Component extends DCLogic {
           reviewSummary: selBlock === null ? 'Select a block to add review comments.'
             : (comments.length === 0 ? 'No comments yet — add the first note below.'
               : (openCount + ' open · ' + (comments.length - openCount) + ' resolved')),
+          reviewFilterOpen: flt === 'open',
+          reviewFilterLabel: flt === 'open' ? '◉ Open only' : '○ Open only',
+          toggleReviewFilter: () => this.toggleReviewFilter(),
+          reviewHasComments: comments.length > 0,
           commentDraft: s.commentDraft,
           onCommentDraft: e => this.setState({ commentDraft: e.target.value }),
           onAddComment: () => this.addBlockComment(),
           commentAuthor: s.currentAuthor || 'Author',
-          reviewComments: comments.map(c => ({
+          commentMentionRoster: mentionRoster('comment'),
+          hasTeamRoster: team.length > 0,
+          // digest
+          openCommentDigest: () => this.openCommentDigest(),
+          closeCommentDigest: () => this.closeCommentDigest(),
+          digestOpen: !!s.digestOpen,
+          digestGroups, digestTotal, digestEmpty: digestGroups.length === 0,
+          digestTitle: 'All feedback · ' + digestTotal + (flt === 'open' ? ' open' : ''),
+          reviewComments: shown.map(c => ({
             id: c.id, author: c.author || 'Author', when: fmt(c.at), text: c.text || '', resolved: !!c.resolved,
             bg: c.resolved ? 'rgba(180,189,0,.08)' : '#FAF5EE',
             border: c.resolved ? 'rgba(180,189,0,.45)' : 'rgba(94,42,43,.12)',
@@ -5935,7 +6110,22 @@ class Component extends DCLogic {
             resolveLabel: c.resolved ? '↺ Reopen' : '✓ Resolve',
             onToggle: () => this.toggleCommentResolved(c.id),
             onDelete: () => this.deleteBlockComment(c.id),
+            mentionPills: pills(c), hasMentions: (c.mentions || []).length > 0,
+            replies: (Array.isArray(c.replies) ? c.replies : []).map(r => ({
+              id: r.id, author: r.author || 'Author', when: fmt(r.at), text: r.text || '',
+              mentionPills: pills(r), hasMentions: (r.mentions || []).length > 0,
+              onDelete: () => this.deleteCommentReply(c.id, r.id),
+            })),
+            replyCount: (c.replies || []).length,
+            hasReplies: (c.replies || []).length > 0,
+            isReplying: s.replyTo === c.id,
+            onReply: () => this.startReply(c.id),
+            onCancelReply: () => this.cancelReply(),
+            onSubmitReply: () => this.addCommentReply(c.id),
+            replyMentionRoster: mentionRoster('reply'),
           })),
+          replyDraft: s.replyDraft,
+          onReplyDraft: e => this.setState({ replyDraft: e.target.value }),
         };
       })(),
 
