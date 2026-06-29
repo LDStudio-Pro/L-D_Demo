@@ -446,8 +446,9 @@
           </div>
         </div>
 
-        <div style="padding:10px 8px 16px">
+        <div style="padding:10px 8px 16px;display:flex;flex-direction:column;gap:8px">
           <button onClick="{{ addModule }}" style="width:100%;padding:10px;border-radius:12px;border:2px dashed rgba(94,42,43,.2);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(94,42,43,.74);transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00">+ Add Module</button>
+          <button onClick="{{ openOutline }}" style="width:100%;padding:10px;border-radius:12px;border:none;background:rgba(255,77,0,.08);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#FF4D00;transition:all .2s" style-hover="background:rgba(255,77,0,.16)" title="Draft a new lesson from a topic with Claude — you review before it's added">✨ Draft a lesson with AI</button>
         </div>
       </div>
 
@@ -3044,6 +3045,50 @@
     </div>
   </sc-if>
 
+  <!-- ══ AI DRAFT-LESSON-OUTLINE MODAL ══ -->
+  <sc-if value="{{ outlineModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(30,10,10,.55);display:flex;align-items:center;justify-content:center;z-index:140;animation:fadeIn .2s ease;padding:28px" onClick="{{ closeOutline }}">
+      <div style="background:#fff;border-radius:20px;width:680px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+        <div style="padding:18px 24px;border-bottom:1.5px solid rgba(94,42,43,.1);display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div style="font-size:17px;font-weight:900;color:#5E2A2B">✨ Draft a lesson with AI</div>
+          <button onClick="{{ closeOutline }}" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(94,42,43,.18);background:#FFF;color:#5E2A2B;font-size:14px;cursor:pointer">✕</button>
+        </div>
+        <div style="overflow-y:auto;padding:18px 24px 22px;display:flex;flex-direction:column;gap:14px">
+          <sc-if value="{{ aiNoKey }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px 14px;border-radius:12px;background:rgba(255,77,0,.07);border:1.5px solid rgba(255,77,0,.25);font-size:13px;color:#5E2A2B;line-height:1.5">🔑 Add your Claude API key in <b>Settings → AI Assistant</b> first. It stays on this device and is never published.</div>
+          </sc-if>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">What should this lesson teach?</div>
+            <textarea value="{{ outlineTopic }}" onChange="{{ onOutlineTopic }}" rows="3" placeholder="e.g. How to open the fry station for a morning shift — safety checks, oil temp, par levels, and first-batch timing" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <button onClick="{{ onGenerateOutline }}" style="padding:11px 20px;border-radius:10px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #5E2A2B">✨ Draft outline</button>
+            <sc-if value="{{ outlineHasStatus }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:rgba(94,42,43,.74);line-height:1.4">{{ outlineStatus }}</span></sc-if>
+          </div>
+
+          <sc-if value="{{ outlineHasResult }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1.5px solid rgba(94,42,43,.1);padding-top:12px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:12px;font-weight:800;color:#FF4D00;text-transform:uppercase;letter-spacing:1px">Review · {{ outlineBlockCount }} blocks</div>
+              <div style="font-size:16px;font-weight:900;color:#5E2A2B;text-transform:uppercase">{{ outlineTitle }}</div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ outlinePreview }}" as="ob" hint-placeholder-count="4">
+                  <div style="border:1.5px solid rgba(94,42,43,.12);border-radius:11px;padding:10px 12px;background:#FAF5EE;display:flex;flex-direction:column;gap:3px">
+                    <div style="font-size:11px;font-weight:800;color:#512E91;letter-spacing:.5px">{{ ob.label }}</div>
+                    <div style="font-size:13px;color:#3d1a1b;line-height:1.4">{{ ob.summary }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:4px">
+              <button onClick="{{ closeOutline }}" style="padding:11px 18px;border-radius:10px;border:1.5px solid rgba(94,42,43,.18);background:#fff;color:rgba(94,42,43,.74);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Cancel</button>
+              <button onClick="{{ confirmOutline }}" style="padding:11px 20px;border-radius:10px;border:none;background:#512E91;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #2f1a55">Add as new lesson</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
@@ -3142,6 +3187,11 @@ class Component extends DCLogic {
     aiStatus: '',
     aiResults: [],
     aiSel: {},
+    outlineModalOpen: false,
+    outlineTopic: '',
+    outlineBusy: false,
+    outlineStatus: '',
+    outlineResult: null,
     settingsSection: 'general',
     commentDraft: '',
     replyTo: null,
@@ -4973,6 +5023,66 @@ class Component extends DCLogic {
     if (!this.state.assessEnabled) this.setState({ assessEnabled: true });
     this.setState({ aiModalOpen: false, aiResults: [], aiSel: {}, aiStatus: '', aiTopic: '' });
     this._showToast(chosen.length + ' question' + (chosen.length > 1 ? 's' : '') + ' added to the assessment');
+  }
+  // ── AI draft-module-outline (reuses the same connector + key + review-before-insert) ──
+  openOutline() { this.setState({ outlineModalOpen: true, outlineTopic: '', outlineResult: null, outlineStatus: '', outlineBusy: false }); }
+  closeOutline() { this.setState({ outlineModalOpen: false }); }
+  setOutlineTopic(v) { this.setState({ outlineTopic: v }); }
+  // Assemble the model's structured outline into the Builder's block shape.
+  _assembleOutlineBlocks(o) {
+    const blocks = []; let n = 0; const bid = () => 'ao' + (n++);
+    blocks.push({ id: bid(), type: 'hero', locked: false, content: { title: String(o.title || 'New Lesson'), body: String(o.intro || '') } });
+    const objs = (Array.isArray(o.objectives) ? o.objectives : []).map(s => String(s).trim()).filter(Boolean);
+    if (objs.length) blocks.push({ id: bid(), type: 'objectives', locked: false, content: { items: objs } });
+    (Array.isArray(o.sections) ? o.sections : []).forEach(s => {
+      if (!s) return; const heading = String(s.heading || '').trim(); const body = String(s.body || '').trim();
+      if (!heading && !body) return;
+      blocks.push({ id: bid(), type: 'text', locked: false, content: { title: heading, body } });
+    });
+    const qs = (Array.isArray(o.quiz) ? o.quiz : []).map(q => this._normAiQ(q)).filter(Boolean);
+    qs.forEach(q => blocks.push({ id: bid(), type: 'quiz', locked: false, content: q }));
+    return blocks;
+  }
+  async generateModuleOutline() {
+    if (this.state.outlineBusy) return;
+    const key = (this.state.aiKey || '').trim();
+    if (!key) { this.setState({ outlineStatus: 'Add your Claude API key in Settings → AI Assistant first.' }); return; }
+    const topic = (this.state.outlineTopic || '').trim();
+    if (topic.length < 4) { this.setState({ outlineStatus: 'Describe the lesson topic first (a sentence or two works best).' }); return; }
+    this.setState({ outlineBusy: true, outlineStatus: 'Drafting an outline with Claude…', outlineResult: null });
+    const schema = { type: 'object', additionalProperties: false, required: ['title', 'objectives', 'sections'], properties: {
+      title: { type: 'string' }, intro: { type: 'string' },
+      objectives: { type: 'array', items: { type: 'string' } },
+      sections: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['heading', 'body'], properties: { heading: { type: 'string' }, body: { type: 'string' } } } },
+      quiz: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['qType', 'question', 'options', 'correct'], properties: { qType: { type: 'string', enum: ['mc', 'tf'] }, question: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correct: { type: 'integer' } } } } } };
+    const sys = 'You are an instructional designer drafting a single lesson outline for a frontline restaurant training course (bilingual, hands-busy QSR staff). Return: a short UPPERCASE-friendly title; a 1-2 sentence intro; 3-4 concrete, action-oriented learning objectives; 3-5 content sections each with a short heading and a tight 2-4 sentence body in plain, job-relevant language; and 2-3 knowledge-check questions. For "mc" questions give exactly 4 options with one correct answer (0-based "correct" index); for "tf" set options to ["True","False"] and "correct" to 0 (true) or 1 (false). Keep it practical and specific to the topic; do not invent brand facts you are unsure of.';
+    const user = 'Draft a lesson outline on: ' + topic;
+    const base = ((this.state.aiBaseUrl || '').trim() || 'https://api.anthropic.com').replace(/\/$/, '');
+    try {
+      const res = await fetch(base + '/v1/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: this.state.aiModel || 'claude-sonnet-4-6', max_tokens: 3072, system: sys, output_config: { format: { type: 'json_schema', schema } }, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) { let msg = ''; try { const e = await res.json(); msg = (e.error && e.error.message) || ''; } catch (_) {} this.setState({ outlineBusy: false, outlineStatus: 'API error ' + res.status + (msg ? ': ' + msg : '') + '. Check your key and model.' }); return; }
+      const data = await res.json();
+      const tb = (data.content || []).find(b => b.type === 'text');
+      let parsed; try { parsed = JSON.parse(tb ? tb.text : '{}'); } catch (_) { this.setState({ outlineBusy: false, outlineStatus: 'Could not parse the AI response. Try again.' }); return; }
+      const blocks = this._assembleOutlineBlocks(parsed);
+      if (blocks.length < 2) { this.setState({ outlineBusy: false, outlineStatus: 'The draft came back too thin. Try again or add detail to the topic.' }); return; }
+      this.setState({ outlineBusy: false, outlineStatus: '✨ Drafted — review below, then add it as a new lesson.', outlineResult: { title: String(parsed.title || topic).trim(), blocks } });
+    } catch (err) {
+      this.setState({ outlineBusy: false, outlineStatus: 'Network error calling Claude. If your browser blocks it (CORS), set a proxy Base URL in Settings.' });
+    }
+  }
+  confirmModuleOutline() {
+    const r = this.state.outlineResult; if (!r || !r.blocks || !r.blocks.length) { this.setState({ outlineModalOpen: false }); return; }
+    const colors = ['#FF4D00','#B4BD00','#FFD100','#FF8300','#512E91'];
+    const icons = ['📌','🎨','🔥','💫','🌟'];
+    const i = this.state.modules.length;
+    const newMod = { title: String(r.title || 'New Lesson'), icon: icons[i % icons.length], color: colors[i % colors.length], duration: '8 min', locked: false, blocks: JSON.parse(JSON.stringify(r.blocks)) };
+    this.setState({ modules: [...this.state.modules, newMod], selectedModule: i, selectedBlock: null, outlineModalOpen: false, outlineResult: null, outlineStatus: '', outlineTopic: '' });
+    this._showToast('New lesson "' + newMod.title + '" added — edit it on the canvas');
   }
   // ── AI alt-text for image blocks (vision; reuses the same connector + key) ──
   async generateAltText() {
@@ -7388,6 +7498,31 @@ class Component extends DCLogic {
         check: s.aiSel[i] ? '☑' : '☐',
         options: (q.options || []).map((o, oi) => ({ text: o, correct: oi === q.correct, mark: oi === q.correct ? '✓' : String.fromCharCode(65 + oi), markColor: oi === q.correct ? '#7d8500' : 'rgba(94,42,43,.5)', optStyle: oi === q.correct ? 'font-weight:700;color:#5d6b00' : 'color:#3d1a1b' })),
       })),
+
+      // AI draft-lesson-outline modal
+      openOutline: () => this.openOutline(),
+      closeOutline: () => this.closeOutline(),
+      outlineModalOpen: !!s.outlineModalOpen,
+      outlineTopic: s.outlineTopic || '',
+      onOutlineTopic: e => this.setState({ outlineTopic: e.target.value }),
+      onGenerateOutline: () => this.generateModuleOutline(),
+      confirmOutline: () => this.confirmModuleOutline(),
+      outlineStatus: s.outlineStatus || '',
+      outlineHasStatus: !!(s.outlineStatus && s.outlineStatus.trim()),
+      outlineHasResult: !!(s.outlineResult && s.outlineResult.blocks && s.outlineResult.blocks.length),
+      outlineTitle: (s.outlineResult && s.outlineResult.title) || '',
+      outlineBlockCount: (s.outlineResult && s.outlineResult.blocks ? s.outlineResult.blocks.length : 0),
+      outlinePreview: ((s.outlineResult && s.outlineResult.blocks) || []).map(b => {
+        const c = b.content || {};
+        const LBL = { hero: '🏠 Hero / Intro', objectives: '🎯 Objectives', text: '📝 Text', quiz: '❓ Knowledge Check' };
+        let summary = '';
+        if (b.type === 'hero') summary = (c.title || '') + (c.body ? ' — ' + c.body : '');
+        else if (b.type === 'objectives') summary = (c.items || []).join(' · ');
+        else if (b.type === 'text') summary = (c.title ? c.title + ' — ' : '') + (c.body || '');
+        else if (b.type === 'quiz') summary = c.question || '';
+        if (summary.length > 160) summary = summary.slice(0, 158) + '…';
+        return { label: LBL[b.type] || b.type, summary };
+      }),
 
       // Branching tab
       langBranch: s.langBranch, storeBranch: s.storeBranch, roleBranch: s.roleBranch,
