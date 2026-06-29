@@ -5667,6 +5667,9 @@ class Component extends DCLogic {
         if (qType === 'mc' || qType === 'mr') out.options = Array.isArray(q.options) ? q.options.slice() : ['','','',''];
         out.correct = (typeof q.correct === 'number') ? q.correct : 0;
         if (qType === 'mr') out.correctMulti = Array.isArray(q.correctMulti) ? q.correctMulti.slice() : [];
+        // Preserve question-stem media ({kind,url}) and per-option image answers (url[]) across save→open.
+        if (q.qMedia && q.qMedia.url) out.qMedia = { kind: q.qMedia.kind || 'image', url: q.qMedia.url };
+        if (Array.isArray(q.optMedia)) out.optMedia = q.optMedia.slice();
         // Preserve per-question audience targeting (Assessment-by-audience, Option A) across save→open.
         if (q.audience && (Array.isArray(q.audience.stores) || Array.isArray(q.audience.roles))) {
           out.audience = { stores: (q.audience.stores || []).slice(), roles: (q.audience.roles || []).slice() };
