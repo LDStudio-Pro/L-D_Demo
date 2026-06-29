@@ -2678,6 +2678,7 @@
                 <div style="display:flex;gap:6px">
                   <button onClick="{{ ma.onUse }}" style="flex:1;padding:6px;border-radius:7px;border:none;background:{{ ma.canUse ? '#FF4D00' : 'rgba(94,42,43,.12)' }};color:{{ ma.canUse ? '#fff' : 'rgba(94,42,43,.74)' }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:{{ ma.canUse ? 'pointer' : 'not-allowed' }}" title="Insert into the selected media block">Use</button>
                   <button onClick="{{ ma.onPromote }}" style="width:30px;border-radius:7px;border:1.5px solid rgba(81,46,145,.25);background:transparent;color:{{ ma.promoteColor }};font-size:13px;cursor:pointer" title="{{ ma.promoteTitle }}">🌐</button>
+                  <label style="width:30px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:transparent;color:rgba(94,42,43,.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Replace the file (keeps the name & where it's used)">🔄<input type="file" accept="image/*,video/*,audio/*,application/pdf" onChange="{{ ma.onReplace }}" style="display:none"></label>
                   <button onClick="{{ ma.onRemove }}" style="width:30px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:14px;cursor:pointer" title="Remove from library">🗑</button>
                 </div>
               </div>
@@ -2708,6 +2709,7 @@
                   <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(94,42,43,.12);background:#FFF;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none" style-focus="border-color:#512E91">
                   <div style="display:flex;gap:6px">
                     <button onClick="{{ ga.onUse }}" style="flex:1;padding:6px;border-radius:7px;border:none;background:{{ ga.canUse ? '#512E91' : 'rgba(94,42,43,.12)' }};color:{{ ga.canUse ? '#fff' : 'rgba(94,42,43,.74)' }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:{{ ga.canUse ? 'pointer' : 'not-allowed' }}" title="Insert into the selected media block">Use</button>
+                    <label style="width:30px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:transparent;color:rgba(94,42,43,.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Replace the file (keeps the name & where it's used)">🔄<input type="file" accept="image/*,video/*,audio/*,application/pdf" onChange="{{ ga.onReplace }}" style="display:none"></label>
                     <button onClick="{{ ga.onRemove }}" style="width:30px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:14px;cursor:pointer" title="Remove from global library">🗑</button>
                   </div>
                 </div>
@@ -4051,6 +4053,18 @@ class Component extends DCLogic {
   removeMediaAsset(id) {
     this.setState({ mediaLibrary: this.state.mediaLibrary.filter(a => a.id !== id) });
   }
+  // Swap the file behind a per-course asset, keeping its id/name (re-detect kind from the new file).
+  replaceMediaAsset(id, e) {
+    const f = e && e.target && e.target.files && e.target.files[0]; if (!f) return;
+    const kind = this.mediaKindFromType(f.type);
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.setState({ mediaLibrary: this.state.mediaLibrary.map(a => a.id === id ? { ...a, url: reader.result, kind } : a) });
+      this._showToast('Asset file replaced');
+    };
+    reader.readAsDataURL(f);
+    e.target.value = '';
+  }
   // Insert an asset's URL into the selected media block's appropriate field.
   useMediaAsset(asset) {
     const FIELD = { image: 'imageUrl', video: 'videoUrl', audio: 'videoUrl', pdf: 'pdfUrl' };
@@ -4072,6 +4086,19 @@ class Component extends DCLogic {
     reader.readAsDataURL(f);
   }
   renameGlobalMedia(id, name) { const list = this.state.globalMedia.map(a => a.id === id ? { ...a, name } : a); this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
+  // Swap the file behind a global asset, keeping its id/name (re-detect kind from the new file).
+  replaceGlobalMedia(id, e) {
+    const f = e && e.target && e.target.files && e.target.files[0]; if (!f) return;
+    const kind = this.mediaKindFromType(f.type);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const list = this.state.globalMedia.map(a => a.id === id ? { ...a, url: reader.result, kind } : a);
+      this.persistGlobalMedia(list); this.setState({ globalMedia: list });
+      this._showToast('Asset file replaced');
+    };
+    reader.readAsDataURL(f);
+    e.target.value = '';
+  }
   removeGlobalMedia(id) { const list = this.state.globalMedia.filter(a => a.id !== id); this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
   _restoreGlobalMedia(a) { if (!a || this.state.globalMedia.some(x => x.id === a.id)) return; const list = [...this.state.globalMedia, a]; this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
   // How many blocks (across the open course + all saved courses) reference this asset's url.
@@ -7285,6 +7312,7 @@ class Component extends DCLogic {
               promoteColor: globUrls.has(a.url) ? 'rgba(81,46,145,.35)' : '#512E91',
               onUse: () => this.useMediaAsset(a),
               onPromote: () => this.promoteAssetToGlobal(a),
+              onReplace: e => this.replaceMediaAsset(a.id, e),
               onRemove: () => this.askDeleteCourseMedia(a.id),
               onRename: e => this.renameMediaAsset(a.id, e.target.value),
             };
@@ -7293,7 +7321,8 @@ class Component extends DCLogic {
             id: a.id, name: a.name || a.kind, url: a.url,
             isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(),
             canUse: selIsMedia, onUse: () => this.useGlobalMedia(a),
-            onRemove: () => this.removeGlobalMedia(a.id), onRename: e => this.renameGlobalMedia(a.id, e.target.value),
+            onReplace: e => this.replaceGlobalMedia(a.id, e),
+            onRemove: () => this.askDeleteGlobalMedia(a.id), onRename: e => this.renameGlobalMedia(a.id, e.target.value),
           })),
         };
       })(),
