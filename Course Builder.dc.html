@@ -26,7 +26,7 @@
     @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
     .block-row:hover .block-actions { opacity: 1 !important; }
     .mod-row:hover .mod-actions { opacity: 1 !important; }
-    .mod-row:hover .mod-grip { color: rgba(94,42,43,.55) !important; }
+    .mod-row:hover .mod-grip { color: rgba(var(--bx-line-rgb,94,42,43),.55) !important; }
     .mod-grip:hover { color: #FF4D00 !important; }
     .mod-grip:active { cursor: grabbing !important; }
     .sec-row:hover .sec-actions { opacity: 1 !important; }
@@ -38,7 +38,7 @@
     .ins-zone:hover { opacity: 1 !important; }
     .ins-zone:hover .ins-line { background: #FF4D00 !important; }
     input[type=text], input[type=number], textarea { font-family: 'Exo', sans-serif; }
-    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: rgba(94,42,43,.2); border-radius: 4px; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: rgba(var(--bx-line-rgb,94,42,43),.2); border-radius: 4px; }
     /* ── Accessibility ── */
     :focus:not(:focus-visible) { outline: none; }
     button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible,
@@ -79,8 +79,8 @@
     /* Refined, slimline scrollbar */
     ::-webkit-scrollbar { width: 9px; height: 9px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(94,42,43,.20); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(94,42,43,.34); background-clip: padding-box; }
+    ::-webkit-scrollbar-thumb { background: rgba(var(--bx-line-rgb,94,42,43),.20); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(var(--bx-line-rgb,94,42,43),.34); background-clip: padding-box; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration:.001ms!important; animation-iteration-count:1!important;
         transition-duration:.001ms!important; scroll-behavior:auto!important; }
@@ -430,7 +430,7 @@
                     <div style="font-size:11px;font-weight:800;color:{{ m.numColor }};margin-bottom:2px;letter-spacing:1px">MODULE {{ m.num }}</div>
                     <div style="font-size:14px;font-weight:700;color:var(--bx-text);line-height:1.32;word-break:break-word;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ m.title }}</div>
                   </div>
-                  <div class="mod-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;position:absolute;top:7px;right:7px;background:rgba(255,251,243,.94);border-radius:8px;padding:2px;box-shadow:0 2px 8px rgba(var(--bx-line-rgb),.14)">
+                  <div class="mod-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;position:absolute;top:7px;right:7px;background:rgba(var(--bx-elev-rgb),.94);border-radius:8px;padding:2px;box-shadow:0 2px 8px rgba(var(--bx-line-rgb),.14)">
                     <button onClick="{{ m.onMoveUp }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:{{ m.upCursor }};font-size:13px;color:{{ m.upColor }};display:flex;align-items:center;justify-content:center" title="Move up">↑</button>
                     <button onClick="{{ m.onMoveDown }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:{{ m.downCursor }};font-size:13px;color:{{ m.downColor }};display:flex;align-items:center;justify-content:center" title="Move down">↓</button>
                     <button onClick="{{ m.onDupe }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" title="Duplicate">⧉</button>
@@ -6573,8 +6573,8 @@ class Component extends DCLogic {
       chromeDarkIcon:  s.chromeDark ? '☀️' : '🌙',
       chromeDarkTitle: s.chromeDark ? 'Switch the editor to light mode' : 'Switch the editor to dark mode',
       bxVarsCss: s.chromeDark
-        ? '--bx-bg:#17100f;--bx-bg2:#1f1614;--bx-bg3:#261b19;--bx-card:#221917;--bx-heading:#FFFFFF;--bx-text:#F3E7E2;--bx-line-rgb:235,205,195'
-        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43',
+        ? '--bx-bg:#17100f;--bx-bg2:#1f1614;--bx-bg3:#261b19;--bx-card:#221917;--bx-heading:#FFFFFF;--bx-text:#F3E7E2;--bx-line-rgb:235,205,195;--bx-elev-rgb:42,30,28'
+        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43;--bx-elev-rgb:255,251,243',
 
       // Left panel
       moduleList: this.getModuleList(s),
