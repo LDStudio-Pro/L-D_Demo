@@ -522,7 +522,7 @@
                   </div>
 
                   <sc-for list="{{ previewBlocks }}" as="pb" hint-placeholder-count="5">
-                    <div onClick="{{ pb.onClick }}" class="prev-block" style="position:relative;cursor:pointer;border-bottom:1px solid rgba(94,42,43,.06);border-left:3px solid {{ pb.selBorder }};background:{{ pb.selBg }};transition:background .15s">
+                    <div onClick="{{ pb.onClick }}" class="prev-block" style="position:relative;cursor:pointer;border-bottom:{{ pb.fmtBorder }};border-left:3px solid {{ pb.selBorder }};background:{{ pb.fmtBg }};padding-top:{{ pb.fmtPadTop }};padding-bottom:{{ pb.fmtPadBot }};transition:background .15s">
                       <div onClick="{{ pb.onToggleSelect }}" class="prev-edit-badge" title="{{ pb.editBadgeTitle }}" style="position:absolute;top:6px;left:6px;z-index:4;font-size:11px;font-weight:700;color:#FFFFFF;background:{{ pb.color }};border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px;opacity:{{ pb.badgeOpacity }};transition:opacity .15s;cursor:pointer">{{ pb.editBadgeIcon }} {{ pb.label }}</div>
 
                       <!-- Hover action toolbar -->
@@ -4316,12 +4316,24 @@ class Component extends DCLogic {
       const c = bl.content || {};
       const type = bl.type;
       const selected = i === s.selectedBlock;
+      // Per-block formatting (block.style) — mirror the Player so the live preview
+      // faithfully shows background tint / spacing / divider as learners will see them.
+      const st = bl.style || {};
+      const FMT_BG = { none: 'transparent', cream: '#FAF5EE', tint: meta.color + '0f', dark: '#2a1213' };
+      const FMT_PAD = { compact: '0px', normal: '10px', spacious: '34px' };
+      const fmtPad = FMT_PAD[st.space] || '0px';
+      const fmtBgVal = FMT_BG[st.bg] || 'transparent';
       const base = {
         type,
         color: meta.color, colorBg: `${meta.color}14`, icon: meta.icon, label: meta.type,
         selected,
         selBorder: selected ? meta.color : 'transparent',
         selBg: selected ? `${meta.color}08` : 'transparent',
+        // background shows the chosen tint always (so it's visible while selected too);
+        // falls back to the faint selection tint when no tint is set.
+        fmtBg: fmtBgVal !== 'transparent' ? fmtBgVal : (selected ? `${meta.color}08` : 'transparent'),
+        fmtPadTop: fmtPad, fmtPadBot: fmtPad,
+        fmtBorder: st.noDivider ? 'none' : '1px solid rgba(94,42,43,.06)',
         badgeOpacity: selected ? '1' : '0',
         onClick: () => this.setState({ selectedBlock: i, rightTab: 'block' }),
         // Pencil badge toggles the editor open/closed for this block
