@@ -3440,7 +3440,7 @@ class Component extends DCLogic {
       onRename: e => this.renameSection(sec.id, e.target.value),
       onMoveUp: () => this.moveSection(sec.id, -1),
       onMoveDown: () => this.moveSection(sec.id, 1),
-      onDelete: () => this.deleteSection(sec.id),
+      onDelete: () => this.askDeleteSection(sec.id),
       onAddLesson: () => this.addModuleToSection(sec.id),
       upCursor: i > 0 ? 'pointer' : 'not-allowed',
       downCursor: i < sections.length - 1 ? 'pointer' : 'not-allowed',
@@ -5825,11 +5825,49 @@ class Component extends DCLogic {
       : 'Learners will no longer be able to pick this role. You can undo right after.';
     this.setState({ confirmDelete: { type: 'role', id, title: (r && r.label) || 'this role', msg } });
   }
+  // How many lessons live in a given section (they move to Ungrouped on delete, not removed).
+  _sectionModuleCount(id) { return (this.state.modules || []).filter(m => m.sectionId === id).length; }
+  askDeleteSection(id) {
+    const sec = (this.state.sections || []).find(x => x.id === id);
+    const n = this._sectionModuleCount(id);
+    const msg = n > 0
+      ? `This deletes the section. Its ${n} lesson${n > 1 ? 's' : ''} move to Ungrouped (not deleted). You can undo right after.`
+      : 'This deletes the empty section. You can undo right after.';
+    this.setState({ confirmDelete: { type: 'section', id, title: (sec && sec.title) || 'this section', msg } });
+  }
+  // Question banks live in global localStorage (not the course history), so deletion carries
+  // an explicit restore (mirrors global media); we splice it back at its original index.
+  _restoreQuestionBank(b, idx) {
+    if (!b) return;
+    const list = (this.state.questionBanks || []).slice();
+    if (list.some(x => x.id === b.id)) return;
+    const at = (typeof idx === 'number' && idx >= 0 && idx <= list.length) ? idx : list.length;
+    list.splice(at, 0, b);
+    this.persistQuestionBanks(list);
+    this.setState({ questionBanks: list, qbankActiveId: b.id, qbankActiveQIndex: 0 });
+  }
+  askDeleteBank(id) {
+    const banks = this.state.questionBanks || [];
+    const b = banks.find(x => x.id === id);
+    const qn = b && Array.isArray(b.questions) ? b.questions.length : 0;
+    const msg = qn > 0
+      ? `This deletes the question bank and its ${qn} question${qn > 1 ? 's' : ''}. You can undo right after.`
+      : 'This deletes the empty question bank. You can undo right after.';
+    this.setState({ confirmDelete: { type: 'bank', id, title: (b && b.name) || 'this question bank', msg } });
+  }
   cancelConfirmDelete() { this.setState({ confirmDelete: null }); }
   confirmDeleteYes() {
     const cd = this.state.confirmDelete; if (!cd) return;
     if (cd.type === 'module') { this.deleteModule(cd.index); this._showToast('Module deleted'); }
     else if (cd.type === 'role') { this.deleteRole(cd.id); this._showToast('Role deleted'); }
+    else if (cd.type === 'section') { this.deleteSection(cd.id); this._showToast('Section deleted'); }
+    else if (cd.type === 'bank') {
+      const banks = this.state.questionBanks || [];
+      const idx = banks.findIndex(x => x.id === cd.id);
+      const b = idx >= 0 ? JSON.parse(JSON.stringify(banks[idx])) : null;
+      this.deleteQuestionBank(cd.id);
+      this._showToast('Question bank deleted', b ? (() => this._restoreQuestionBank(b, idx)) : null);
+    }
     else if (cd.type === 'media') {
       const a = (this.state.globalMedia || []).find(x => x.id === cd.id);
       this.removeGlobalMedia(cd.id);
@@ -6302,7 +6340,7 @@ class Component extends DCLogic {
                   name: b.name || 'Untitled', count: (b.questions || []).length,
                   author: b.author || '—', dateStr: fmtDate(b.createdAt),
                   langBadge: langB, hasLang: !!langB, storeBadge: storeB, hasStore: !!storeB, roleBadge: roleB, hasRole: !!roleB,
-                  onEdit: () => this.editBankFromDash(b.id), onDelete: () => this.deleteQuestionBank(b.id),
+                  onEdit: () => this.editBankFromDash(b.id), onDelete: () => this.askDeleteBank(b.id),
                 };
               }),
               templateCountLabel: tplsShown.length + (tplsShown.length === 1 ? ' template' : ' templates'),
@@ -7258,7 +7296,7 @@ class Component extends DCLogic {
           onQbankBankSelect: e => this.selectQuestionBank(e.target.value),
           onInsertActivePool: () => { if (selIsQbank && active) this.insertBankIntoPool(active.id); },
           onInsertActiveAssess: () => { if (active) this.insertBankIntoAssess(active.id); },
-          onDeleteActiveBank: () => { if (active) this.deleteQuestionBank(active.id); },
+          onDeleteActiveBank: () => { if (active) this.askDeleteBank(active.id); },
           qbankActivePoolBorder: selIsQbank ? 'rgba(81,46,145,.3)' : 'rgba(94,42,43,.12)',
           qbankActivePoolBg: selIsQbank ? 'rgba(81,46,145,.06)' : 'rgba(94,42,43,.04)',
           qbankActivePoolColor: selIsQbank ? '#512E91' : 'rgba(94,42,43,.4)',
@@ -7275,7 +7313,7 @@ class Component extends DCLogic {
             rowBg: b.id === s.qbankActiveId ? '#fff' : 'transparent',
             rowBorder: b.id === s.qbankActiveId ? '#512E91' : 'rgba(94,42,43,.12)',
             onSelect: () => this.selectQuestionBank(b.id),
-            onDelete: () => this.deleteQuestionBank(b.id),
+            onDelete: () => this.askDeleteBank(b.id),
             poolBtnBorder: selIsQbank ? 'rgba(81,46,145,.3)' : 'rgba(94,42,43,.12)',
             poolBtnBg: selIsQbank ? 'rgba(81,46,145,.06)' : 'rgba(94,42,43,.04)',
             poolBtnColor: selIsQbank ? '#512E91' : 'rgba(94,42,43,.4)',
