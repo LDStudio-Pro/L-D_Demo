@@ -252,6 +252,14 @@
         </div>
       </div>
       <div style="flex:1;overflow-y:auto;padding:18px 32px 40px">
+        <sc-if value="{{ mediaHasTags }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+            <span style="font-size:12px;font-weight:800;color:rgba(94,42,43,.5);text-transform:uppercase;letter-spacing:.5px;margin-right:2px">🏷 Tags</span>
+            <sc-for list="{{ mediaAllTags }}" as="mt" hint-placeholder-count="3">
+              <button onClick="{{ mt.onClick }}" style="padding:5px 12px;border-radius:50px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ mt.chipBg }};color:{{ mt.chipColor }}">{{ mt.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
         <sc-if value="{{ mediaTrulyEmpty }}" hint-placeholder-val="{{ true }}">
           <div style="padding:48px 24px;text-align:center;border-radius:18px;border:2px dashed rgba(94,42,43,.18);background:#fff;max-width:520px;margin:8px auto">
             <div style="font-size:40px;margin-bottom:10px">📁</div>
@@ -281,6 +289,12 @@
                 </div>
                 <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(94,42,43,.12);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00">
                 <div style="font-size:10px;color:rgba(94,42,43,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ ga.author }}<sc-if value="{{ ga.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ ga.dateStr }}</sc-if></div>
+                <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                  <sc-for list="{{ ga.tags }}" as="tg" hint-placeholder-count="2">
+                    <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#5E2A2B;background:rgba(94,42,43,.08);border-radius:50px;padding:2px 4px 2px 8px">{{ tg.label }}<button onClick="{{ tg.onRemove }}" style="border:none;background:none;cursor:pointer;color:rgba(94,42,43,.5);font-size:12px;line-height:1;padding:0 2px" title="Remove tag" aria-label="Remove tag">×</button></span>
+                  </sc-for>
+                  <input type="text" onChange="{{ ga.onAddTag }}" onKeyDown="{{ ga.onAddTagKey }}" placeholder="+ tag" style="width:54px;flex:1;min-width:48px;padding:3px 6px;border-radius:50px;border:1.5px dashed rgba(94,42,43,.2);background:transparent;font-family:'Exo',sans-serif;font-size:11px;color:#3d1a1b;outline:none" style-focus="border-color:#FF4D00" title="Type a tag and press Enter">
+                </div>
                 <button onClick="{{ ga.onRemove }}" style="padding:6px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:13px;cursor:pointer">🗑 Remove</button>
               </div>
             </div>
@@ -3190,6 +3204,7 @@ class Component extends DCLogic {
     globalMedia: [],
     mediaSearch: '',
     mediaSort: 'new',
+    mediaTagFilter: '',
     mediaLightbox: null,
     aiProvider: 'anthropic',
     aiKey: '',
@@ -4100,6 +4115,23 @@ class Component extends DCLogic {
     e.target.value = '';
   }
   removeGlobalMedia(id) { const list = this.state.globalMedia.filter(a => a.id !== id); this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
+  // ── Media tags (global library only): flat, free-text labels for filtering ──
+  _normTag(t) { return (t || '').trim().toLowerCase().replace(/\s+/g, '-').slice(0, 24); }
+  addMediaTag(id, raw) {
+    const tag = this._normTag(raw); if (!tag) return;
+    const list = this.state.globalMedia.map(a => {
+      if (a.id !== id) return a;
+      const tags = Array.isArray(a.tags) ? a.tags : [];
+      return tags.includes(tag) ? a : { ...a, tags: [...tags, tag] };
+    });
+    this.persistGlobalMedia(list); this.setState({ globalMedia: list });
+  }
+  removeMediaTag(id, tag) {
+    const list = this.state.globalMedia.map(a => a.id === id ? { ...a, tags: (a.tags || []).filter(t => t !== tag) } : a);
+    this.persistGlobalMedia(list); this.setState({ globalMedia: list });
+  }
+  // Toggle the active tag filter ('' = show all).
+  setMediaTagFilter(tag) { this.setState({ mediaTagFilter: this.state.mediaTagFilter === tag ? '' : tag }); }
   _restoreGlobalMedia(a) { if (!a || this.state.globalMedia.some(x => x.id === a.id)) return; const list = [...this.state.globalMedia, a]; this.persistGlobalMedia(list); this.setState({ globalMedia: list }); }
   // How many blocks (across the open course + all saved courses) reference this asset's url.
   // Assets are copied by url into block content, so this is a "won't break copies but you lose the
@@ -6361,8 +6393,10 @@ class Component extends DCLogic {
             const fmtSize = n => { if (!n) return ''; if (n < 1024) return n + ' B'; if (n < 1048576) return Math.round(n/1024) + ' KB'; return (n/1048576).toFixed(1) + ' MB'; };
             const mq = (s.mediaSearch || '').trim().toLowerCase();
             const msort = s.mediaSort || 'new';
+            const mtf = s.mediaTagFilter || '';
             const gmSorted = gm.filter(mineF)
               .filter(a => !mq || (a.name || '').toLowerCase().indexOf(mq) >= 0 || (a.kind || '').toLowerCase().indexOf(mq) >= 0)
+              .filter(a => !mtf || (Array.isArray(a.tags) && a.tags.indexOf(mtf) >= 0))
               .slice().sort((a,b) => {
                 if (msort === 'name') return (a.name || '').localeCompare(b.name || '');
                 if (msort === 'type') return (a.kind || '').localeCompare(b.kind || '');
@@ -6386,12 +6420,19 @@ class Component extends DCLogic {
               mediaSort: msort,
               onMediaSort: e => this.setState({ mediaSort: e.target.value }),
               mediaSortOpts: [{v:'new',l:'Newest first'},{v:'old',l:'Oldest first'},{v:'name',l:'Name (A–Z)'},{v:'type',l:'Type'}].map(o => ({ ...o, selected: o.v === msort })),
+              mediaTagFilter: mtf,
+              mediaHasTags: (() => { const set = new Set(); gm.filter(mineF).forEach(a => (a.tags || []).forEach(t => set.add(t))); return set.size > 0; })(),
+              mediaAllTags: (() => {
+                const set = new Set(); gm.filter(mineF).forEach(a => (a.tags || []).forEach(t => set.add(t)));
+                return [...set].sort().map(t => ({ label: t, active: t === mtf, chipBg: t === mtf ? '#FF4D00' : 'rgba(94,42,43,.07)', chipColor: t === mtf ? '#fff' : 'rgba(94,42,43,.74)', onClick: () => this.setMediaTagFilter(t) }));
+              })(),
+              clearMediaTagFilter: () => this.setMediaTagFilter(mtf),
               onGlobalMediaFile: e => this.onGlobalMediaFile(e),
               mediaLightboxOpen: !!s.mediaLightbox,
               mediaLightboxUrl: s.mediaLightbox ? s.mediaLightbox.url : '',
               mediaLightboxName: s.mediaLightbox ? s.mediaLightbox.name : '',
               closeMediaLightbox: () => this.closeMediaLightbox(),
-              globalMediaCards: gmShown.map(a => ({ id: a.id, name: a.name || a.kind, url: a.url, isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(), sizeStr: fmtSize(dataUrlBytes(a.url)), author: a.author || '—', dateStr: fmtDate(a.createdAt), previewCursor: a.kind === 'image' ? 'zoom-in' : 'default', onRename: e => this.renameGlobalMedia(a.id, e.target.value), onPreview: a.kind === 'image' ? (() => this.openMediaLightbox(a.url, a.name || a.kind)) : null, onRemove: () => this.askDeleteGlobalMedia(a.id) })),
+              globalMediaCards: gmShown.map(a => ({ id: a.id, name: a.name || a.kind, url: a.url, isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(), sizeStr: fmtSize(dataUrlBytes(a.url)), author: a.author || '—', dateStr: fmtDate(a.createdAt), previewCursor: a.kind === 'image' ? 'zoom-in' : 'default', tags: (a.tags || []).map(t => ({ label: t, onRemove: () => this.removeMediaTag(a.id, t) })), onAddTag: e => { if (e && e.target) { this.addMediaTag(a.id, e.target.value); e.target.value = ''; } }, onAddTagKey: e => { if (e.key === 'Enter') { if (e.preventDefault) e.preventDefault(); this.addMediaTag(a.id, e.target.value); e.target.value = ''; } }, onRename: e => this.renameGlobalMedia(a.id, e.target.value), onPreview: a.kind === 'image' ? (() => this.openMediaLightbox(a.url, a.name || a.kind)) : null, onRemove: () => this.askDeleteGlobalMedia(a.id) })),
               bankCountLabel: banksShown.length + (banksShown.length === 1 ? ' bank' : ' banks'),
               dashBankCards: banksShown.map(b => {
                 const t = b.tags || {};
