@@ -147,12 +147,12 @@
                   <span style="font-size:12px;font-weight:700;color:{{ cc.authorColor }};background:{{ cc.authorBg }};border-radius:50px;padding:2px 8px">👤 {{ cc.author }}</span>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
-                  <span style="font-size:12px;font-weight:700;color:#512E91;background:rgba(81,46,145,.1);border-radius:50px;padding:2px 7px">🌐 {{ cc.langBadge }}</span>
+                  <span style="font-size:12px;font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.1);border-radius:50px;padding:2px 7px">🌐 {{ cc.langBadge }}</span>
                   <sc-if value="{{ cc.hasStore }}" hint-placeholder-val="{{ false }}">
-                    <span style="font-size:12px;font-weight:700;color:#c85f00;background:rgba(255,131,0,.12);border-radius:50px;padding:2px 7px">🏢 {{ cc.storeBadge }}</span>
+                    <span style="font-size:12px;font-weight:700;color:var(--bx-orange2);background:rgba(255,131,0,.12);border-radius:50px;padding:2px 7px">🏢 {{ cc.storeBadge }}</span>
                   </sc-if>
                   <sc-if value="{{ cc.hasRoles }}" hint-placeholder-val="{{ false }}">
-                    <span style="font-size:12px;font-weight:700;color:#7d8500;background:rgba(180,189,0,.16);border-radius:50px;padding:2px 7px">👥 {{ cc.rolesLabel }}</span>
+                    <span style="font-size:12px;font-weight:700;color:var(--bx-olive);background:rgba(180,189,0,.16);border-radius:50px;padding:2px 7px">👥 {{ cc.rolesLabel }}</span>
                   </sc-if>
                 </div>
                 <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74);margin-top:5px">{{ cc.meta }}</div>
@@ -209,16 +209,16 @@
               <div style="display:flex;align-items:center;gap:9px">
                 <div style="width:40px;height:40px;border-radius:11px;background:rgba(81,46,145,.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🎲</div>
                 <div style="flex:1;min-width:0">
-                  <div style="font-size:15px;font-weight:800;color:#512E91;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ qb.name }}</div>
+                  <div style="font-size:15px;font-weight:800;color:var(--bx-purple);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ qb.name }}</div>
                   <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.7)">{{ qb.count }} questions</div>
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;color:rgba(var(--bx-line-rgb),.6)">
-                <span style="font-weight:700;color:#512E91;background:rgba(81,46,145,.08);border-radius:50px;padding:2px 8px">👤 {{ qb.author }}</span>
+                <span style="font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.08);border-radius:50px;padding:2px 8px">👤 {{ qb.author }}</span>
                 <sc-if value="{{ qb.dateStr }}" hint-placeholder-val="{{ true }}"><span>· {{ qb.dateStr }}</span></sc-if>
-                <sc-if value="{{ qb.hasLang }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#512E91;background:rgba(81,46,145,.1);border-radius:50px;padding:2px 7px">🌐 {{ qb.langBadge }}</span></sc-if>
-                <sc-if value="{{ qb.hasStore }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#c85f00;background:rgba(255,131,0,.12);border-radius:50px;padding:2px 7px">🏢 {{ qb.storeBadge }}</span></sc-if>
-                <sc-if value="{{ qb.hasRole }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#7d8500;background:rgba(180,189,0,.16);border-radius:50px;padding:2px 7px">👥 {{ qb.roleBadge }}</span></sc-if>
+                <sc-if value="{{ qb.hasLang }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.1);border-radius:50px;padding:2px 7px">🌐 {{ qb.langBadge }}</span></sc-if>
+                <sc-if value="{{ qb.hasStore }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:var(--bx-orange2);background:rgba(255,131,0,.12);border-radius:50px;padding:2px 7px">🏢 {{ qb.storeBadge }}</span></sc-if>
+                <sc-if value="{{ qb.hasRole }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:var(--bx-olive);background:rgba(180,189,0,.16);border-radius:50px;padding:2px 7px">👥 {{ qb.roleBadge }}</span></sc-if>
               </div>
               <div style="display:flex;gap:6px;margin-top:4px">
                 <button onClick="{{ qb.onEdit }}" style="flex:1;padding:7px;border-radius:8px;border:none;background:#512E91;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Edit</button>
@@ -405,7 +405,7 @@
           <sc-for list="{{ moduleGroups }}" as="g" hint-placeholder-count="2">
             <sc-if value="{{ g.isRealSection }}" hint-placeholder-val="{{ false }}">
               <div class="sec-row" data-secid="{{ g.sectionId }}" style="display:flex;align-items:center;gap:4px;padding:9px 4px 4px;margin-top:4px;border-top:1.5px solid rgba(var(--bx-line-rgb),.08)">
-                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.45);letter-spacing:1px;flex-shrink:0">§{{ g.secNum }}</span>
+                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.6);letter-spacing:1px;flex-shrink:0">§{{ g.secNum }}</span>
                 <input type="text" value="{{ g.title }}" onChange="{{ g.onRename }}" style="flex:1;min-width:0;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-heading);text-transform:uppercase;letter-spacing:.5px;border:1.5px solid transparent;background:transparent;border-radius:5px;padding:2px 5px;outline:none" style-focus="border-color:rgba(var(--bx-line-rgb),.2);background:var(--bx-card)">
                 <div class="sec-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;flex-shrink:0">
                   <button onClick="{{ g.onAddLesson }}" style="width:20px;height:20px;border-radius:5px;border:none;background:rgba(255,77,0,.12);color:#FF4D00;cursor:pointer;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1" title="Add lesson to this section">+</button>
@@ -417,7 +417,7 @@
             </sc-if>
             <sc-if value="{{ g.isUngrouped }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:6px;padding:9px 6px 4px;margin-top:4px;border-top:1.5px solid rgba(var(--bx-line-rgb),.08)">
-                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.4);text-transform:uppercase;letter-spacing:.5px">Ungrouped</span>
+                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Ungrouped</span>
               </div>
             </sc-if>
             <sc-for list="{{ g.modules }}" as="m" hint-placeholder-count="3">
@@ -457,7 +457,7 @@
             <div style="width:4px;height:36px;border-radius:2px;background:#512E91;flex-shrink:0"></div>
             <div style="width:28px;height:28px;border-radius:8px;background:rgba(81,46,145,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">📋</div>
             <div style="flex:1">
-              <div style="font-size:12px;font-weight:700;color:#7B52C9;margin-bottom:1px">FINAL ASSESSMENT</div>
+              <div style="font-size:12px;font-weight:700;color:{{ assessKickerColor }};margin-bottom:1px">FINAL ASSESSMENT</div>
               <div style="font-size:14px;font-weight:700;color:var(--bx-text)">{{ assessLabel }}</div>
             </div>
             <div style="width:10px;height:10px;border-radius:50%;background:{{ assessDot }}"></div>
@@ -1148,7 +1148,7 @@
 
         <!-- Close bar -->
         <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px 8px 14px;border-bottom:1.5px solid rgba(var(--bx-line-rgb),.08);background:var(--bx-card);position:sticky;top:0;z-index:2">
-          <span style="font-size:11px;font-weight:800;color:rgba(var(--bx-line-rgb),.55);text-transform:uppercase;letter-spacing:1.5px">Block Editor</span>
+          <span style="font-size:11px;font-weight:800;color:rgba(var(--bx-line-rgb),.66);text-transform:uppercase;letter-spacing:1.5px">Block Editor</span>
           <button onClick="{{ closeRightPanel }}" title="Close editor" aria-label="Close editor" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-size:14px;color:var(--bx-heading);display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
         </div>
 
@@ -1175,7 +1175,7 @@
                 <!-- Rich-text formatting hint -->
                 <sc-if value="{{ selBlockRichText }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;padding:8px 10px;border-radius:8px;background:rgba(81,46,145,.05);border:1px solid rgba(81,46,145,.15);font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.5">
-                    ✍️ <b style="color:#512E91">Formatting:</b> select text on the canvas to <b>bold</b>, <i>italicize</i>, link, or list it · type <b style="color:#FF4D00">[name]</b> to insert the learner's name
+                    ✍️ <b style="color:var(--bx-purple)">Formatting:</b> select text on the canvas to <b>bold</b>, <i>italicize</i>, link, or list it · type <b style="color:#FF4D00">[name]</b> to insert the learner's name
                   </div>
                 </sc-if>
                 <!-- Media Library access (media blocks) — relocated here from the top bar -->
@@ -1216,8 +1216,8 @@
                         </div>
                       </sc-if>
                       <div style="display:flex;gap:5px;align-items:center">
-                        <label style="display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:7px;border:1.5px dashed #512E91;background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#512E91;white-space:nowrap">📎 Upload<input type="file" accept="image/*,video/*" onChange="{{ onQuizMediaFilePick }}" style="display:none"></label>
-                        <input type="text" value="{{ quizMediaUrl }}" onChange="{{ onQuizMediaUrlChange }}" placeholder="…or paste image / video URL" style="flex:1;min-width:0;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                        <label style="display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:7px;border:1.5px dashed #512E91;background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-purple);white-space:nowrap">📎 Upload<input type="file" accept="image/*,video/*" onChange="{{ onQuizMediaFilePick }}" style="display:none"></label>
+                        <input type="text" value="{{ quizMediaUrl }}" onChange="{{ onQuizMediaUrlChange }}" placeholder="…or paste image / video URL" style="flex:1;min-width:0;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                       </div>
                     </div>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:6px">Question type</div>
@@ -1272,7 +1272,7 @@
                     <!-- Fill in the blank -->
                     <sc-if value="{{ quizIsFill }}" hint-placeholder-val="{{ false }}">
                       <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Accepted answers (comma-separated)</div>
-                      <input type="text" value="{{ blockAnswers }}" onChange="{{ onBlockAnswers }}" placeholder="20, twenty, 20 seconds" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                      <input type="text" value="{{ blockAnswers }}" onChange="{{ onBlockAnswers }}" placeholder="20, twenty, 20 seconds" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                       <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">The learner types an answer; any listed match (case-insensitive) is graded correct.</div>
                     </sc-if>
 
@@ -1281,13 +1281,13 @@
                       <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Pairs — left item ↔ its correct match</div>
                       <sc-for list="{{ quizMatchPairs }}" as="mp" hint-placeholder-count="3">
                         <div style="display:flex;align-items:center;gap:4px">
-                          <input type="text" value="{{ mp.l }}" onChange="{{ mp.onL }}" placeholder="Term…" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                          <input type="text" value="{{ mp.l }}" onChange="{{ mp.onL }}" placeholder="Term…" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                           <span style="font-size:13px;color:rgba(var(--bx-line-rgb),.74);flex-shrink:0">↔</span>
-                          <input type="text" value="{{ mp.r }}" onChange="{{ mp.onR }}" placeholder="Match…" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                          <input type="text" value="{{ mp.r }}" onChange="{{ mp.onR }}" placeholder="Match…" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                           <button onClick="{{ mp.onRemove }}" style="width:22px;height:22px;border-radius:5px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
                       </sc-for>
-                      <button onClick="{{ onAddPair }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Pair</button>
+                      <button onClick="{{ onAddPair }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Pair</button>
                     </sc-if>
 
                     <!-- Ordering / sorting -->
@@ -1295,12 +1295,12 @@
                       <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Items — list in the CORRECT order (learners see them shuffled)</div>
                       <sc-for list="{{ quizSortItems }}" as="si" hint-placeholder-count="3">
                         <div style="display:flex;align-items:center;gap:5px">
-                          <div style="width:18px;height:18px;border-radius:50%;background:rgba(81,46,145,.1);color:#512E91;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">{{ si.num }}</div>
-                          <input type="text" value="{{ si.value }}" onChange="{{ si.onText }}" placeholder="{{ si.placeholder }}" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                          <div style="width:18px;height:18px;border-radius:50%;background:rgba(81,46,145,.1);color:var(--bx-purple);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">{{ si.num }}</div>
+                          <input type="text" value="{{ si.value }}" onChange="{{ si.onText }}" placeholder="{{ si.placeholder }}" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                           <button onClick="{{ si.onRemove }}" style="width:22px;height:22px;border-radius:5px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
                       </sc-for>
-                      <button onClick="{{ onAddSortItem }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Item</button>
+                      <button onClick="{{ onAddSortItem }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Item</button>
                     </sc-if>
 
                     <!-- Learner feedback (correct / incorrect) -->
@@ -1321,25 +1321,25 @@
                 <sc-if value="{{ selBlockIsQbank }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;background:rgba(81,46,145,.06);border:1.5px solid rgba(81,46,145,.18)">
-                      <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Draw</span>
-                      <input type="number" value="{{ qbankDrawN }}" onChange="{{ onQbankDrawN }}" min="1" max="20" style="width:48px;padding:5px;border-radius:7px;border:1.5px solid rgba(81,46,145,.25);font-family:'Exo',sans-serif;font-size:14px;font-weight:900;color:#512E91;text-align:center;outline:none">
+                      <span style="font-size:12px;font-weight:700;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">Draw</span>
+                      <input type="number" value="{{ qbankDrawN }}" onChange="{{ onQbankDrawN }}" min="1" max="20" style="width:48px;padding:5px;border-radius:7px;border:1.5px solid rgba(81,46,145,.25);font-family:'Exo',sans-serif;font-size:14px;font-weight:900;color:var(--bx-purple);text-align:center;outline:none">
                       <span style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.3">{{ qbankDrawLabel }}</span>
                     </div>
                     <div style="display:flex;gap:6px">
-                      <button onClick="{{ openQbankModal }}" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700" title="Open the global question banks (reusable across all courses)">🎲 Insert from a bank</button>
+                      <button onClick="{{ openQbankModal }}" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:var(--bx-purple);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700" title="Open the global question banks (reusable across all courses)">🎲 Insert from a bank</button>
                       <button onClick="{{ savePoolAsBank }}" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-bg2);color:rgba(var(--bx-line-rgb),.74);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700" title="Save this pool as a reusable global bank">💾 Save pool to a bank</button>
                     </div>
                     <sc-for list="{{ qbankPool }}" as="pq" hint-placeholder-count="3">
                       <div style="border:1.5px solid rgba(81,46,145,.18);border-radius:10px;padding:9px;background:var(--bx-bg2);display:flex;flex-direction:column;gap:6px">
                         <div style="display:flex;align-items:center;justify-content:space-between">
-                          <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Question {{ pq.num }}</span>
+                          <span style="font-size:12px;font-weight:700;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">Question {{ pq.num }}</span>
                           <div style="display:flex;align-items:center;gap:4px">
-                            <button onClick="{{ pq.onUp }}" style="width:18px;height:18px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:#512E91;font-size:10px;cursor:pointer;opacity:{{ pq.upDim }}" title="Move up">▲</button>
-                            <button onClick="{{ pq.onDown }}" style="width:18px;height:18px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:#512E91;font-size:10px;cursor:pointer;opacity:{{ pq.downDim }}" title="Move down">▼</button>
+                            <button onClick="{{ pq.onUp }}" style="width:18px;height:18px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:var(--bx-purple);font-size:10px;cursor:pointer;opacity:{{ pq.upDim }}" title="Move up">▲</button>
+                            <button onClick="{{ pq.onDown }}" style="width:18px;height:18px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:var(--bx-purple);font-size:10px;cursor:pointer;opacity:{{ pq.downDim }}" title="Move down">▼</button>
                             <button onClick="{{ pq.onRemove }}" style="width:18px;height:18px;border-radius:5px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Remove">✕</button>
                           </div>
                         </div>
-                        <textarea value="{{ pq.question }}" onChange="{{ pq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:#512E91"></textarea>
+                        <textarea value="{{ pq.question }}" onChange="{{ pq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:var(--bx-purple)"></textarea>
                         <div style="display:flex;gap:4px;flex-wrap:wrap">
                           <button onClick="{{ pq.setMc }}" style="padding:4px 8px;border-radius:6px;border:1.5px solid {{ pq.mcBorder }};background:{{ pq.mcBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.mcColor }};cursor:pointer">Multiple Choice</button>
                           <button onClick="{{ pq.setTf }}" style="padding:4px 8px;border-radius:6px;border:1.5px solid {{ pq.tfBorder }};background:{{ pq.tfBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.tfColor }};cursor:pointer">True / False</button>
@@ -1365,20 +1365,20 @@
                           <button onClick="{{ pq.setTfFalse }}" style="display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:8px;border:1.5px solid {{ pq.tfFalseBorder }};background:{{ pq.tfFalseBg }};cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.tfFalseColor }}"><span>{{ pq.tfFalseMark }}</span> False</button>
                         </sc-if>
                         <sc-if value="{{ pq.qIsFill }}" hint-placeholder-val="{{ false }}">
-                          <input type="text" value="{{ pq.answers }}" onChange="{{ pq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                          <input type="text" value="{{ pq.answers }}" onChange="{{ pq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                         </sc-if>
                         <div style="display:flex;gap:5px">
                           <input type="text" value="{{ pq.fbG }}" onChange="{{ pq.onFbG }}" placeholder="✅ Correct feedback" title="Shown when correct" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(180,189,0,.3);background:rgba(180,189,0,.05);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none">
                           <input type="text" value="{{ pq.fbB }}" onChange="{{ pq.onFbB }}" placeholder="⚠️ Incorrect feedback" title="Shown when incorrect" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(255,131,0,.3);background:rgba(255,131,0,.05);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none">
                         </div>
                         <div style="display:flex;gap:5px;align-items:center">
-                          <label style="display:flex;align-items:center;gap:4px;padding:5px 8px;border-radius:7px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#512E91;white-space:nowrap">📎<input type="file" accept="image/*,video/*" onChange="{{ pq.onMediaFile }}" style="display:none"></label>
+                          <label style="display:flex;align-items:center;gap:4px;padding:5px 8px;border-radius:7px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-purple);white-space:nowrap">📎<input type="file" accept="image/*,video/*" onChange="{{ pq.onMediaFile }}" style="display:none"></label>
                           <input type="text" value="{{ pq.mediaUrl }}" onChange="{{ pq.onMediaUrl }}" placeholder="🖼️ media URL (optional)" style="flex:1;min-width:0;padding:5px 8px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none">
                           <sc-if value="{{ pq.hasMedia }}" hint-placeholder-val="{{ false }}"><button onClick="{{ pq.onMediaClear }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0" title="Remove media">✕</button></sc-if>
                         </div>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddPoolQ }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Question</button>
+                    <button onClick="{{ onAddPoolQ }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Question</button>
                   </div>
                 </sc-if>
                 <!-- List block editor (accordion / tabs / flashcards / process) -->
@@ -1403,20 +1403,20 @@
                 <sc-if value="{{ selBlockIsHotspot }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Background image URL</div>
-                    <input type="text" value="{{ hotspotImageUrl }}" onChange="{{ onHotspotImageUrl }}" placeholder="https://cdn.example.com/diagram.jpg" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                    <input type="text" value="{{ hotspotImageUrl }}" onChange="{{ onHotspotImageUrl }}" placeholder="https://cdn.example.com/diagram.jpg" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">Pins (X / Y are % of image)</div>
                     <sc-for list="{{ hotspotPinList }}" as="pin" hint-placeholder-count="2">
                       <div style="border:1.5px solid rgba(var(--bx-line-rgb),.12);border-radius:10px;padding:9px;background:var(--bx-bg2);display:flex;flex-direction:column;gap:6px">
                         <div style="display:flex;align-items:center;gap:6px">
-                          <input type="text" value="{{ pin.label }}" onChange="{{ pin.onLabel }}" placeholder="#" style="width:34px;padding:6px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91;text-align:center;outline:none">
+                          <input type="text" value="{{ pin.label }}" onChange="{{ pin.onLabel }}" placeholder="#" style="width:34px;padding:6px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple);text-align:center;outline:none">
                           <input type="number" value="{{ pin.x }}" onChange="{{ pin.onX }}" placeholder="X" min="0" max="100" style="flex:1;padding:6px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none">
                           <input type="number" value="{{ pin.y }}" onChange="{{ pin.onY }}" placeholder="Y" min="0" max="100" style="flex:1;padding:6px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none">
                           <button onClick="{{ pin.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
-                        <textarea value="{{ pin.detail }}" onChange="{{ pin.onDetail }}" rows="2" placeholder="What this pin reveals…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:#512E91"></textarea>
+                        <textarea value="{{ pin.detail }}" onChange="{{ pin.onDetail }}" rows="2" placeholder="What this pin reveals…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:var(--bx-purple)"></textarea>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddPin }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Pin</button>
+                    <button onClick="{{ onAddPin }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Pin</button>
                   </div>
                 </sc-if>
 
@@ -1457,10 +1457,10 @@
                           <input type="text" value="{{ ch.text }}" onChange="{{ ch.onText }}" placeholder="Choice the learner can pick…" style="flex:1;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-text);outline:none">
                           <button onClick="{{ ch.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
-                        <textarea value="{{ ch.feedback }}" onChange="{{ ch.onFeedback }}" rows="2" placeholder="What happens if they pick this…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:#512E91"></textarea>
+                        <textarea value="{{ ch.feedback }}" onChange="{{ ch.onFeedback }}" rows="2" placeholder="What happens if they pick this…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:var(--bx-purple)"></textarea>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddChoice }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Choice</button>
+                    <button onClick="{{ onAddChoice }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Choice</button>
                   </div>
                 </sc-if>
 
@@ -1473,13 +1473,13 @@
                       <div style="display:flex;align-items:center;gap:5px">
                         <span style="font-size:13px;flex-shrink:0;width:18px;text-align:center" title="Speaker">{{ cm.sideIcon }}</span>
                         <div style="flex:1;min-width:0;font-size:12px;color:var(--bx-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:5px 8px;border-radius:7px;background:var(--bx-bg2);border:1.5px solid rgba(var(--bx-line-rgb),.1)">{{ cm.preview }}</div>
-                        <button onClick="{{ cm.onToggleSide }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.1);color:#512E91;font-size:12px;cursor:pointer;flex-shrink:0" title="Switch speaker (Them / You)">⇄</button>
+                        <button onClick="{{ cm.onToggleSide }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.1);color:var(--bx-purple);font-size:12px;cursor:pointer;flex-shrink:0" title="Switch speaker (Them / You)">⇄</button>
                         <button onClick="{{ cm.onUp }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);color:var(--bx-heading);font-size:11px;cursor:pointer;flex-shrink:0" title="Move up">↑</button>
                         <button onClick="{{ cm.onDown }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);color:var(--bx-heading);font-size:11px;cursor:pointer;flex-shrink:0" title="Move down">↓</button>
                         <button onClick="{{ cm.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0" title="Remove">✕</button>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddChatMessage }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Message</button>
+                    <button onClick="{{ onAddChatMessage }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Message</button>
                   </div>
                 </sc-if>
 
@@ -1496,7 +1496,7 @@
                         <button onClick="{{ te.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0" title="Remove">✕</button>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddTimelineEvent }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#c85f00">+ Add Event</button>
+                    <button onClick="{{ onAddTimelineEvent }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-orange2)">+ Add Event</button>
                   </div>
                 </sc-if>
 
@@ -1519,7 +1519,7 @@
                       <label style="padding:5px 10px;border-radius:6px;border:1.5px dashed #FF4D00;background:rgba(255,77,0,.06);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#FF4D00;cursor:pointer" style-hover="background:rgba(255,77,0,.14)">📁 Upload MP4<input type="file" accept="video/*" onChange="{{ onVideoFile }}" style="display:none"></label>
                       <span style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74)">or paste a URL / embed link ↓</span>
                     </div>
-                    <sc-if value="{{ blockVideoIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#c85f00;font-weight:700">⚠️ Embedded video — increases package size; a hosted URL is recommended for large files</div></sc-if>
+                    <sc-if value="{{ blockVideoIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--bx-orange2);font-weight:700">⚠️ Embedded video — increases package size; a hosted URL is recommended for large files</div></sc-if>
                     <input type="text" value="{{ blockVideoUrl }}" onChange="{{ onBlockVideoUrl }}" placeholder="https://youtube.com/embed/… or https://cdn.example.com/video.mp4" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
                     <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">💡 <b>Synthesia / Vyond:</b> publish or host the video (YouTube, Vimeo, CDN) and paste the link here — keeps the course small. Avoid uploading large MP4s.</div>
                   </div>
@@ -1529,15 +1529,15 @@
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:6px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Audio narration</div>
                     <input type="text" value="{{ blockAudioTitle }}" onChange="{{ onBlockAudioTitle }}" placeholder="Track title (e.g. Module Intro)..." style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-text);outline:none" style-focus="border-color:#FF8300">
-                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #FF8300;background:rgba(255,131,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#c85f00" style-hover="background:rgba(255,131,0,.12)">📁 Upload audio<input type="file" accept="audio/*" onChange="{{ onAudioFile }}" style="display:none"></label>
-                    <sc-if value="{{ blockAudioIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#c85f00;font-weight:700">✓ Embedded — packaged with the course</div></sc-if>
+                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #FF8300;background:rgba(255,131,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-orange2)" style-hover="background:rgba(255,131,0,.12)">📁 Upload audio<input type="file" accept="audio/*" onChange="{{ onAudioFile }}" style="display:none"></label>
+                    <sc-if value="{{ blockAudioIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--bx-orange2);font-weight:700">✓ Embedded — packaged with the course</div></sc-if>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">…or paste a URL (MP3, M4A, WAV, OGG)</div>
                     <input type="text" value="{{ blockVideoUrl }}" onChange="{{ onBlockVideoUrl }}" placeholder="https://cdn.example.com/narration.mp3" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF8300">
                     <!-- ElevenLabs author-time voiceover generation -->
                     <div style="margin-top:8px;padding:10px;border-radius:10px;border:1.5px solid rgba(81,46,145,.2);background:rgba(81,46,145,.04);display:flex;flex-direction:column;gap:6px">
-                      <div style="font-size:12px;font-weight:800;color:#512E91;text-transform:uppercase;letter-spacing:1px">🎙️ Generate voiceover · ElevenLabs</div>
+                      <div style="font-size:12px;font-weight:800;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">🎙️ Generate voiceover · ElevenLabs</div>
                       <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">Type a script and generate studio-quality narration (EN or ES — the multilingual voice auto-detects). Baked into the course; plays offline.</div>
-                      <textarea value="{{ blockAudioScript }}" onChange="{{ onBlockAudioScript }}" rows="3" placeholder="Narration script…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#512E91"></textarea>
+                      <textarea value="{{ blockAudioScript }}" onChange="{{ onBlockAudioScript }}" rows="3" placeholder="Narration script…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:var(--bx-purple)"></textarea>
                       <button onClick="{{ onGenerateVO }}" style="width:100%;padding:8px;border-radius:8px;border:none;background:#512E91;cursor:{{ voGenCursor }};font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#fff;opacity:{{ voGenOpacity }}">{{ voGenBtnLabel }}</button>
                       <sc-if value="{{ voGenHasStatus }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:700;color:{{ voGenStatusColor }};line-height:1.4">{{ voGenStatus }}</div></sc-if>
                       <sc-if value="{{ voGenNoKey }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">Add your ElevenLabs API key in <b>Settings</b> to enable this.</div></sc-if>
@@ -1548,8 +1548,8 @@
                 <sc-if value="{{ selBlockIsImage }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:6px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Image</div>
-                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#7d8500" style-hover="background:rgba(180,189,0,.12)">📁 Upload image<input type="file" accept="image/*" onChange="{{ onImageFile }}" style="display:none"></label>
-                    <sc-if value="{{ blockImageIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#7d8500;font-weight:700">✓ Embedded — packaged with the course</div></sc-if>
+                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-olive)" style-hover="background:rgba(180,189,0,.12)">📁 Upload image<input type="file" accept="image/*" onChange="{{ onImageFile }}" style="display:none"></label>
+                    <sc-if value="{{ blockImageIsData }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--bx-olive);font-weight:700">✓ Embedded — packaged with the course</div></sc-if>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">…or paste a URL</div>
                     <input type="text" value="{{ blockImageUrl }}" onChange="{{ onBlockImageUrl }}" placeholder="https://cdn.example.com/photo.jpg" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#B4BD00">
                     <input type="text" value="{{ blockImageAlt }}" onChange="{{ onBlockImageAlt }}" placeholder="Caption or alt text..." style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#B4BD00">
@@ -1631,9 +1631,9 @@
                     <sc-for list="{{ galleryEditImages }}" as="gi" hint-placeholder-count="2">
                       <div style="border:1.5px solid rgba(var(--bx-line-rgb),.12);border-radius:9px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--bx-bg2)">
                         <div style="display:flex;align-items:center;gap:6px">
-                          <div style="font-size:12px;font-weight:800;color:#7d8500">Image {{ gi.num }}</div>
+                          <div style="font-size:12px;font-weight:800;color:var(--bx-olive)">Image {{ gi.num }}</div>
                           <div style="flex:1"></div>
-                          <label style="padding:4px 9px;border-radius:6px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.06);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#7d8500;cursor:pointer">📁 Upload<input type="file" accept="image/*" onChange="{{ gi.onFile }}" style="display:none"></label>
+                          <label style="padding:4px 9px;border-radius:6px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.06);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-olive);cursor:pointer">📁 Upload<input type="file" accept="image/*" onChange="{{ gi.onFile }}" style="display:none"></label>
                           <button onClick="{{ gi.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
                         <sc-if value="{{ gi.hasUrl }}" hint-placeholder-val="{{ false }}"><img src="{{ gi.url }}" style="width:100%;max-height:90px;object-fit:cover;border-radius:7px;display:block;background:var(--bx-bg3)"></sc-if>
@@ -1641,14 +1641,14 @@
                         <input type="text" value="{{ gi.caption }}" onChange="{{ gi.onCaption }}" placeholder="Caption (optional)…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#B4BD00">
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddGalleryImage }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#7d8500">+ Add Image</button>
+                    <button onClick="{{ onAddGalleryImage }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-olive)">+ Add Image</button>
                   </div>
                 </sc-if>
                 <!-- EMBED editor -->
                 <sc-if value="{{ selBlockIsEmbed }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:6px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Embed URL</div>
-                    <input type="text" value="{{ blockEmbedUrl }}" onChange="{{ onBlockEmbedUrl }}" placeholder="https://… (YouTube, Google Form, web app)" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                    <input type="text" value="{{ blockEmbedUrl }}" onChange="{{ onBlockEmbedUrl }}" placeholder="https://… (YouTube, Google Form, web app)" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                     <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">Use the site’s share/embed URL. Sandboxed in an iframe — some sites block embedding.</div>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">Height</div>
                     <div style="display:flex;gap:5px">
@@ -1656,7 +1656,7 @@
                       <button onClick="{{ setEmbedMedium }}" style="flex:1;padding:6px;border-radius:7px;border:1.5px solid {{ embMediumBorder }};background:{{ embMediumBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ embMediumColor }};cursor:pointer">Medium</button>
                       <button onClick="{{ setEmbedLarge }}" style="flex:1;padding:6px;border-radius:7px;border:1.5px solid {{ embLargeBorder }};background:{{ embLargeBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ embLargeColor }};cursor:pointer">Large</button>
                     </div>
-                    <input type="text" value="{{ blockEmbedCaption }}" onChange="{{ onBlockEmbedCaption }}" placeholder="Caption (optional)…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;margin-top:2px" style-focus="border-color:#512E91">
+                    <input type="text" value="{{ blockEmbedCaption }}" onChange="{{ onBlockEmbedCaption }}" placeholder="Caption (optional)…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;margin-top:2px" style-focus="border-color:var(--bx-purple)">
                   </div>
                 </sc-if>
                 <!-- STATEMENT editor -->
@@ -1679,15 +1679,15 @@
                     <sc-for list="{{ quotesEditItems }}" as="qi" hint-placeholder-count="2">
                       <div style="border:1.5px solid rgba(var(--bx-line-rgb),.12);border-radius:9px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--bx-bg2)">
                         <div style="display:flex;align-items:center;gap:6px">
-                          <div style="font-size:12px;font-weight:800;color:#512E91">Quote {{ qi.num }}</div>
+                          <div style="font-size:12px;font-weight:800;color:var(--bx-purple)">Quote {{ qi.num }}</div>
                           <div style="flex:1"></div>
                           <button onClick="{{ qi.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                         </div>
-                        <textarea value="{{ qi.text }}" onChange="{{ qi.onText }}" rows="2" placeholder="Quote text…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-style:italic;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#512E91"></textarea>
-                        <input type="text" value="{{ qi.author }}" onChange="{{ qi.onAuthor }}" placeholder="Author (optional)…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                        <textarea value="{{ qi.text }}" onChange="{{ qi.onText }}" rows="2" placeholder="Quote text…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-style:italic;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:var(--bx-purple)"></textarea>
+                        <input type="text" value="{{ qi.author }}" onChange="{{ qi.onAuthor }}" placeholder="Author (optional)…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddQuote }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Quote</button>
+                    <button onClick="{{ onAddQuote }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Quote</button>
                   </div>
                 </sc-if>
                 <!-- RECIPE editor -->
@@ -1730,7 +1730,7 @@
                 <sc-if value="{{ selBlockIsCompare }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Correct image (left)</div>
-                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#7d8500" style-hover="background:rgba(180,189,0,.12)">📁 Upload correct<input type="file" accept="image/*" onChange="{{ onCompareLeftFile }}" style="display:none"></label>
+                    <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #B4BD00;background:rgba(180,189,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-olive)" style-hover="background:rgba(180,189,0,.12)">📁 Upload correct<input type="file" accept="image/*" onChange="{{ onCompareLeftFile }}" style="display:none"></label>
                     <input type="text" value="{{ blockCompareLeft }}" onChange="{{ onBlockCompareLeft }}" placeholder="…or paste correct image URL" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF8300">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">Wrong image (right)</div>
                     <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #FF4D00;background:rgba(255,77,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#FF4D00" style-hover="background:rgba(255,77,0,.12)">📁 Upload wrong<input type="file" accept="image/*" onChange="{{ onCompareRightFile }}" style="display:none"></label>
@@ -1753,17 +1753,17 @@
                 <sc-if value="{{ selBlockIsSignoff }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Skill being verified</div>
-                    <input type="text" value="{{ blockSignoffSkill }}" onChange="{{ onBlockSignoffSkill }}" placeholder="e.g. Fry station to temp…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                    <input type="text" value="{{ blockSignoffSkill }}" onChange="{{ onBlockSignoffSkill }}" placeholder="e.g. Fry station to temp…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">Observation criteria</div>
                     <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">What the manager watches the trainee do on a live line.</div>
                     <sc-for list="{{ signoffCriteriaRows }}" as="sc" hint-placeholder-count="3">
                       <div style="display:flex;align-items:center;gap:6px">
-                        <span style="font-size:14px;color:#512E91;flex-shrink:0">☐</span>
-                        <input type="text" value="{{ sc.text }}" onChange="{{ sc.onText }}" placeholder="Criterion…" style="flex:1;min-width:0;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                        <span style="font-size:14px;color:var(--bx-purple);flex-shrink:0">☐</span>
+                        <input type="text" value="{{ sc.text }}" onChange="{{ sc.onText }}" placeholder="Criterion…" style="flex:1;min-width:0;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                         <button onClick="{{ sc.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddSignoffCriterion }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91">+ Add Criterion</button>
+                    <button onClick="{{ onAddSignoffCriterion }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Criterion</button>
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;padding:8px 10px;border-radius:9px;background:rgba(81,46,145,.05);border:1.5px solid rgba(81,46,145,.15)">
                       <div style="font-size:13px;font-weight:700;color:var(--bx-text)">Require manager name</div>
                       <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ signoffReqMgr }}" onChange="{{ toggleSignoffReqMgr }}" hint-size="42px,24px"></x-import>
@@ -1790,7 +1790,7 @@
                         <button onClick="{{ cr.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddChartData }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#c85f00">+ Add Data Point</button>
+                    <button onClick="{{ onAddChartData }}" style="width:100%;padding:8px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-orange2)">+ Add Data Point</button>
                   </div>
                 </sc-if>
                 <!-- TABLE editor -->
@@ -1813,8 +1813,8 @@
                       </div>
                     </sc-for>
                     <div style="display:flex;gap:5px;margin-top:2px">
-                      <button onClick="{{ onAddTableRow }}" style="flex:1;padding:7px;border-radius:7px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#7d8500">+ Row</button>
-                      <button onClick="{{ onAddTableCol }}" style="flex:1;padding:7px;border-radius:7px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#7d8500">+ Col</button>
+                      <button onClick="{{ onAddTableRow }}" style="flex:1;padding:7px;border-radius:7px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-olive)">+ Row</button>
+                      <button onClick="{{ onAddTableCol }}" style="flex:1;padding:7px;border-radius:7px;border:1.5px dashed #B4BD00;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-olive)">+ Col</button>
                       <button onClick="{{ onRemoveTableCol }}" style="flex:1;padding:7px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:rgba(var(--bx-line-rgb),.74)">− Col</button>
                     </div>
                   </div>
@@ -1957,7 +1957,7 @@
                     <div style="font-size:14px;color:var(--bx-text);line-height:1.5;white-space:pre-wrap">{{ cm.text }}</div>
                     <sc-if value="{{ cm.hasMentions }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;flex-wrap:wrap;gap:4px">
-                        <sc-for list="{{ cm.mentionPills }}" as="mp" hint-placeholder-count="1"><span style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.1);border-radius:50px;padding:2px 8px">@{{ mp.name }}</span></sc-for>
+                        <sc-for list="{{ cm.mentionPills }}" as="mp" hint-placeholder-count="1"><span style="font-size:11px;font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.1);border-radius:50px;padding:2px 8px">@{{ mp.name }}</span></sc-for>
                       </div>
                     </sc-if>
                     <sc-if value="{{ cm.hasReplies }}" hint-placeholder-val="{{ false }}">
@@ -1986,7 +1986,7 @@
                         <textarea value="{{ replyDraft }}" onChange="{{ onReplyDraft }}" rows="2" placeholder="Write a reply…" style="width:100%;box-sizing:border-box;padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
                         <sc-if value="{{ hasTeamRoster }}" hint-placeholder-val="{{ false }}">
                           <div style="display:flex;flex-wrap:wrap;gap:4px">
-                            <sc-for list="{{ cm.replyMentionRoster }}" as="rm" hint-placeholder-count="2"><button onClick="{{ rm.onInsert }}" style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ rm.name }}</button></sc-for>
+                            <sc-for list="{{ cm.replyMentionRoster }}" as="rm" hint-placeholder-count="2"><button onClick="{{ rm.onInsert }}" style="font-size:11px;font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ rm.name }}</button></sc-for>
                           </div>
                         </sc-if>
                         <div style="display:flex;gap:6px">
@@ -2004,7 +2004,7 @@
                 <sc-if value="{{ hasTeamRoster }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
                     <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.55)">Mention:</span>
-                    <sc-for list="{{ commentMentionRoster }}" as="cmr" hint-placeholder-count="2"><button onClick="{{ cmr.onInsert }}" style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ cmr.name }}</button></sc-for>
+                    <sc-for list="{{ commentMentionRoster }}" as="cmr" hint-placeholder-count="2"><button onClick="{{ cmr.onInsert }}" style="font-size:11px;font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ cmr.name }}</button></sc-for>
                   </div>
                 </sc-if>
                 <button onClick="{{ onAddComment }}" style="align-self:flex-start;padding:7px 16px;border-radius:8px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #5E2A2B">💬 Comment</button>
@@ -2157,7 +2157,7 @@
       <div style="max-width:720px;margin:0 auto">
 
         <div style="margin-bottom:24px">
-          <div style="font-size:12px;font-weight:700;color:#7B52C9;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">SUMMATIVE ASSESSMENT</div>
+          <div style="font-size:12px;font-weight:700;color:var(--bx-purple2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">SUMMATIVE ASSESSMENT</div>
           <div style="font-size:26px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">Final Knowledge Check</div>
         </div>
 
@@ -2176,7 +2176,7 @@
           </div>
           <div style="padding:16px;border-radius:14px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
             <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Questions</div>
-            <div style="font-size:28px;font-weight:900;color:#512E91">{{ qCount }}</div>
+            <div style="font-size:28px;font-weight:900;color:var(--bx-purple)">{{ qCount }}</div>
           </div>
         </div>
 
@@ -2185,15 +2185,15 @@
           <div style="display:flex;align-items:center;gap:14px">
             <div style="font-size:26px;flex-shrink:0">🎲</div>
             <div style="flex:1">
-              <div style="font-size:14px;font-weight:900;color:#512E91;text-transform:uppercase">Randomize as a Question Bank</div>
+              <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase">Randomize as a Question Bank</div>
               <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Draw a random subset each attempt and shuffle question + answer order. Retakes re-draw.</div>
             </div>
             <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ assessBank }}" onChange="{{ toggleAssessBank }}" hint-size="42px,24px"></x-import>
           </div>
           <sc-if value="{{ assessBank }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1.5px solid rgba(81,46,145,.15)">
-              <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Draw</span>
-              <input type="number" value="{{ assessDrawN }}" onChange="{{ onAssessDrawN }}" min="1" max="50" style="width:60px;padding:7px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);font-family:'Exo',sans-serif;font-size:15px;font-weight:900;color:#512E91;text-align:center;outline:none">
+              <span style="font-size:12px;font-weight:700;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">Draw</span>
+              <input type="number" value="{{ assessDrawN }}" onChange="{{ onAssessDrawN }}" min="1" max="50" style="width:60px;padding:7px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);font-family:'Exo',sans-serif;font-size:15px;font-weight:900;color:var(--bx-purple);text-align:center;outline:none">
               <span style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);line-height:1.3">{{ assessDrawLabel }}</span>
             </div>
           </sc-if>
@@ -2205,7 +2205,7 @@
           <button onClick="{{ openAiQuiz }}" style="flex:1;padding:12px;border-radius:12px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B" title="Draft questions from a lesson with Claude — you review before adding">✨ Generate with AI</button>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:16px">
-          <button onClick="{{ onOpenAssessImport }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Pick questions from one or more reusable banks">🎲 Insert from a Question Bank</button>
+          <button onClick="{{ onOpenAssessImport }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:var(--bx-purple);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Pick questions from one or more reusable banks">🎲 Insert from a Question Bank</button>
           <button onClick="{{ saveAssessAsBank }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-bg2);color:rgba(var(--bx-line-rgb),.74);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Save this assessment as a reusable global bank">💾 Save to a Bank</button>
         </div>
         <sc-if value="{{ assessAudPreviewShow }}" hint-placeholder-val="{{ false }}">
@@ -2229,16 +2229,16 @@
             <div style="border:2px solid rgba(81,46,145,.16);border-radius:14px;padding:14px;background:var(--bx-card);display:flex;flex-direction:column;gap:9px">
               <div style="display:flex;align-items:center;justify-content:space-between">
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Question {{ aq.num }}</span>
+                  <span style="font-size:12px;font-weight:700;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">Question {{ aq.num }}</span>
                   <sc-if value="{{ aq.previewExcluded }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:800;color:rgba(var(--bx-line-rgb),.5);background:rgba(var(--bx-line-rgb),.07);border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.5px">Hidden for this audience</span></sc-if>
                 </div>
                 <div style="display:flex;align-items:center;gap:5px">
-                  <button onClick="{{ aq.onUp }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:#512E91;font-size:14px;cursor:pointer;opacity:{{ aq.upOpacity }};display:flex;align-items:center;justify-content:center" title="Move up">▲</button>
-                  <button onClick="{{ aq.onDown }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:#512E91;font-size:14px;cursor:pointer;opacity:{{ aq.downOpacity }};display:flex;align-items:center;justify-content:center" title="Move down">▼</button>
+                  <button onClick="{{ aq.onUp }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:var(--bx-purple);font-size:14px;cursor:pointer;opacity:{{ aq.upOpacity }};display:flex;align-items:center;justify-content:center" title="Move up">▲</button>
+                  <button onClick="{{ aq.onDown }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:var(--bx-purple);font-size:14px;cursor:pointer;opacity:{{ aq.downOpacity }};display:flex;align-items:center;justify-content:center" title="Move down">▼</button>
                   <button onClick="{{ aq.onRemove }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Remove">✕</button>
                 </div>
               </div>
-              <textarea value="{{ aq.question }}" onChange="{{ aq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:#512E91"></textarea>
+              <textarea value="{{ aq.question }}" onChange="{{ aq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:var(--bx-purple)"></textarea>
               <div style="display:flex;gap:5px;flex-wrap:wrap">
                 <button onClick="{{ aq.setMc }}" style="padding:6px 11px;border-radius:7px;border:1.5px solid {{ aq.mcBorder }};background:{{ aq.mcBg }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ aq.mcColor }};cursor:pointer">Multiple Choice</button>
                 <button onClick="{{ aq.setTf }}" style="padding:6px 11px;border-radius:7px;border:1.5px solid {{ aq.tfBorder }};background:{{ aq.tfBg }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ aq.tfColor }};cursor:pointer">True / False</button>
@@ -2264,11 +2264,11 @@
                 <button onClick="{{ aq.setTfFalse }}" style="display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:9px;border:1.5px solid {{ aq.tfFalseBorder }};background:{{ aq.tfFalseBg }};cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:{{ aq.tfFalseColor }}"><span>{{ aq.tfFalseMark }}</span> False</button>
               </sc-if>
               <sc-if value="{{ aq.qIsFill }}" hint-placeholder-val="{{ false }}">
-                <input type="text" value="{{ aq.answers }}" onChange="{{ aq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:7px 11px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                <input type="text" value="{{ aq.answers }}" onChange="{{ aq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:7px 11px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
               </sc-if>
               <div style="display:flex;gap:6px;align-items:center">
-                <label style="display:flex;align-items:center;gap:5px;padding:7px 11px;border-radius:8px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91;white-space:nowrap">📎 Media<input type="file" accept="image/*,video/*" onChange="{{ aq.onMediaFile }}" style="display:none"></label>
-                <input type="text" value="{{ aq.mediaUrl }}" onChange="{{ aq.onMediaUrl }}" placeholder="🖼️ image / video URL (optional)" style="flex:1;min-width:0;padding:7px 11px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                <label style="display:flex;align-items:center;gap:5px;padding:7px 11px;border-radius:8px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple);white-space:nowrap">📎 Media<input type="file" accept="image/*,video/*" onChange="{{ aq.onMediaFile }}" style="display:none"></label>
+                <input type="text" value="{{ aq.mediaUrl }}" onChange="{{ aq.onMediaUrl }}" placeholder="🖼️ image / video URL (optional)" style="flex:1;min-width:0;padding:7px 11px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                 <sc-if value="{{ aq.hasMedia }}" hint-placeholder-val="{{ false }}"><button onClick="{{ aq.onMediaClear }}" style="width:30px;height:30px;border-radius:8px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:14px;cursor:pointer;flex-shrink:0" title="Remove media">✕</button></sc-if>
               </div>
               <sc-if value="{{ aq.audAnyDim }}" hint-placeholder-val="{{ false }}">
@@ -2293,7 +2293,7 @@
           </sc-for>
         </div>
 
-        <button onClick="{{ onAddAssessQ }}" style="width:100%;padding:14px;border-radius:14px;border:2px dashed rgba(81,46,145,.3);background:rgba(81,46,145,.03);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#512E91">+ Add Question</button>
+        <button onClick="{{ onAddAssessQ }}" style="width:100%;padding:14px;border-radius:14px;border:2px dashed rgba(81,46,145,.3);background:rgba(81,46,145,.03);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-purple)">+ Add Question</button>
 
       </div>
     </div>
@@ -2383,7 +2383,7 @@
 
         <!-- Course Theme -->
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(81,46,145,.2);background:rgba(81,46,145,.03)">
-          <div style="font-size:14px;font-weight:900;color:#512E91;text-transform:uppercase;margin-bottom:4px">🎨 Course Theme</div>
+          <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">🎨 Course Theme</div>
           <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px">Set the accent color and heading font learners see throughout this course.</div>
           <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
             <div>
@@ -2392,7 +2392,7 @@
                 <sc-for list="{{ themeSwatches }}" as="sw" hint-placeholder-count="6">
                   <div onClick="{{ sw.onSelect }}" style="width:30px;height:30px;border-radius:50%;background:{{ sw.hex }};border:3px solid {{ sw.border }};cursor:pointer;transition:border-color .2s"></div>
                 </sc-for>
-                <input type="text" value="{{ themeAccent }}" onChange="{{ onThemeAccent }}" placeholder="#FF4D00" style="width:88px;padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                <input type="text" value="{{ themeAccent }}" onChange="{{ onThemeAccent }}" placeholder="#FF4D00" style="width:88px;padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
               </div>
             </div>
             <div>
@@ -2450,14 +2450,14 @@
             </div>
           </div>
           <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">API key</div>
-          <input type="password" value="{{ elevenKeyVal }}" onChange="{{ onElevenKey }}" placeholder="xi-… (paste your ElevenLabs API key)" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;margin-bottom:12px" style-focus="border-color:#512E91">
+          <input type="password" value="{{ elevenKeyVal }}" onChange="{{ onElevenKey }}" placeholder="xi-… (paste your ElevenLabs API key)" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;margin-bottom:12px" style-focus="border-color:var(--bx-purple)">
           <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Voice</div>
           <select value="{{ elevenVoiceVal }}" onChange="{{ onElevenVoice }}" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer">
             <sc-for list="{{ elevenVoiceOptions }}" as="ev" hint-placeholder-count="6">
               <option value="{{ ev.id }}">{{ ev.name }}</option>
             </sc-for>
           </select>
-          <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);margin-top:8px;line-height:1.4">Uses the multilingual voice model — the same voice speaks English or Spanish based on the script. <sc-if value="{{ elevenKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:#7d8500">✓ Key saved</b></sc-if></div>
+          <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);margin-top:8px;line-height:1.4">Uses the multilingual voice model — the same voice speaks English or Spanish based on the script. <sc-if value="{{ elevenKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:var(--bx-olive)">✓ Key saved</b></sc-if></div>
         </div>
 
         <!-- AI Assistant (provider-agnostic; author-time only, key never published) -->
@@ -2479,7 +2479,7 @@
           </select>
           <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Base URL <span style="font-weight:600;text-transform:none;letter-spacing:0">(optional — for a proxy / gateway)</span></div>
           <input type="text" value="{{ aiBaseUrlVal }}" onChange="{{ onAiBaseUrl }}" placeholder="https://api.anthropic.com" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
-          <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);margin-top:8px;line-height:1.4">Generate quiz questions from the <b>Assessment</b> tab (✨ Generate with AI). You always review before anything is added. <sc-if value="{{ aiKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:#7d8500">✓ Key saved</b></sc-if></div>
+          <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);margin-top:8px;line-height:1.4">Generate quiz questions from the <b>Assessment</b> tab (✨ Generate with AI). You always review before anything is added. <sc-if value="{{ aiKeySet }}" hint-placeholder-val="{{ false }}"><b style="color:var(--bx-olive)">✓ Key saved</b></sc-if></div>
         </div>
 
         <!-- Gamification -->
@@ -2505,7 +2505,7 @@
                   <button onClick="{{ bd.onRemove }}" style="width:26px;height:26px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:13px;cursor:pointer;flex-shrink:0">✕</button>
                 </div>
               </sc-for>
-              <button onClick="{{ onAddBadge }}" style="width:100%;padding:9px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#c85f00">+ Add Badge</button>
+              <button onClick="{{ onAddBadge }}" style="width:100%;padding:9px;border-radius:8px;border:1.5px dashed #FF8300;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-orange2)">+ Add Badge</button>
             </div>
           </sc-if>
         </div>
@@ -2572,7 +2572,7 @@
 
         <!-- Export -->
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(81,46,145,.2);background:rgba(81,46,145,.04)">
-          <div style="font-size:14px;font-weight:900;color:#512E91;text-transform:uppercase;margin-bottom:4px">Export Package</div>
+          <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">Export Package</div>
           <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px">Package this course as a SCORM/xAPI zip ready to upload to Absorb LMS.</div>
           <div style="display:flex;gap:10px">
             <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Button" variant="primary" size="md" pop onClick="{{ onPublish }}" hint-size="auto,44px">🚀 Export {{ scormLabel }} Package</x-import>
@@ -2723,8 +2723,8 @@
                   <sc-if value="{{ ga.isImage }}" hint-placeholder-val="{{ false }}"><span>{{ ga.icon }}</span></sc-if>
                 </div>
                 <div style="padding:8px 9px;display:flex;flex-direction:column;gap:6px">
-                  <div style="font-size:11px;font-weight:700;color:#512E91;letter-spacing:1px">{{ ga.kindLabel }}</div>
-                  <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                  <div style="font-size:11px;font-weight:700;color:var(--bx-purple);letter-spacing:1px">{{ ga.kindLabel }}</div>
+                  <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                   <div style="display:flex;gap:6px">
                     <button onClick="{{ ga.onUse }}" style="flex:1;padding:6px;border-radius:7px;border:none;background:{{ ga.canUse ? '#512E91' : 'rgba(var(--bx-line-rgb),.12)' }};color:{{ ga.canUse ? '#fff' : 'rgba(var(--bx-line-rgb),.74)' }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:{{ ga.canUse ? 'pointer' : 'not-allowed' }}" title="Insert into the selected media block">Use</button>
                     <label style="width:30px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:transparent;color:rgba(var(--bx-line-rgb),.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Replace the file (keeps the name & where it's used)">🔄<input type="file" accept="image/*,video/*,audio/*,application/pdf" onChange="{{ ga.onReplace }}" style="display:none"></label>
@@ -2754,12 +2754,12 @@
           <div style="display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap">
             <sc-if value="{{ qbankHasActive }}" hint-placeholder-val="{{ true }}">
               <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Bank</span>
-              <select value="{{ qbankActiveId }}" onChange="{{ onQbankBankSelect }}" style="max-width:210px;padding:9px 10px;border-radius:9px;border:1.5px solid rgba(81,46,145,.25);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#512E91;outline:none;cursor:pointer" title="Switch bank">
+              <select value="{{ qbankActiveId }}" onChange="{{ onQbankBankSelect }}" style="max-width:210px;padding:9px 10px;border-radius:9px;border:1.5px solid rgba(81,46,145,.25);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-purple);outline:none;cursor:pointer" title="Switch bank">
                 <sc-for list="{{ qbankBankOptions }}" as="o" hint-placeholder-count="2"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
               </select>
-              <input type="text" value="{{ qbankActiveName }}" onChange="{{ onQbankActiveRename }}" placeholder="Rename bank…" title="Rename the selected bank" style="flex:1;min-width:130px;padding:9px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+              <input type="text" value="{{ qbankActiveName }}" onChange="{{ onQbankActiveRename }}" placeholder="Rename bank…" title="Rename the selected bank" style="flex:1;min-width:130px;padding:9px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
               <button onClick="{{ onInsertActivePool }}" style="padding:9px 11px;border-radius:9px;border:1.5px solid {{ qbankActivePoolBorder }};background:{{ qbankActivePoolBg }};color:{{ qbankActivePoolColor }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:{{ qbankActivePoolCursor }};white-space:nowrap" title="Add ALL of this bank's questions to the selected question-bank block">↓ To pool</button>
-              <button onClick="{{ onInsertActiveAssess }}" style="padding:9px 11px;border-radius:9px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap" title="Add ALL of this bank's questions to the final assessment">↓ To exam</button>
+              <button onClick="{{ onInsertActiveAssess }}" style="padding:9px 11px;border-radius:9px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:var(--bx-purple);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap" title="Add ALL of this bank's questions to the final assessment">↓ To exam</button>
               <button onClick="{{ onDeleteActiveBank }}" style="width:36px;height:36px;border-radius:9px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:14px;cursor:pointer;flex-shrink:0" title="Delete this bank">🗑</button>
             </sc-if>
             <button onClick="{{ addQuestionBank }}" style="padding:9px 13px;border-radius:9px;border:none;background:#512E91;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;box-shadow:2px 2px 0 #3a1f6b;white-space:nowrap" style-hover="filter:brightness(1.08)">+ New Bank</button>
@@ -2785,18 +2785,18 @@
                     <sc-for list="{{ qbankActiveQuestions }}" as="pq" hint-placeholder-count="3">
                       <div onClick="{{ pq.onSelect }}" style="border:1.5px solid {{ pq.listBorder }};background:{{ pq.listBg }};border-radius:9px;padding:8px 9px;cursor:pointer;transition:all .15s">
                         <div style="display:flex;align-items:center;gap:5px">
-                          <span style="font-size:11px;font-weight:800;color:#512E91;flex-shrink:0">Q{{ pq.num }}</span>
+                          <span style="font-size:11px;font-weight:800;color:var(--bx-purple);flex-shrink:0">Q{{ pq.num }}</span>
                           <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">{{ pq.summary }}</span>
                         </div>
                         <div style="display:flex;align-items:center;gap:4px;margin-top:7px">
                           <span style="font-size:10px;color:rgba(var(--bx-line-rgb),.5);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pq.typeLabel }}</span>
-                          <button onClick="{{ pq.onUp }}" style="width:20px;height:20px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:#512E91;font-size:10px;cursor:pointer;opacity:{{ pq.upDim }}" title="Move up">▲</button>
-                          <button onClick="{{ pq.onDown }}" style="width:20px;height:20px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:#512E91;font-size:10px;cursor:pointer;opacity:{{ pq.downDim }}" title="Move down">▼</button>
+                          <button onClick="{{ pq.onUp }}" style="width:20px;height:20px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:var(--bx-purple);font-size:10px;cursor:pointer;opacity:{{ pq.upDim }}" title="Move up">▲</button>
+                          <button onClick="{{ pq.onDown }}" style="width:20px;height:20px;border-radius:5px;border:1px solid rgba(81,46,145,.2);background:var(--bx-card);color:var(--bx-purple);font-size:10px;cursor:pointer;opacity:{{ pq.downDim }}" title="Move down">▼</button>
                           <button onClick="{{ pq.onRemove }}" style="width:20px;height:20px;border-radius:5px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:11px;cursor:pointer" title="Remove">✕</button>
                         </div>
                       </div>
                     </sc-for>
-                    <button onClick="{{ onAddBankQ }}" style="width:100%;padding:9px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#512E91">+ Add Question</button>
+                    <button onClick="{{ onAddBankQ }}" style="width:100%;padding:9px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-purple)">+ Add Question</button>
                   </div>
                 </div>
                 <!-- single-question editor (detail) -->
@@ -2805,10 +2805,10 @@
                     <sc-if value="{{ pq.sel }}" hint-placeholder-val="{{ true }}">
                   <div style="border:1.5px solid rgba(81,46,145,.18);border-radius:10px;padding:11px;background:var(--bx-bg2);display:flex;flex-direction:column;gap:7px">
                     <div style="display:flex;align-items:center;justify-content:space-between">
-                      <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Question {{ pq.num }}</span>
+                      <span style="font-size:12px;font-weight:700;color:var(--bx-purple);text-transform:uppercase;letter-spacing:1px">Question {{ pq.num }}</span>
                       <button onClick="{{ pq.onRemove }}" style="width:20px;height:20px;border-radius:5px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Remove">✕</button>
                     </div>
-                    <textarea value="{{ pq.question }}" onChange="{{ pq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:7px 10px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:#512E91"></textarea>
+                    <textarea value="{{ pq.question }}" onChange="{{ pq.onQuestion }}" rows="2" placeholder="Question text…" style="width:100%;padding:7px 10px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.45" style-focus="border-color:var(--bx-purple)"></textarea>
                     <div style="display:flex;gap:5px;flex-wrap:wrap">
                       <button onClick="{{ pq.setMc }}" style="padding:4px 9px;border-radius:6px;border:1.5px solid {{ pq.mcBorder }};background:{{ pq.mcBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.mcColor }};cursor:pointer">Multiple Choice</button>
                       <button onClick="{{ pq.setTf }}" style="padding:4px 9px;border-radius:6px;border:1.5px solid {{ pq.tfBorder }};background:{{ pq.tfBg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.tfColor }};cursor:pointer">True / False</button>
@@ -2834,7 +2834,7 @@
                       <button onClick="{{ pq.setTfFalse }}" style="display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:8px;border:1.5px solid {{ pq.tfFalseBorder }};background:{{ pq.tfFalseBg }};cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ pq.tfFalseColor }}"><span>{{ pq.tfFalseMark }}</span> False</button>
                     </sc-if>
                     <sc-if value="{{ pq.qIsFill }}" hint-placeholder-val="{{ false }}">
-                      <input type="text" value="{{ pq.answers }}" onChange="{{ pq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                      <input type="text" value="{{ pq.answers }}" onChange="{{ pq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                     </sc-if>
                     <div style="display:flex;flex-direction:column;gap:7px;margin-top:3px">
                       <div style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Feedback (optional)</div>
@@ -2844,7 +2844,7 @@
                       </div>
                     </div>
                     <div style="display:flex;gap:6px;align-items:center">
-                      <label style="display:flex;align-items:center;gap:4px;padding:6px 9px;border-radius:7px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:#512E91;white-space:nowrap">📎 Media<input type="file" accept="image/*,video/*" onChange="{{ pq.onMediaFile }}" style="display:none"></label>
+                      <label style="display:flex;align-items:center;gap:4px;padding:6px 9px;border-radius:7px;border:1.5px dashed rgba(81,46,145,.4);background:rgba(81,46,145,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-purple);white-space:nowrap">📎 Media<input type="file" accept="image/*,video/*" onChange="{{ pq.onMediaFile }}" style="display:none"></label>
                       <input type="text" value="{{ pq.mediaUrl }}" onChange="{{ pq.onMediaUrl }}" placeholder="🖼️ image / video URL (optional)" style="flex:1;min-width:0;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none">
                       <sc-if value="{{ pq.hasMedia }}" hint-placeholder-val="{{ false }}"><button onClick="{{ pq.onMediaClear }}" style="width:26px;height:26px;border-radius:6px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:12px;cursor:pointer;flex-shrink:0" title="Remove media">✕</button></sc-if>
                     </div>
@@ -2873,7 +2873,7 @@
       <div style="background:var(--bx-card);border-radius:24px;width:880px;max-width:95vw;height:82vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease;overflow:hidden" onClick="{{ stopProp }}">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 26px 14px;border-bottom:1.5px solid rgba(var(--bx-line-rgb),.1)">
           <div>
-            <div style="font-size:16px;font-weight:900;color:#512E91;text-transform:uppercase">🎲 Insert from Question Banks</div>
+            <div style="font-size:16px;font-weight:900;color:var(--bx-purple);text-transform:uppercase">🎲 Insert from Question Banks</div>
             <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74);margin-top:3px">Pick a bank, then choose the questions to add to this assessment. You can select across multiple banks.</div>
           </div>
           <button onClick="{{ closeAssessImport }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading)">✕</button>
@@ -2891,7 +2891,7 @@
             <div style="width:248px;flex-shrink:0;border-right:1.5px solid rgba(var(--bx-line-rgb),.1);background:var(--bx-bg2);overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:7px">
               <sc-for list="{{ assessImportBanks }}" as="b" hint-placeholder-count="3">
                 <div onClick="{{ b.onSelect }}" style="border:2px solid {{ b.rowBorder }};background:{{ b.rowBg }};border-radius:12px;padding:10px 11px;cursor:pointer;transition:all .15s">
-                  <div style="font-size:14px;font-weight:800;color:#512E91;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</div>
+                  <div style="font-size:14px;font-weight:800;color:var(--bx-purple);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</div>
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px">
                     <span style="font-size:12px;color:rgba(var(--bx-line-rgb),.7)">{{ b.countLabel }}</span>
                     <sc-if value="{{ b.hasSel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:800;color:#B4BD00;background:rgba(180,189,0,.12);border-radius:20px;padding:2px 8px">{{ b.selBadge }}</span></sc-if>
@@ -2902,8 +2902,8 @@
             <!-- question checklist -->
             <div style="flex:1;display:flex;flex-direction:column;min-width:0">
               <div style="padding:14px 20px 10px;border-bottom:1px solid rgba(var(--bx-line-rgb),.08);display:flex;align-items:center;justify-content:space-between;gap:10px">
-                <div style="font-size:14px;font-weight:800;color:#512E91;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ assessImportActiveName }}</div>
-                <button onClick="{{ onToggleAllImport }}" style="flex-shrink:0;padding:6px 12px;border-radius:8px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer">{{ assessImportAllLabel }}</button>
+                <div style="font-size:14px;font-weight:800;color:var(--bx-purple);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ assessImportActiveName }}</div>
+                <button onClick="{{ onToggleAllImport }}" style="flex-shrink:0;padding:6px 12px;border-radius:8px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:var(--bx-purple);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer">{{ assessImportAllLabel }}</button>
               </div>
               <div style="flex:1;overflow-y:auto;padding:14px 20px;display:flex;flex-direction:column;gap:8px">
                 <sc-for list="{{ assessImportActiveQuestions }}" as="q" hint-placeholder-count="4">
@@ -3053,7 +3053,7 @@
                   <div style="display:flex;align-items:flex-start;gap:8px">
                     <span style="font-size:16px;line-height:1.2">{{ aq.check }}</span>
                     <div style="flex:1;min-width:0">
-                      <div style="font-size:11px;font-weight:800;color:#512E91;letter-spacing:.5px;margin-bottom:3px">{{ aq.typeLabel }}</div>
+                      <div style="font-size:11px;font-weight:800;color:var(--bx-purple);letter-spacing:.5px;margin-bottom:3px">{{ aq.typeLabel }}</div>
                       <div style="font-size:14px;font-weight:700;color:var(--bx-text);line-height:1.4">{{ aq.question }}</div>
                     </div>
                   </div>
@@ -3106,7 +3106,7 @@
               <div style="display:flex;flex-direction:column;gap:7px">
                 <sc-for list="{{ outlinePreview }}" as="ob" hint-placeholder-count="4">
                   <div style="border:1.5px solid rgba(var(--bx-line-rgb),.12);border-radius:11px;padding:10px 12px;background:var(--bx-bg2);display:flex;flex-direction:column;gap:3px">
-                    <div style="font-size:11px;font-weight:800;color:#512E91;letter-spacing:.5px">{{ ob.label }}</div>
+                    <div style="font-size:11px;font-weight:800;color:var(--bx-purple);letter-spacing:.5px">{{ ob.label }}</div>
                     <div style="font-size:13px;color:var(--bx-text);line-height:1.4">{{ ob.summary }}</div>
                   </div>
                 </sc-for>
@@ -3134,7 +3134,7 @@
 
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
           <button onClick="{{ onSeedSpanish }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-bg2);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(var(--bx-line-rgb),.74)" title="Copy English into any empty Spanish fields as a starting draft">✨ Draft-fill (copy EN→ES)</button>
-          <button onClick="{{ onExportBox }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:#512E91" title="Fill the box below with all strings to send for translation">⤓ Export to box</button>
+          <button onClick="{{ onExportBox }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-purple)" title="Fill the box below with all strings to send for translation">⤓ Export to box</button>
           <button onClick="{{ onImportBox }}" style="padding:8px 14px;border-radius:8px;border:none;background:#512E91;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B" title="Apply the translated JSON from the box">⤴ Import from box</button>
         </div>
 
@@ -3150,7 +3150,7 @@
               <div style="display:grid;grid-template-columns:14px 1fr 1fr;gap:8px;align-items:start;margin-bottom:6px">
                 <div style="width:8px;height:8px;border-radius:50%;background:{{ te.dot }};margin-top:7px"></div>
                 <div style="font-size:13px;color:var(--bx-text);line-height:1.4;padding:5px 0"><span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:.5px;display:block">{{ te.label }}</span>{{ te.en }}</div>
-                <input type="text" value="{{ te.es }}" onChange="{{ te.onEs }}" placeholder="Español…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#512E91">
+                <input type="text" value="{{ te.es }}" onChange="{{ te.onEs }}" placeholder="Español…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
               </div>
             </div>
           </sc-for>
@@ -3158,7 +3158,7 @@
 
         <div style="margin-top:12px">
           <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Bulk translate · export then paste back the translated JSON</div>
-          <textarea value="{{ translateBox }}" onChange="{{ onTranslateBox }}" rows="4" placeholder="Click “Export to box” to fill this with all strings, translate the &quot;es&quot; values, paste back, then “Import from box”." style="width:100%;padding:9px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:monospace;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.4" style-focus="border-color:#512E91"></textarea>
+          <textarea value="{{ translateBox }}" onChange="{{ onTranslateBox }}" rows="4" placeholder="Click “Export to box” to fill this with all strings, translate the &quot;es&quot; values, paste back, then “Import from box”." style="width:100%;padding:9px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:monospace;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.4" style-focus="border-color:var(--bx-purple)"></textarea>
         </div>
       </div>
     </div>
@@ -3383,15 +3383,15 @@ class Component extends DCLogic {
         bg: active ? `${m.color}10` : 'transparent',
         border: active ? m.color : 'transparent',
         iconBg: `${m.color}20`,
-        numColor: active ? m.color : 'rgba(94,42,43,.4)',
+        numColor: active ? m.color : (this.state.chromeDark ? 'rgba(243,231,226,.6)' : 'rgba(94,42,43,.4)'),
         blockCount: m.blocks.length,
         onClick: () => this.setState({ selectedModule: i, selectedBlock: null }),
         onMoveUp: e => { e.stopPropagation(); this.moveModule(i, -1); },
         onMoveDown: e => { e.stopPropagation(); this.moveModule(i, 1); },
         upCursor: i===0 ? 'not-allowed' : 'pointer',
         downCursor: i===s.modules.length-1 ? 'not-allowed' : 'pointer',
-        upColor: i===0 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
-        downColor: i===s.modules.length-1 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
+        upColor: i===0 ? (this.state.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)') : 'var(--bx-heading)',
+        downColor: i===s.modules.length-1 ? (this.state.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)') : 'var(--bx-heading)',
         onDupe: e => { e.stopPropagation(); this.dupeModule(i); },
         onDelete: e => { e.stopPropagation(); this.askDeleteModule(i); },
       };
@@ -4537,8 +4537,8 @@ class Component extends DCLogic {
         index: i,
         upCursor: i === 0 ? 'default' : 'pointer',
         downCursor: i === blocks.length - 1 ? 'default' : 'pointer',
-        upColor: i === 0 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
-        downColor: i === blocks.length - 1 ? 'rgba(94,42,43,.25)' : '#5E2A2B',
+        upColor: i === 0 ? (this.state.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)') : 'var(--bx-heading)',
+        downColor: i === blocks.length - 1 ? (this.state.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)') : 'var(--bx-heading)',
         onMoveUp:   e => { e.stopPropagation(); this.moveBlock(i, -1); },
         onMoveDown: e => { e.stopPropagation(); this.moveBlock(i, 1); },
         onCopy:     e => { e.stopPropagation(); this.copyBlock(i); },
@@ -6295,13 +6295,16 @@ class Component extends DCLogic {
     const totalBlocks = s.modules.reduce((sum,m)=>sum+m.blocks.length,0);
     const totalDuration = s.modules.reduce((sum,m)=>sum+(parseInt(m.duration)||0),0)+' min';
 
+    // Dark-chrome muted-text override: null in light (so light stays byte-identical),
+    // a legible warm-gray in dark (the brown inactive literals are illegible on a dark bg).
+    const cdMuted = s.chromeDark ? 'rgba(243,231,226,.72)' : null;
     const tb = (key) => {
       const active = s.tab === key;
-      return { bg: active ? '#FFFFFF' : 'transparent', color: active ? '#FF4D00' : 'rgba(94,42,43,.55)' };
+      return { bg: active ? '#FFFFFF' : 'transparent', color: active ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)') };
     };
     const rtb = (key) => {
       const active = s.rightTab === key;
-      return { color: active ? '#FF4D00' : 'rgba(94,42,43,.5)', border: active ? '#FF4D00' : 'transparent' };
+      return { color: active ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.5)'), border: active ? '#FF4D00' : 'transparent' };
     };
 
     const scormActive = (v) => s.scormVersion === v;
@@ -6366,12 +6369,12 @@ class Component extends DCLogic {
       // Undo / redo + autosave status
       onUndo: () => this.undo(),
       onRedo: () => this.redo(),
-      undoColor: s.undoStack.length ? '#5E2A2B' : 'rgba(94,42,43,.25)',
-      redoColor: s.redoStack.length ? '#5E2A2B' : 'rgba(94,42,43,.25)',
+      undoColor: s.undoStack.length ? 'var(--bx-heading)' : (s.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)'),
+      redoColor: s.redoStack.length ? 'var(--bx-heading)' : (s.chromeDark ? 'rgba(243,231,226,.3)' : 'rgba(94,42,43,.25)'),
       undoCursor: s.undoStack.length ? 'pointer' : 'not-allowed',
       redoCursor: s.redoStack.length ? 'pointer' : 'not-allowed',
       saveStateLabel: s.saveState === 'saved' ? 'Saved' : s.saveState === 'saving' ? 'Saving…' : 'Unsaved',
-      saveStateColor: s.saveState === 'saved' ? '#B4BD00' : s.saveState === 'saving' ? '#FF8300' : 'rgba(94,42,43,.4)',
+      saveStateColor: s.saveState === 'saved' ? '#B4BD00' : s.saveState === 'saving' ? '#FF8300' : (cdMuted || 'rgba(94,42,43,.4)'),
 
       // Dashboard / course library
       isDashboard: s.view === 'dashboard',
@@ -6380,7 +6383,7 @@ class Component extends DCLogic {
       ...(() => {
         const dv = s.dashView || 'courses';
         const onB = '#FFFFFF', onShadow = true;
-        const tab = (v) => ({ bg: dv === v ? '#FFFFFF' : 'transparent', color: dv === v ? '#5E2A2B' : 'rgba(94,42,43,.6)' });
+        const tab = (v) => ({ bg: dv === v ? '#FFFFFF' : 'transparent', color: dv === v ? '#5E2A2B' : (cdMuted || 'rgba(94,42,43,.6)') });
         const banks = Array.isArray(s.questionBanks) ? s.questionBanks : [];
         const tpls = Array.isArray(s.blockTemplates) ? s.blockTemplates : [];
         return {
@@ -6485,9 +6488,9 @@ class Component extends DCLogic {
       setFilterAll: () => this.setState({ authorFilter: 'all' }),
       setFilterMine: () => this.setState({ authorFilter: 'mine' }),
       filterAllBg: s.authorFilter==='all' ? '#FFFFFF' : 'transparent',
-      filterAllColor: s.authorFilter==='all' ? '#FF4D00' : 'rgba(94,42,43,.55)',
+      filterAllColor: s.authorFilter==='all' ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
       filterMineBg: s.authorFilter==='mine' ? '#FFFFFF' : 'transparent',
-      filterMineColor: s.authorFilter==='mine' ? '#FF4D00' : 'rgba(94,42,43,.55)',
+      filterMineColor: s.authorFilter==='mine' ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
       courseCountLabel: (() => {
         const shown = s.authorFilter==='mine' ? s.library.filter(c => (c.author||'')===s.currentAuthor).length : s.library.length;
         return `${shown} course${shown===1?'':'s'}${s.authorFilter==='mine'?' by you':''} · pick one to edit, or start a new one.`;
@@ -6503,7 +6506,7 @@ class Component extends DCLogic {
           id: c.id, title: c.courseTitle || 'Untitled Course', icon: c.icon || '📚', color: c.color || '#FF4D00',
           author: c.author || 'Unassigned',
           authorBg: mine ? 'rgba(180,189,0,.15)' : 'rgba(94,42,43,.06)',
-          authorColor: mine ? '#7d8500' : 'rgba(94,42,43,.55)',
+          authorColor: mine ? 'var(--bx-olive)' : (cdMuted || 'rgba(94,42,43,.55)'),
           langBadge: c.langBranch ? 'EN · ES' : 'EN',
           hasStore: !!c.storeBranch, storeBadge: 'Corp · Fran',
           hasRoles, rolesLabel: hasRoles ? c.roles.map(function(r){ return (r && typeof r==='object') ? (r.label||r.id||'') : r; }).filter(Boolean).join(' · ') : '',
@@ -6546,11 +6549,11 @@ class Component extends DCLogic {
       setDeviceTablet:  () => this.setState({ device: 'tablet' }),
       setDeviceDesktop: () => this.setState({ device: 'desktop' }),
       devMobileBg:   s.device==='mobile'  ? '#FFFFFF' : 'transparent',
-      devMobileColor:s.device==='mobile'  ? '#FF4D00' : 'rgba(94,42,43,.55)',
+      devMobileColor:s.device==='mobile'  ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
       devTabletBg:   s.device==='tablet'  ? '#FFFFFF' : 'transparent',
-      devTabletColor:s.device==='tablet'  ? '#FF4D00' : 'rgba(94,42,43,.55)',
+      devTabletColor:s.device==='tablet'  ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
       devDesktopBg:  s.device==='desktop' ? '#FFFFFF' : 'transparent',
-      devDesktopColor:s.device==='desktop'? '#FF4D00' : 'rgba(94,42,43,.55)',
+      devDesktopColor:s.device==='desktop'? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
 
       // Live-preview "night view" — mirrors the Player's learner dark mode (getTheme(dark)) so
       // authors can QA dark while authoring. Each --pv-* var's LIGHT value equals the original
@@ -6560,7 +6563,7 @@ class Component extends DCLogic {
       prevDarkIcon:  s.prevDark ? '☀️ Light' : '🌙 Dark',
       prevDarkTitle: s.prevDark ? 'Preview in light mode' : 'Preview in dark mode (learner night view)',
       prevDarkBg:     s.prevDark ? '#241011' : 'transparent',
-      prevDarkColor:  s.prevDark ? '#FFD2BE' : 'rgba(94,42,43,.7)',
+      prevDarkColor:  s.prevDark ? '#FFD2BE' : (cdMuted || 'rgba(94,42,43,.7)'),
       prevDarkBorder: s.prevDark ? 'rgba(255,100,60,.4)' : 'rgba(94,42,43,.2)',
       pvVarsCss: s.prevDark
         ? '--pv-bg:#1a0a0b;--pv-card:#241011;--pv-heading:#FFFFFF;--pv-text:#FFEFE6;--pv-subtext:rgba(255,210,190,.62);--pv-video:#2a1213;--pv-field:#2a1213;--pv-objbg:rgba(180,189,0,.12);--pv-gutter:#0d0405'
@@ -6573,8 +6576,8 @@ class Component extends DCLogic {
       chromeDarkIcon:  s.chromeDark ? '☀️' : '🌙',
       chromeDarkTitle: s.chromeDark ? 'Switch the editor to light mode' : 'Switch the editor to dark mode',
       bxVarsCss: s.chromeDark
-        ? '--bx-bg:#17100f;--bx-bg2:#1f1614;--bx-bg3:#261b19;--bx-card:#221917;--bx-heading:#FFFFFF;--bx-text:#F3E7E2;--bx-line-rgb:235,205,195;--bx-elev-rgb:42,30,28'
-        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43;--bx-elev-rgb:255,251,243',
+        ? '--bx-bg:#17100f;--bx-bg2:#1f1614;--bx-bg3:#261b19;--bx-card:#221917;--bx-heading:#FFFFFF;--bx-text:#F3E7E2;--bx-line-rgb:235,205,195;--bx-elev-rgb:42,30,28;--bx-purple:#b9a0e8;--bx-purple2:#c9b6f0;--bx-orange2:#ff9d5c;--bx-olive:#c8d23e'
+        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43;--bx-elev-rgb:255,251,243;--bx-purple:#512E91;--bx-purple2:#7B52C9;--bx-orange2:#c85f00;--bx-olive:#7d8500',
 
       // Left panel
       moduleList: this.getModuleList(s),
@@ -6589,6 +6592,7 @@ class Component extends DCLogic {
       assessCardBg: s.assessEnabled ? 'rgba(81,46,145,.06)' : 'rgba(94,42,43,.04)',
       assessCardBorder: s.assessEnabled ? 'rgba(81,46,145,.25)' : 'rgba(94,42,43,.1)',
       assessLabel: s.assessEnabled ? 'Enabled' : 'Disabled',
+      assessKickerColor: s.chromeDark ? '#b9a0e8' : '#7B52C9',
       assessDot: s.assessEnabled ? '#B4BD00' : 'rgba(94,42,43,.2)',
       toggleAssessEnabled: () => this.setState({ assessEnabled: !s.assessEnabled }),
 
@@ -7391,7 +7395,7 @@ class Component extends DCLogic {
       // Grouped Settings nav
       ...(() => {
         const sec = s.settingsSection || 'general';
-        const onB = '#FF4D00', onC = '#fff', offB = 'transparent', offC = 'rgba(94,42,43,.7)';
+        const onB = '#FF4D00', onC = '#fff', offB = 'transparent', offC = (s.chromeDark ? 'rgba(243,231,226,.72)' : 'rgba(94,42,43,.7)');
         const titles = { general: 'General', experience: 'Learner Experience', tracking: 'Tracking & Export' };
         return {
           settingsIsGeneral: sec === 'general',
@@ -7765,12 +7769,12 @@ class Component extends DCLogic {
       })),
       setFontExo: () => this.setState({ theme: { ...s.theme, headingFont: 'Exo' } }),
       setFontBush: () => this.setState({ theme: { ...s.theme, headingFont: 'Bushcraft One' } }),
-      fontExoBg: (s.theme?.headingFont || 'Exo')==='Exo' ? 'rgba(81,46,145,.1)' : '#FFFFFF',
-      fontExoBorder: (s.theme?.headingFont || 'Exo')==='Exo' ? '#512E91' : 'rgba(94,42,43,.15)',
-      fontExoColor: (s.theme?.headingFont || 'Exo')==='Exo' ? '#512E91' : 'rgba(94,42,43,.6)',
-      fontBushBg: s.theme?.headingFont==='Bushcraft One' ? 'rgba(81,46,145,.1)' : '#FFFFFF',
-      fontBushBorder: s.theme?.headingFont==='Bushcraft One' ? '#512E91' : 'rgba(94,42,43,.15)',
-      fontBushColor: s.theme?.headingFont==='Bushcraft One' ? '#512E91' : 'rgba(94,42,43,.6)',
+      fontExoBg: (s.theme?.headingFont || 'Exo')==='Exo' ? 'rgba(81,46,145,.1)' : (s.chromeDark ? 'var(--bx-bg2)' : '#FFFFFF'),
+      fontExoBorder: (s.theme?.headingFont || 'Exo')==='Exo' ? 'var(--bx-purple)' : 'rgba(var(--bx-line-rgb),.15)',
+      fontExoColor: (s.theme?.headingFont || 'Exo')==='Exo' ? 'var(--bx-purple)' : (cdMuted || 'rgba(94,42,43,.6)'),
+      fontBushBg: s.theme?.headingFont==='Bushcraft One' ? 'rgba(81,46,145,.1)' : (s.chromeDark ? 'var(--bx-bg2)' : '#FFFFFF'),
+      fontBushBorder: s.theme?.headingFont==='Bushcraft One' ? 'var(--bx-purple)' : 'rgba(var(--bx-line-rgb),.15)',
+      fontBushColor: s.theme?.headingFont==='Bushcraft One' ? 'var(--bx-purple)' : (cdMuted || 'rgba(94,42,43,.6)'),
 
       // Welcome screen editor
       welcomeBubble: s.welcome?.bubble || '',
