@@ -190,7 +190,7 @@
       <div style="flex:1;overflow-y:auto;padding:18px 32px 40px">
         <sc-if value="{{ dashHasBanks }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.55);text-transform:uppercase;letter-spacing:.5px">🔍 Filter</span>
+            <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">🔍 Filter</span>
             <select value="{{ bankFilterLang }}" onChange="{{ onBankFilterLang }}" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankLangOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
             <select value="{{ bankFilterStore }}" onChange="{{ onBankFilterStore }}" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankStoreOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
             <select value="{{ bankFilterRole }}" onChange="{{ onBankFilterRole }}" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankRoleOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
@@ -213,7 +213,7 @@
                   <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.7)">{{ qb.count }} questions</div>
                 </div>
               </div>
-              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;color:rgba(var(--bx-line-rgb),.6)">
+              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;color:rgba(var(--bx-line-rgb),.8)">
                 <span style="font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.08);border-radius:50px;padding:2px 8px">👤 {{ qb.author }}</span>
                 <sc-if value="{{ qb.dateStr }}" hint-placeholder-val="{{ true }}"><span>· {{ qb.dateStr }}</span></sc-if>
                 <sc-if value="{{ qb.hasLang }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.1);border-radius:50px;padding:2px 7px">🌐 {{ qb.langBadge }}</span></sc-if>
@@ -289,7 +289,7 @@
                   <sc-if value="{{ ga.sizeStr }}" hint-placeholder-val="{{ true }}"><span style="font-size:10px;font-weight:700;color:rgba(var(--bx-line-rgb),.5)">{{ ga.sizeStr }}</span></sc-if>
                 </div>
                 <input type="text" value="{{ ga.name }}" onChange="{{ ga.onRename }}" style="width:100%;padding:5px 7px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
-                <div style="font-size:10px;color:rgba(var(--bx-line-rgb),.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ ga.author }}<sc-if value="{{ ga.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ ga.dateStr }}</sc-if></div>
+                <div style="font-size:10px;color:rgba(var(--bx-line-rgb),.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ ga.author }}<sc-if value="{{ ga.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ ga.dateStr }}</sc-if></div>
                 <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
                   <sc-for list="{{ ga.tags }}" as="tg" hint-placeholder-count="2">
                     <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--bx-heading);background:rgba(var(--bx-line-rgb),.08);border-radius:50px;padding:2px 4px 2px 8px">{{ tg.label }}<button onClick="{{ tg.onRemove }}" style="border:none;background:none;cursor:pointer;color:rgba(var(--bx-line-rgb),.5);font-size:12px;line-height:1;padding:0 2px" title="Remove tag" aria-label="Remove tag">×</button></span>
@@ -331,7 +331,7 @@
               <div style="flex:1;min-width:0">
                 <div style="font-size:14px;font-weight:800;color:var(--bx-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tp.name }}</div>
                 <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.7)">{{ tp.typeLabel }}</div>
-                <div style="font-size:10px;color:rgba(var(--bx-line-rgb),.55);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ tp.author }}<sc-if value="{{ tp.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ tp.dateStr }}</sc-if></div>
+                <div style="font-size:10px;color:rgba(var(--bx-line-rgb),.8);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">👤 {{ tp.author }}<sc-if value="{{ tp.dateStr }}" hint-placeholder-val="{{ true }}"> · {{ tp.dateStr }}</sc-if></div>
               </div>
               <button onClick="{{ tp.onDelete }}" style="width:30px;height:30px;border-radius:8px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;cursor:pointer;font-size:13px;flex-shrink:0" title="Delete template">🗑</button>
             </div>
@@ -405,7 +405,7 @@
           <sc-for list="{{ moduleGroups }}" as="g" hint-placeholder-count="2">
             <sc-if value="{{ g.isRealSection }}" hint-placeholder-val="{{ false }}">
               <div class="sec-row" data-secid="{{ g.sectionId }}" style="display:flex;align-items:center;gap:4px;padding:9px 4px 4px;margin-top:4px;border-top:1.5px solid rgba(var(--bx-line-rgb),.08)">
-                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.6);letter-spacing:1px;flex-shrink:0">§{{ g.secNum }}</span>
+                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.8);letter-spacing:1px;flex-shrink:0">§{{ g.secNum }}</span>
                 <input type="text" value="{{ g.title }}" onChange="{{ g.onRename }}" style="flex:1;min-width:0;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-heading);text-transform:uppercase;letter-spacing:.5px;border:1.5px solid transparent;background:transparent;border-radius:5px;padding:2px 5px;outline:none" style-focus="border-color:rgba(var(--bx-line-rgb),.2);background:var(--bx-card)">
                 <div class="sec-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;flex-shrink:0">
                   <button onClick="{{ g.onAddLesson }}" style="width:20px;height:20px;border-radius:5px;border:none;background:rgba(255,77,0,.12);color:#FF4D00;cursor:pointer;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1" title="Add lesson to this section">+</button>
@@ -417,7 +417,7 @@
             </sc-if>
             <sc-if value="{{ g.isUngrouped }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:6px;padding:9px 6px 4px;margin-top:4px;border-top:1.5px solid rgba(var(--bx-line-rgb),.08)">
-                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Ungrouped</span>
+                <span style="font-size:12px;font-weight:800;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">Ungrouped</span>
               </div>
             </sc-if>
             <sc-for list="{{ g.modules }}" as="m" hint-placeholder-count="3">
@@ -466,7 +466,7 @@
 
         <div style="padding:10px 8px 16px;display:flex;flex-direction:column;gap:8px">
           <button onClick="{{ addModule }}" style="width:100%;padding:10px;border-radius:12px;border:2px dashed rgba(var(--bx-line-rgb),.2);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00">+ Add Module</button>
-          <button onClick="{{ openOutline }}" style="width:100%;padding:10px;border-radius:12px;border:none;background:rgba(255,77,0,.08);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#FF4D00;transition:all .2s" style-hover="background:rgba(255,77,0,.16)" title="Draft a new lesson from a topic with Claude — you review before it's added">✨ Draft a lesson with AI</button>
+          <button onClick="{{ openOutline }}" style="width:100%;padding:10px;border-radius:12px;border:none;background:rgba(255,77,0,.08);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-orange2);transition:all .2s" style-hover="background:rgba(255,77,0,.16)" title="Draft a new lesson from a topic with Claude — you review before it's added">✨ Draft a lesson with AI</button>
         </div>
       </div>
 
@@ -1148,7 +1148,7 @@
 
         <!-- Close bar -->
         <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px 8px 14px;border-bottom:1.5px solid rgba(var(--bx-line-rgb),.08);background:var(--bx-card);position:sticky;top:0;z-index:2">
-          <span style="font-size:11px;font-weight:800;color:rgba(var(--bx-line-rgb),.66);text-transform:uppercase;letter-spacing:1.5px">Block Editor</span>
+          <span style="font-size:11px;font-weight:800;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:1.5px">Block Editor</span>
           <button onClick="{{ closeRightPanel }}" title="Close editor" aria-label="Close editor" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-size:14px;color:var(--bx-heading);display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
         </div>
 
@@ -1841,13 +1841,13 @@
                 <!-- Per-block FORMATTING (all block types) -->
                 <div style="margin-top:8px;padding-top:10px;border-top:1.5px solid rgba(var(--bx-line-rgb),.1);display:flex;flex-direction:column;gap:6px">
                   <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Formatting</div>
-                  <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Background</div>
+                  <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">Background</div>
                   <div style="display:flex;gap:5px;flex-wrap:wrap">
                     <sc-for list="{{ fmtBgBtns }}" as="fb" hint-placeholder-count="4">
                       <button onClick="{{ fb.onSelect }}" style="flex:1;min-width:48px;padding:6px;border-radius:7px;border:1.5px solid {{ fb.border }};background:{{ fb.bg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ fb.color }};cursor:pointer">{{ fb.label }}</button>
                     </sc-for>
                   </div>
-                  <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">Spacing</div>
+                  <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">Spacing</div>
                   <div style="display:flex;gap:5px">
                     <sc-for list="{{ fmtSpaceBtns }}" as="fs" hint-placeholder-count="3">
                       <button onClick="{{ fs.onSelect }}" style="flex:1;padding:6px;border-radius:7px;border:1.5px solid {{ fs.border }};background:{{ fs.bg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ fs.color }};cursor:pointer">{{ fs.label }}</button>
@@ -1966,7 +1966,7 @@
                           <div style="display:flex;flex-direction:column;gap:3px">
                             <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
                               <span style="font-size:12px;font-weight:900;color:var(--bx-heading)">{{ rp.author }}</span>
-                              <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:rgba(var(--bx-line-rgb),.6)">{{ rp.when }}</span><button onClick="{{ rp.onDelete }}" style="border:none;background:transparent;color:#FF4D00;font-size:12px;cursor:pointer" title="Delete reply">🗑</button></div>
+                              <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:rgba(var(--bx-line-rgb),.8)">{{ rp.when }}</span><button onClick="{{ rp.onDelete }}" style="border:none;background:transparent;color:#FF4D00;font-size:12px;cursor:pointer" title="Delete reply">🗑</button></div>
                             </div>
                             <div style="font-size:13px;color:var(--bx-text);line-height:1.45;white-space:pre-wrap">{{ rp.text }}</div>
                           </div>
@@ -2003,7 +2003,7 @@
                 <textarea value="{{ commentDraft }}" onChange="{{ onCommentDraft }}" rows="3" placeholder="Leave a note for reviewers… use @ to mention a teammate" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
                 <sc-if value="{{ hasTeamRoster }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
-                    <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.55)">Mention:</span>
+                    <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.8)">Mention:</span>
                     <sc-for list="{{ commentMentionRoster }}" as="cmr" hint-placeholder-count="2"><button onClick="{{ cmr.onInsert }}" style="font-size:11px;font-weight:700;color:var(--bx-purple);background:rgba(81,46,145,.08);border:1px solid rgba(81,46,145,.2);border-radius:50px;padding:2px 8px;cursor:pointer">@{{ cmr.name }}</button></sc-for>
                   </div>
                 </sc-if>
@@ -2630,7 +2630,7 @@
           </div>
         </sc-for>
         <sc-if value="{{ pickerNoResults }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:32px 16px;text-align:center;color:rgba(var(--bx-line-rgb),.6)">
+          <div style="padding:32px 16px;text-align:center;color:rgba(var(--bx-line-rgb),.8)">
             <div style="font-size:30px;margin-bottom:8px">🔍</div>
             <div style="font-size:14px;font-weight:700">No blocks match “{{ pickerSearchVal }}”</div>
             <div style="font-size:12px;margin-top:4px">Try a different word, or clear the search.</div>
@@ -2753,7 +2753,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap">
             <sc-if value="{{ qbankHasActive }}" hint-placeholder-val="{{ true }}">
-              <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Bank</span>
+              <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">Bank</span>
               <select value="{{ qbankActiveId }}" onChange="{{ onQbankBankSelect }}" style="max-width:210px;padding:9px 10px;border-radius:9px;border:1.5px solid rgba(81,46,145,.25);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-purple);outline:none;cursor:pointer" title="Switch bank">
                 <sc-for list="{{ qbankBankOptions }}" as="o" hint-placeholder-count="2"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
               </select>
@@ -2766,7 +2766,7 @@
           </div>
           <sc-if value="{{ qbankHasActive }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
-              <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">🏷️ Tags</span>
+              <span style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">🏷️ Tags</span>
               <select value="{{ bankTagLang }}" onChange="{{ onBankTagLang }}" title="Language this bank is for" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankLangOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
               <select value="{{ bankTagStore }}" onChange="{{ onBankTagStore }}" title="Audience this bank is for" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankStoreOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
               <select value="{{ bankTagRole }}" onChange="{{ onBankTagRole }}" title="Role this bank is for" style="padding:7px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer"><sc-for list="{{ bankRoleOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
@@ -2786,7 +2786,7 @@
                       <div onClick="{{ pq.onSelect }}" style="border:1.5px solid {{ pq.listBorder }};background:{{ pq.listBg }};border-radius:9px;padding:8px 9px;cursor:pointer;transition:all .15s">
                         <div style="display:flex;align-items:center;gap:5px">
                           <span style="font-size:11px;font-weight:800;color:var(--bx-purple);flex-shrink:0">Q{{ pq.num }}</span>
-                          <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">{{ pq.summary }}</span>
+                          <span style="font-size:11px;color:rgba(var(--bx-line-rgb),.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">{{ pq.summary }}</span>
                         </div>
                         <div style="display:flex;align-items:center;gap:4px;margin-top:7px">
                           <span style="font-size:10px;color:rgba(var(--bx-line-rgb),.5);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pq.typeLabel }}</span>
@@ -2837,7 +2837,7 @@
                       <input type="text" value="{{ pq.answers }}" onChange="{{ pq.onAnswers }}" placeholder="Accepted answers (comma-separated)" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;color:var(--bx-text);outline:none" style-focus="border-color:var(--bx-purple)">
                     </sc-if>
                     <div style="display:flex;flex-direction:column;gap:7px;margin-top:3px">
-                      <div style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:.5px">Feedback (optional)</div>
+                      <div style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.8);text-transform:uppercase;letter-spacing:.5px">Feedback (optional)</div>
                       <div style="display:flex;gap:8px">
                         <textarea value="{{ pq.fbG }}" onChange="{{ pq.onFbG }}" rows="2" placeholder="✅ Shown when correct" title="Shown when the learner answers correctly" style="flex:1;min-width:0;padding:9px 11px;border-radius:8px;border:1.5px solid rgba(180,189,0,.35);background:rgba(180,189,0,.05);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.4" style-focus="border-color:#B4BD00"></textarea>
                         <textarea value="{{ pq.fbB }}" onChange="{{ pq.onFbB }}" rows="2" placeholder="⚠️ Shown when incorrect" title="Shown when the learner answers incorrectly" style="flex:1;min-width:0;padding:9px 11px;border-radius:8px;border:1.5px solid rgba(255,131,0,.35);background:rgba(255,131,0,.05);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.4" style-focus="border-color:#FF8300"></textarea>
@@ -2855,7 +2855,7 @@
               </div>
             </sc-if>
             <sc-if value="{{ qbankNoActive }}" hint-placeholder-val="{{ false }}">
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:rgba(var(--bx-line-rgb),.6)">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:rgba(var(--bx-line-rgb),.8)">
                 <div style="font-size:40px;margin-bottom:10px">🎲</div>
                 <div style="font-size:15px;font-weight:700;color:var(--bx-heading);margin-bottom:4px">Select or create a bank</div>
                 <div style="font-size:13px;max-width:320px;line-height:1.5">Build a reusable set of questions once, then draw it into any course's quiz pool or final assessment.</div>
@@ -2879,7 +2879,7 @@
           <button onClick="{{ closeAssessImport }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading)">✕</button>
         </div>
         <sc-if value="{{ assessImportNoBanks }}" hint-placeholder-val="{{ false }}">
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:rgba(var(--bx-line-rgb),.6)">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:rgba(var(--bx-line-rgb),.8)">
             <div style="font-size:40px;margin-bottom:10px">🎲</div>
             <div style="font-size:15px;font-weight:700;color:var(--bx-heading);margin-bottom:4px">No question banks yet</div>
             <div style="font-size:13px;max-width:340px;line-height:1.5">Create a bank from the dashboard (🎲 Question Banks) or save this assessment as a bank, then draw from it here.</div>
@@ -2894,7 +2894,7 @@
                   <div style="font-size:14px;font-weight:800;color:var(--bx-purple);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</div>
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px">
                     <span style="font-size:12px;color:rgba(var(--bx-line-rgb),.7)">{{ b.countLabel }}</span>
-                    <sc-if value="{{ b.hasSel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:800;color:#B4BD00;background:rgba(180,189,0,.12);border-radius:20px;padding:2px 8px">{{ b.selBadge }}</span></sc-if>
+                    <sc-if value="{{ b.hasSel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:800;color:var(--bx-olive);background:rgba(180,189,0,.12);border-radius:20px;padding:2px 8px">{{ b.selBadge }}</span></sc-if>
                   </div>
                 </div>
               </sc-for>
@@ -2911,7 +2911,7 @@
                     <div style="width:22px;height:22px;border-radius:6px;border:2px solid {{ q.boxBorder }};background:{{ q.boxBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:13px;font-weight:900">{{ q.mark }}</div>
                     <div style="flex:1;min-width:0">
                       <div style="font-size:13px;color:var(--bx-text);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.num }}. {{ q.text }}</div>
-                      <div style="font-size:11px;color:rgba(var(--bx-line-rgb),.55);margin-top:2px">{{ q.typeLabel }}</div>
+                      <div style="font-size:11px;color:rgba(var(--bx-line-rgb),.8);margin-top:2px">{{ q.typeLabel }}</div>
                     </div>
                   </div>
                 </sc-for>
@@ -2991,11 +2991,11 @@
                 <sc-for list="{{ dg.items }}" as="di" hint-placeholder-count="2">
                   <div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(var(--bx-line-rgb),.07);padding-top:7px">
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-                      <span style="font-size:12px;font-weight:900;color:var(--bx-heading)">{{ di.author }} <span style="font-size:11px;font-weight:600;color:rgba(var(--bx-line-rgb),.55)">· {{ di.when }}</span></span>
+                      <span style="font-size:12px;font-weight:900;color:var(--bx-heading)">{{ di.author }} <span style="font-size:11px;font-weight:600;color:rgba(var(--bx-line-rgb),.8)">· {{ di.when }}</span></span>
                       <span style="font-size:11px;font-weight:700;color:{{ di.statusColor }}">{{ di.statusLabel }}</span>
                     </div>
                     <div style="font-size:13px;color:var(--bx-text);line-height:1.45;white-space:pre-wrap">{{ di.text }}</div>
-                    <sc-if value="{{ di.replyLabel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:rgba(var(--bx-line-rgb),.6)">{{ di.replyLabel }} replies</span></sc-if>
+                    <sc-if value="{{ di.replyLabel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:rgba(var(--bx-line-rgb),.8)">{{ di.replyLabel }} replies</span></sc-if>
                   </div>
                 </sc-for>
               </div>
@@ -3383,7 +3383,7 @@ class Component extends DCLogic {
         bg: active ? `${m.color}10` : 'transparent',
         border: active ? m.color : 'transparent',
         iconBg: `${m.color}20`,
-        numColor: active ? m.color : (this.state.chromeDark ? 'rgba(243,231,226,.6)' : 'rgba(94,42,43,.4)'),
+        numColor: active ? m.color : (this.state.chromeDark ? 'rgba(243,231,226,.6)' : 'rgba(94,42,43,.8)'),
         blockCount: m.blocks.length,
         onClick: () => this.setState({ selectedModule: i, selectedBlock: null }),
         onMoveUp: e => { e.stopPropagation(); this.moveModule(i, -1); },
@@ -6295,9 +6295,9 @@ class Component extends DCLogic {
     const totalBlocks = s.modules.reduce((sum,m)=>sum+m.blocks.length,0);
     const totalDuration = s.modules.reduce((sum,m)=>sum+(parseInt(m.duration)||0),0)+' min';
 
-    // Dark-chrome muted-text override: null in light (so light stays byte-identical),
-    // a legible warm-gray in dark (the brown inactive literals are illegible on a dark bg).
-    const cdMuted = s.chromeDark ? 'rgba(243,231,226,.72)' : null;
+    // Muted inactive-text token, tuned for WCAG AA on both themes: warm-gray on dark,
+    // a darker brown on light (the original .5–.6 browns were below AA on cream/white).
+    const cdMuted = s.chromeDark ? 'rgba(243,231,226,.72)' : 'rgba(94,42,43,.8)';
     const tb = (key) => {
       const active = s.tab === key;
       return { bg: active ? '#FFFFFF' : 'transparent', color: active ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)') };
@@ -6374,7 +6374,7 @@ class Component extends DCLogic {
       undoCursor: s.undoStack.length ? 'pointer' : 'not-allowed',
       redoCursor: s.redoStack.length ? 'pointer' : 'not-allowed',
       saveStateLabel: s.saveState === 'saved' ? 'Saved' : s.saveState === 'saving' ? 'Saving…' : 'Unsaved',
-      saveStateColor: s.saveState === 'saved' ? '#B4BD00' : s.saveState === 'saving' ? '#FF8300' : (cdMuted || 'rgba(94,42,43,.4)'),
+      saveStateColor: s.saveState === 'saved' ? 'var(--bx-olive)' : s.saveState === 'saving' ? 'var(--bx-orange2)' : (cdMuted || 'rgba(94,42,43,.4)'),
 
       // Dashboard / course library
       isDashboard: s.view === 'dashboard',
@@ -6577,7 +6577,7 @@ class Component extends DCLogic {
       chromeDarkTitle: s.chromeDark ? 'Switch the editor to light mode' : 'Switch the editor to dark mode',
       bxVarsCss: s.chromeDark
         ? '--bx-bg:#17100f;--bx-bg2:#1f1614;--bx-bg3:#261b19;--bx-card:#221917;--bx-heading:#FFFFFF;--bx-text:#F3E7E2;--bx-line-rgb:235,205,195;--bx-elev-rgb:42,30,28;--bx-purple:#b9a0e8;--bx-purple2:#c9b6f0;--bx-orange2:#ff9d5c;--bx-olive:#c8d23e'
-        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43;--bx-elev-rgb:255,251,243;--bx-purple:#512E91;--bx-purple2:#7B52C9;--bx-orange2:#c85f00;--bx-olive:#7d8500',
+        : '--bx-bg:#FFFBF3;--bx-bg2:#FAF5EE;--bx-bg3:#F4EDE0;--bx-card:#FFFFFF;--bx-heading:#5E2A2B;--bx-text:#3d1a1b;--bx-line-rgb:94,42,43;--bx-elev-rgb:255,251,243;--bx-purple:#512E91;--bx-purple2:#6840b0;--bx-orange2:#a04b00;--bx-olive:#5f6600',
 
       // Left panel
       moduleList: this.getModuleList(s),
@@ -7395,7 +7395,7 @@ class Component extends DCLogic {
       // Grouped Settings nav
       ...(() => {
         const sec = s.settingsSection || 'general';
-        const onB = '#FF4D00', onC = '#fff', offB = 'transparent', offC = (s.chromeDark ? 'rgba(243,231,226,.72)' : 'rgba(94,42,43,.7)');
+        const onB = '#FF4D00', onC = '#fff', offB = 'transparent', offC = cdMuted;
         const titles = { general: 'General', experience: 'Learner Experience', tracking: 'Tracking & Export' };
         return {
           settingsIsGeneral: sec === 'general',
