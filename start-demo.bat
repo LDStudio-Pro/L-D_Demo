@@ -10,19 +10,19 @@ echo.
 
 where python >nul 2>nul
 if %ERRORLEVEL%==0 (
-  start "" "http://localhost:%PORT%/demo-start.html"
+  start "" "http://localhost:%PORT%/"
   python -m http.server %PORT%
   goto :eof
 )
 where py >nul 2>nul
 if %ERRORLEVEL%==0 (
-  start "" "http://localhost:%PORT%/demo-start.html"
+  start "" "http://localhost:%PORT%/"
   py -m http.server %PORT%
   goto :eof
 )
 where npx >nul 2>nul
 if %ERRORLEVEL%==0 (
-  start "" "http://localhost:%PORT%/demo-start.html"
+  start "" "http://localhost:%PORT%/"
   npx --yes serve -l %PORT%
   goto :eof
 )

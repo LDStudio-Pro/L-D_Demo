@@ -10,10 +10,10 @@ echo "  (Keep this window open during the demo. Press Ctrl+C to stop.)"
 echo ""
 
 if command -v python3 >/dev/null 2>&1; then
-  ( sleep 2; open "http://localhost:$PORT/demo-start.html" ) &
+  ( sleep 2; open "http://localhost:$PORT/" ) &
   python3 -m http.server "$PORT"
 elif command -v npx >/dev/null 2>&1; then
-  ( sleep 2; open "http://localhost:$PORT/demo-start.html" ) &
+  ( sleep 2; open "http://localhost:$PORT/" ) &
   npx --yes serve -l "$PORT"
 else
   echo "  Could not find Python 3 or Node. Install Python 3, then run this again."

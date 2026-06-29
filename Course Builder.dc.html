@@ -7503,5 +7503,47 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script id="campero-demo-guide">
+/* Demo-only navigation guide. Dormant unless localStorage.campero_demo_mode==='1'
+   (set by the demo index.html). Never appears in the product/SCORM build. */
+(function(){
+  try{
+    if(localStorage.getItem('campero_demo_mode')!=='1') return;
+    var APP='builder'; // 'builder' | 'player'
+    var isB = APP==='builder';
+    var other = isB ? {url:'Course Player.dc.html', label:'▶️  Open Player', txt:'see it as a learner'}
+                    : {url:'Course Builder.dc.html', label:'🛠️  Open Builder', txt:'edit the course'};
+    var here = isB ? 'Builder' : 'Player';
+    var CSS='#cdg-card,#cdg-tab{position:fixed;right:18px;bottom:18px;z-index:2147483000;font-family:Arial,Helvetica,sans-serif}'
+      +'#cdg-card{width:300px;max-width:calc(100vw - 36px);background:#fff;border:2px solid rgba(94,42,43,.1);border-radius:16px;box-shadow:0 16px 48px rgba(94,42,43,.28);overflow:hidden;animation:cdgIn .25s ease}'
+      +'@keyframes cdgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}'
+      +'#cdg-card .h{background:linear-gradient(135deg,#FF4D00,#FF8300);color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}'
+      +'#cdg-card .h b{font-size:14px;letter-spacing:.4px}'
+      +'#cdg-card .x{cursor:pointer;font-size:18px;line-height:1;background:rgba(255,255,255,.22);border:none;color:#fff;border-radius:7px;width:26px;height:24px}'
+      +'#cdg-card .bd{padding:13px 14px}'
+      +'#cdg-card .bd p{margin:0 0 11px;font-size:13px;line-height:1.5;color:#5E2A2B}'
+      +'#cdg-card .b{display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:8px;border-radius:10px;border:1.5px solid rgba(94,42,43,.14);background:#FAF5EE;color:#5E2A2B;font-size:13px;font-weight:700;cursor:pointer}'
+      +'#cdg-card .b.primary{background:#FF4D00;color:#fff;border-color:#FF4D00}'
+      +'#cdg-card .b:last-child{margin-bottom:0}'
+      +'#cdg-tab{display:none;width:46px;height:46px;border-radius:50%;background:#FF4D00;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(255,77,0,.45)}';
+    var st=document.createElement('style');st.textContent=CSS;document.head.appendChild(st);
+    function reset(){ try{ Object.keys(localStorage).filter(function(k){return k.indexOf('campero_')===0}).forEach(function(k){localStorage.removeItem(k)}); }catch(e){} location.href='index.html'; }
+    var card=document.createElement('div');card.id='cdg-card';
+    card.innerHTML='<div class="h"><b>🧭 Demo Guide</b><button class="x" title="Minimize" aria-label="Minimize">–</button></div>'
+      +'<div class="bd"><p>You’re in the <b>'+here+'</b>. Open the other side to '+other.txt+' — they share this browser’s storage.</p>'
+      +'<button class="b primary" id="cdg-switch">'+other.label+'</button>'
+      +'<button class="b" id="cdg-reset">🧹  Reset demo</button></div>';
+    var tab=document.createElement('button');tab.id='cdg-tab';tab.title='Demo guide';tab.textContent='🧭';
+    function minimize(){card.style.display='none';tab.style.display='block';try{sessionStorage.setItem('campero_demo_guide_min','1')}catch(e){}}
+    function openCard(){card.style.display='block';tab.style.display='none';try{sessionStorage.removeItem('campero_demo_guide_min')}catch(e){}}
+    document.body.appendChild(card);document.body.appendChild(tab);
+    card.querySelector('.x').onclick=minimize;
+    tab.onclick=openCard;
+    card.querySelector('#cdg-switch').onclick=function(){location.href=other.url};
+    card.querySelector('#cdg-reset').onclick=reset;
+    try{ if(sessionStorage.getItem('campero_demo_guide_min')==='1') minimize(); }catch(e){}
+  }catch(e){}
+})();
+</script>
 </body>
 </html>

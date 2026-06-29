@@ -27,14 +27,13 @@ HOW TO RUN IT (pick your platform)
 
   ANY PLATFORM (manual)
     Open a terminal in this folder and run:   python -m http.server 8099
-    Then visit:   http://localhost:8099/demo-start.html
+    Then visit:   http://localhost:8099/
 
-ON THE START PAGE
-  - "Load sample course & open Builder"  -> seeds a ready-made course and opens
-    the authoring tool (recipe cards, manager sign-off, spot-the-violation,
-    badges, and more already built out).
-  - "Load sample course & open Player"   -> jump straight to the learner view.
-  - "Reset demo"                         -> clears everything for a clean start.
+WHAT YOU'LL SEE
+  The demo loads a ready-made sample course (recipe cards, manager sign-off,
+  spot-the-violation, badges, and more) and opens the Builder automatically.
+  A small "Demo Guide" popup (bottom-right) lets you jump to the Player to
+  preview the course as a learner, or Reset the demo for a clean start.
 
 THE BEST MOMENT TO SHOW
   Author or tweak something in the Builder, then open the Player — you'll see
@@ -48,7 +47,7 @@ GOOD TO KNOW (set expectations)
   run through the LMS (the platform exports SCORM 1.2 / 2004 + xAPI).
 
 FILES IN THIS FOLDER
-  demo-start.html ........ the demo launcher page (start here)
+  index.html ............. entry point (auto-loads the sample course, opens Builder)
   Course Builder.dc.html . the authoring tool
   Course Player.dc.html .. the learner experience
   _ds/, assets/, support.js  required runtime + design-system files (don't move)
