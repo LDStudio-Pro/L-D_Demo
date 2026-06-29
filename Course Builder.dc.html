@@ -1532,6 +1532,10 @@
                     <div style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">…or paste a URL</div>
                     <input type="text" value="{{ blockImageUrl }}" onChange="{{ onBlockImageUrl }}" placeholder="https://cdn.example.com/photo.jpg" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(94,42,43,.12);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none" style-focus="border-color:#B4BD00">
                     <input type="text" value="{{ blockImageAlt }}" onChange="{{ onBlockImageAlt }}" placeholder="Caption or alt text..." style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(94,42,43,.12);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:13px;color:#3d1a1b;outline:none" style-focus="border-color:#B4BD00">
+                    <sc-if value="{{ blockImageHasUrl }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ generateAltText }}" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:7px;border-radius:7px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:800;box-shadow:1.5px 1.5px 0 #5E2A2B" title="Describe this image with Claude — you can edit the result before it's saved">✨ Generate alt text</button>
+                      <sc-if value="{{ altGenStatus }}" hint-placeholder-val="{{ '' }}"><div style="font-size:11px;color:rgba(94,42,43,.74);line-height:1.35">{{ altGenStatus }}</div></sc-if>
+                    </sc-if>
 
                     <!-- Framing: fit + aspect ratio + focal point -->
                     <sc-if value="{{ blockImageHasUrl }}" hint-placeholder-val="{{ true }}">
@@ -3132,6 +3136,7 @@ class Component extends DCLogic {
       { id: 'b_pro',   name: 'Campero Pro', icon: '🏆', trigger: 'course',  n: 0 },
     ] },
     elevenKey: '', elevenVoice: '21m00Tcm4TlvDq8ikWAM', voGenBusy: false, voGenStatus: '',
+    altGenBusy: false, altGenStatus: '',
     scormVersion: 'xapi',
     theme: { accent: '#FF4D00', headingFont: 'Exo' },
     welcome: {
@@ -4915,6 +4920,42 @@ class Component extends DCLogic {
     if (!this.state.assessEnabled) this.setState({ assessEnabled: true });
     this.setState({ aiModalOpen: false, aiResults: [], aiSel: {}, aiStatus: '', aiTopic: '' });
     this._showToast(chosen.length + ' question' + (chosen.length > 1 ? 's' : '') + ' added to the assessment');
+  }
+  // ── AI alt-text for image blocks (vision; reuses the same connector + key) ──
+  async generateAltText() {
+    if (this.state.altGenBusy) return;
+    const key = (this.state.aiKey || '').trim();
+    if (!key) { this.setState({ altGenStatus: 'Add your Claude API key in Settings → AI Assistant first.' }); return; }
+    const block = this.state.modules[this.state.selectedModule]?.blocks?.[this.state.selectedBlock];
+    const url = ((block && block.content && block.content.imageUrl) || '').trim();
+    if (!url) { this.setState({ altGenStatus: 'Add or upload an image first.' }); return; }
+    let source;
+    const m = url.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.*)$/);
+    if (m) source = { type: 'base64', media_type: m[1], data: m[2] };
+    else if (/^https?:\/\//.test(url)) source = { type: 'url', url };
+    else { this.setState({ altGenStatus: 'Image must be uploaded or a public http(s) URL.' }); return; }
+    this.setState({ altGenBusy: true, altGenStatus: 'Describing image with Claude…' });
+    const schema = { type: 'object', additionalProperties: false, required: ['alt'], properties: { alt: { type: 'string' } } };
+    const sys = 'You write concise, accurate alt text for images in a frontline restaurant training course. Describe what is shown plainly and objectively in one sentence under ~120 characters. Do not begin with "Image of" or "Photo of". Do not invent text, brands, or details you cannot clearly see.';
+    const user = [ { type: 'image', source }, { type: 'text', text: 'Write alt text for this image.' } ];
+    const base = ((this.state.aiBaseUrl || '').trim() || 'https://api.anthropic.com').replace(/\/$/, '');
+    try {
+      const res = await fetch(base + '/v1/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: this.state.aiModel || 'claude-sonnet-4-6', max_tokens: 512, system: sys, output_config: { format: { type: 'json_schema', schema } }, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) { let msg = ''; try { const e = await res.json(); msg = (e.error && e.error.message) || ''; } catch (_) {} this.setState({ altGenBusy: false, altGenStatus: 'API error ' + res.status + (msg ? ': ' + msg : '') + '. Check your key and model.' }); return; }
+      const data = await res.json();
+      const tb = (data.content || []).find(b => b.type === 'text');
+      let parsed; try { parsed = JSON.parse(tb ? tb.text : '{}'); } catch (_) { this.setState({ altGenBusy: false, altGenStatus: 'Could not parse the AI response. Try again.' }); return; }
+      const alt = (parsed.alt || '').trim();
+      if (!alt) { this.setState({ altGenBusy: false, altGenStatus: 'No alt text returned. Try again.' }); return; }
+      this.updateBlockContent('alt', alt);
+      this.setState({ altGenBusy: false, altGenStatus: '✓ Alt text generated — edit above if needed.' });
+    } catch (err) {
+      this.setState({ altGenBusy: false, altGenStatus: 'Network error calling Claude. If your browser blocks it (CORS), set a proxy Base URL in Settings.' });
+    }
   }
   async generateElevenLabsVO() {
     if (this.state.voGenBusy) return;
@@ -6893,6 +6934,9 @@ class Component extends DCLogic {
       onBlockImageUrl:  e => this.updateBlockContent('imageUrl',    e.target.value),
       blockImageAlt:    selBlock?.content?.alt       || '',
       onBlockImageAlt:  e => this.updateBlockContent('alt',         e.target.value),
+      generateAltText:  () => this.generateAltText(),
+      altGenBusy:       !!s.altGenBusy,
+      altGenStatus:     s.altGenStatus || '',
       // Image framing — fit / aspect ratio / focal point
       ...(() => {
         const c = selBlock?.content || {};
