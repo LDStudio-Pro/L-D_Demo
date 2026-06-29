@@ -2189,11 +2189,30 @@
           <button onClick="{{ onOpenAssessImport }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:#512E91;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Pick questions from one or more reusable banks">🎲 Insert from a Question Bank</button>
           <button onClick="{{ saveAssessAsBank }}" style="flex:1;padding:12px;border-radius:12px;border:1.5px solid rgba(94,42,43,.18);background:#FAF5EE;color:rgba(94,42,43,.74);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800" title="Save this assessment as a reusable global bank">💾 Save to a Bank</button>
         </div>
+        <sc-if value="{{ assessAudPreviewShow }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 13px;border-radius:12px;background:rgba(255,77,0,.05);border:1.5px solid rgba(255,77,0,.18);margin-bottom:14px">
+            <span style="font-size:12px;font-weight:800;color:#FF4D00;text-transform:uppercase;letter-spacing:1px">👁 Preview as</span>
+            <sc-if value="{{ assessPrevRoleShow }}" hint-placeholder-val="{{ true }}">
+              <select value="{{ assessPreviewRole }}" onChange="{{ onAssessPreviewRole }}" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(94,42,43,.15);background:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#5E2A2B;outline:none;cursor:pointer">
+                <sc-for list="{{ assessPreviewRoleOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ assessPrevStoreShow }}" hint-placeholder-val="{{ true }}">
+              <select value="{{ assessPreviewStore }}" onChange="{{ onAssessPreviewStore }}" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(94,42,43,.15);background:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#5E2A2B;outline:none;cursor:pointer">
+                <sc-for list="{{ assessPreviewStoreOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+              </select>
+            </sc-if>
+            <span style="flex:1;min-width:170px;font-size:13px;font-weight:700;color:#5E2A2B">{{ assessPreviewSummary }}</span>
+          </div>
+        </sc-if>
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
           <sc-for list="{{ assessQuestionsList }}" as="aq" hint-placeholder-count="5">
             <div style="border:2px solid rgba(81,46,145,.16);border-radius:14px;padding:14px;background:#FFFFFF;display:flex;flex-direction:column;gap:9px">
               <div style="display:flex;align-items:center;justify-content:space-between">
-                <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Question {{ aq.num }}</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px">Question {{ aq.num }}</span>
+                  <sc-if value="{{ aq.previewExcluded }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:800;color:rgba(94,42,43,.5);background:rgba(94,42,43,.07);border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.5px">Hidden for this audience</span></sc-if>
+                </div>
                 <div style="display:flex;align-items:center;gap:5px">
                   <button onClick="{{ aq.onUp }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:#512E91;font-size:14px;cursor:pointer;opacity:{{ aq.upOpacity }};display:flex;align-items:center;justify-content:center" title="Move up">▲</button>
                   <button onClick="{{ aq.onDown }}" style="width:24px;height:24px;border-radius:6px;border:none;background:rgba(81,46,145,.08);color:#512E91;font-size:14px;cursor:pointer;opacity:{{ aq.downOpacity }};display:flex;align-items:center;justify-content:center" title="Move down">▼</button>
@@ -2233,6 +2252,24 @@
                 <input type="text" value="{{ aq.mediaUrl }}" onChange="{{ aq.onMediaUrl }}" placeholder="🖼️ image / video URL (optional)" style="flex:1;min-width:0;padding:7px 11px;border-radius:8px;border:1.5px solid rgba(94,42,43,.12);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none" style-focus="border-color:#512E91">
                 <sc-if value="{{ aq.hasMedia }}" hint-placeholder-val="{{ false }}"><button onClick="{{ aq.onMediaClear }}" style="width:30px;height:30px;border-radius:8px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;font-size:14px;cursor:pointer;flex-shrink:0" title="Remove media">✕</button></sc-if>
               </div>
+              <sc-if value="{{ aq.audAnyDim }}" hint-placeholder-val="{{ false }}">
+                <div style="height:1px;background:rgba(94,42,43,.08);margin:1px 0"></div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-size:11px;font-weight:800;color:#FF4D00;text-transform:uppercase;letter-spacing:1px">🎯 Who gets this</span>
+                  <span style="font-size:12px;font-weight:700;color:rgba(94,42,43,.74)">{{ aq.audSummary }}</span>
+                  <sc-if value="{{ aq.audTargeted }}" hint-placeholder-val="{{ false }}"><button onClick="{{ aq.onClearAud }}" style="padding:3px 9px;border-radius:6px;border:1.5px solid rgba(94,42,43,.18);background:transparent;font-family:'Exo',sans-serif;font-size:11px;font-weight:700;color:rgba(94,42,43,.74);cursor:pointer" title="Show this question to everyone">↺ Everyone</button></sc-if>
+                </div>
+                <sc-if value="{{ aq.audShowRoles }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <sc-for list="{{ aq.audRoles }}" as="ro" hint-placeholder-count="3"><button onClick="{{ ro.onToggle }}" style="padding:5px 10px;border-radius:50px;border:1.5px solid {{ ro.border }};background:{{ ro.bg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ ro.color }};cursor:pointer">{{ ro.mark }}{{ ro.label }}</button></sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ aq.audShowStores }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <sc-for list="{{ aq.audStores }}" as="so" hint-placeholder-count="2"><button onClick="{{ so.onToggle }}" style="padding:5px 10px;border-radius:50px;border:1.5px solid {{ so.border }};background:{{ so.bg }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:{{ so.color }};cursor:pointer">{{ so.mark }}{{ so.label }}</button></sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
             </div>
           </sc-for>
         </div>
@@ -3186,6 +3223,7 @@ class Component extends DCLogic {
           {id:'b5',type:'quiz',label:'Knowledge Check',locked:false},
         ]},
     ],
+    assessPreviewRole: '', assessPreviewStore: '',
     assessQuestions: [
       {qType:'mc', question:'What makes Pollo Campero chicken unique from other fast-food chains?', options:["It's always the most affordable option",'Citrus-marinated and hand-breaded fresh every day',"It's made from imported chicken only","It's always served frozen for consistency"], correct:1},
       {qType:'tf', question:'Pollo Campero was founded in the United States.', correct:1},
@@ -5519,6 +5557,10 @@ class Component extends DCLogic {
         if (qType === 'mc' || qType === 'mr') out.options = Array.isArray(q.options) ? q.options.slice() : ['','','',''];
         out.correct = (typeof q.correct === 'number') ? q.correct : 0;
         if (qType === 'mr') out.correctMulti = Array.isArray(q.correctMulti) ? q.correctMulti.slice() : [];
+        // Preserve per-question audience targeting (Assessment-by-audience, Option A) across save→open.
+        if (q.audience && (Array.isArray(q.audience.stores) || Array.isArray(q.audience.roles))) {
+          out.audience = { stores: (q.audience.stores || []).slice(), roles: (q.audience.roles || []).slice() };
+        }
         return out;
       }
       // Legacy shape: { type, text }
@@ -5535,6 +5577,21 @@ class Component extends DCLogic {
     fn(aq);
     this.setState({ assessQuestions: aq });
   }
+  // Assessment-by-audience (Option A) — tag a final-assessment question to specific
+  // store types / roles. Untagged = shared core shown to everyone. Mirrors toggleBlockAudience.
+  toggleAssessAudience(qi, dim, value) {
+    this.assessEdit(aq => {
+      const q = aq[qi]; if (!q) return;
+      const a = q.audience || { stores: [], roles: [] };
+      const arr = Array.isArray(a[dim]) ? [...a[dim]] : [];
+      const at = arr.indexOf(value);
+      if (at >= 0) arr.splice(at, 1); else arr.push(value);
+      a[dim] = arr;
+      const empty = (!(a.stores || []).length) && (!(a.roles || []).length);
+      q.audience = empty ? null : a;
+    });
+  }
+  clearAssessAudience(qi) { this.assessEdit(aq => { if (aq[qi]) aq[qi].audience = null; }); }
   setPassingScore(v) { this.setState({ passingScore: Math.max(1, Math.min(100, v || 1)) }); }
   toggleAssessBank(v) { this.setState({ assessBank: typeof v === 'boolean' ? v : !this.state.assessBank }); }
   setAssessDrawN(v) { this.setState({ assessDrawN: Math.max(1, v || 1) }); }
@@ -7454,6 +7511,31 @@ class Component extends DCLogic {
           assessIsEmpty: aq.length === 0,
           assessHint: aq.length ? (aq.length + ' question' + (aq.length===1?'':'s') + ' · ' + pass + '% to pass') : 'No questions yet — using the built-in default set until you add your own.',
           onAddAssessQ: () => this.addAssessQuestion(),
+          // ── Assessment-by-audience "preview as" selector ──
+          assessAudPreviewShow: !!(s.storeBranch || s.roleBranch),
+          assessPrevRoleShow: !!s.roleBranch,
+          assessPrevStoreShow: !!s.storeBranch,
+          assessPreviewRole: s.assessPreviewRole || '',
+          assessPreviewStore: s.assessPreviewStore || '',
+          onAssessPreviewRole: e => this.setState({ assessPreviewRole: e.target.value }),
+          onAssessPreviewStore: e => this.setState({ assessPreviewStore: e.target.value }),
+          assessPreviewRoleOpts: [{ v: '', l: 'Any role' }].concat((s.roles || []).map(r => ({ v: r.id, l: r.label }))),
+          assessPreviewStoreOpts: [{ v: '', l: 'Any store' }, { v: 'corporate', l: 'Corporate' }, { v: 'franchise', l: 'Franchise' }],
+          assessPreviewSummary: (() => {
+            const pr = s.assessPreviewRole || '', ps = s.assessPreviewStore || '';
+            if (!pr && !ps) return 'Pick a role/store to preview exactly what that audience is tested on.';
+            const inc = aq.filter(q => {
+              const a = q.audience; if (!a) return true;
+              const st = Array.isArray(a.stores) ? a.stores : [], ro = Array.isArray(a.roles) ? a.roles : [];
+              if (ps && st.length && !st.includes(ps)) return false;
+              if (pr && ro.length && !ro.includes(pr)) return false;
+              return true;
+            }).length;
+            const lbl = [((s.roles || []).find(r => r.id === pr) || {}).label, ps === 'corporate' ? 'Corporate' : ps === 'franchise' ? 'Franchise' : ''].filter(Boolean).join(' · ') || 'This audience';
+            const drawN = s.assessDrawN || inc;
+            const drawNote = s.assessBank ? (inc < drawN ? ' · ⚠ only ' + inc + ' available but draw-N is ' + drawN + ' (all ' + inc + ' will be used)' : ' · draws ' + Math.min(drawN, inc)) : '';
+            return 'A ' + lbl + ' learner gets ' + inc + ' of ' + aq.length + ' questions' + drawNote + '.';
+          })(),
           assessQuestionsList: aq.map((q, qi) => {
             const qt = q.qType || 'mc';
             const correct = typeof q.correct === 'number' ? q.correct : 0;
@@ -7495,6 +7577,31 @@ class Component extends DCLogic {
               onMediaFile: e=>this.onAssessMediaFile(qi, e.target.files && e.target.files[0]),
               onMediaUrl: e=>this.onAssessMediaUrl(qi, e.target.value),
               onMediaClear: ()=>this.setAssessMedia(qi, null),
+              // ── Per-question audience targeting (Assessment-by-audience, Option A) ──
+              ...(() => {
+                const aud = q.audience || { stores: [], roles: [] };
+                const aStores = Array.isArray(aud.stores) ? aud.stores : [];
+                const aRoles = Array.isArray(aud.roles) ? aud.roles : [];
+                const chip = on => ({ bg: on ? 'rgba(255,77,0,.12)' : '#FAF5EE', border: on ? '#FF4D00' : 'rgba(94,42,43,.15)', color: on ? '#FF4D00' : 'rgba(94,42,43,.74)' });
+                const storeDefs = [{ id: 'corporate', label: 'Corporate' }, { id: 'franchise', label: 'Franchise' }];
+                const targeted = aStores.length > 0 || aRoles.length > 0;
+                const pr = s.assessPreviewRole || '', ps = s.assessPreviewStore || '';
+                let incl = true;
+                if (ps && aStores.length && !aStores.includes(ps)) incl = false;
+                if (pr && aRoles.length && !aRoles.includes(pr)) incl = false;
+                return {
+                  audAnyDim: !!(s.storeBranch || s.roleBranch),
+                  audShowRoles: !!s.roleBranch, audShowStores: !!s.storeBranch,
+                  audTargeted: targeted,
+                  audSummary: targeted
+                    ? ('🎯 ' + [aRoles.map(r => ((s.roles || []).find(x => x.id === r) || {}).label || r).join(', '), aStores.map(st => (storeDefs.find(d => d.id === st) || {}).label || st).join(' / ')].filter(Boolean).join(' · '))
+                    : '👥 Everyone',
+                  onClearAud: () => this.clearAssessAudience(qi),
+                  audRoles: (s.roles || []).map(r => { const on = aRoles.includes(r.id); const c = chip(on); return { label: r.label, mark: on ? '✓ ' : '', bg: c.bg, border: c.border, color: c.color, onToggle: () => this.toggleAssessAudience(qi, 'roles', r.id) }; }),
+                  audStores: storeDefs.map(d => { const on = aStores.includes(d.id); const c = chip(on); return { label: d.label, mark: on ? '✓ ' : '', bg: c.bg, border: c.border, color: c.color, onToggle: () => this.toggleAssessAudience(qi, 'stores', d.id) }; }),
+                  previewExcluded: (pr || ps) ? !incl : false,
+                };
+              })(),
             };
           }),
         };

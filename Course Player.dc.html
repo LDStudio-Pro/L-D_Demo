@@ -2569,7 +2569,14 @@ class Component extends DCLogic {
   assessQs(s) {
     const isEs = s.language==='es';
     if (Array.isArray(s.assessCfg) && s.assessCfg.length) {
-      return s.assessCfg.map(q0 => {
+      // Assessment-by-audience (Option A — tag-the-pool): keep questions whose
+      // audience matches this learner's store/role (untagged = shared core = everyone).
+      // Filtering here flows to draw / total / scoring / render automatically since
+      // every consumer derives from assessQs. Empty-after-filter guard → fall back to all.
+      let src = s.assessCfg;
+      const filt = src.filter(q0 => this.audienceAllows({ audience: q0 && q0.audience }, s));
+      if (filt.length) src = filt;
+      return src.map(q0 => {
         const q = isEs ? this.localizeContent(q0) : q0;
         const qType = q.qType || 'mc';
         const options = qType==='tf'
@@ -2870,8 +2877,11 @@ class Component extends DCLogic {
   finishCourse() {
     const score = this.state.finalScore;
     const passed = score >= (this.state.passCfg || 80);
-    // Report completion to SCORM bridge (index.html) in parent frame
-    try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score }, '*'); } catch(e) {}
+    // Report completion to SCORM bridge (index.html) in parent frame. Stamp the
+    // learner's audience so an LRS / Absorb can slice pass rates by role/store/lang
+    // even though one package reports one score per learner-attempt.
+    const audience = { role: this.state.role || '', store: this.state.storeType || '', lang: this.state.language || 'en' };
+    try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score, audience }, '*'); } catch(e) {}
     this.setState({ screen: 'done' });
     if (passed) {
       const MODS = this.state.dynamicMods || this.MODULES;
