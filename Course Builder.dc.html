@@ -2638,6 +2638,18 @@
           <button onClick="{{ onImportCourseMedia }}" style="padding:9px 16px;border-radius:9px;border:1.5px solid rgba(94,42,43,.18);background:#FAF5EE;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(94,42,43,.74)" title="Add every media file already used in this course to the library">⤵ Import course media</button>
         </div>
 
+        <div style="position:relative;margin-bottom:16px">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.6;pointer-events:none">🔍</span>
+          <input type="text" value="{{ mediaQuery }}" onInput="{{ onMediaQuery }}" placeholder="Search assets by name or type…" style="width:100%;padding:9px 12px 9px 34px;border-radius:9px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;font-family:'Exo',sans-serif;font-size:14px;color:#3d1a1b;outline:none;box-sizing:border-box" style-focus="border-color:#FF4D00;background:#FFF">
+        </div>
+
+        <sc-if value="{{ mediaNoMatch }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:30px 20px;text-align:center;border-radius:14px;border:2px dashed rgba(94,42,43,.15);background:#FAF5EE;margin-bottom:8px">
+            <div style="font-size:28px;margin-bottom:6px">🔍</div>
+            <div style="font-size:14px;color:rgba(94,42,43,.74)">No assets match “{{ mediaQuery }}”.</div>
+          </div>
+        </sc-if>
+
         <sc-if value="{{ mediaLibEmpty }}" hint-placeholder-val="{{ true }}">
           <div style="padding:40px 20px;text-align:center;border-radius:14px;border:2px dashed rgba(94,42,43,.15);background:#FAF5EE">
             <div style="font-size:34px;margin-bottom:8px">🗂️</div>
@@ -2665,6 +2677,7 @@
                 </select>
                 <div style="display:flex;gap:6px">
                   <button onClick="{{ ma.onUse }}" style="flex:1;padding:6px;border-radius:7px;border:none;background:{{ ma.canUse ? '#FF4D00' : 'rgba(94,42,43,.12)' }};color:{{ ma.canUse ? '#fff' : 'rgba(94,42,43,.74)' }};font-family:'Exo',sans-serif;font-size:13px;font-weight:700;cursor:{{ ma.canUse ? 'pointer' : 'not-allowed' }}" title="Insert into the selected media block">Use</button>
+                  <button onClick="{{ ma.onPromote }}" style="width:30px;border-radius:7px;border:1.5px solid rgba(81,46,145,.25);background:transparent;color:{{ ma.promoteColor }};font-size:13px;cursor:pointer" title="{{ ma.promoteTitle }}">🌐</button>
                   <button onClick="{{ ma.onRemove }}" style="width:30px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:14px;cursor:pointer" title="Remove from library">🗑</button>
                 </div>
               </div>
@@ -3160,6 +3173,7 @@ class Component extends DCLogic {
     pickerSearch: '',
     picker: false,
     mediaModal: false,
+    mediaQuery: '',
     mediaLibrary: [],
     qbankModal: false,
     questionBanks: [],
@@ -4018,8 +4032,8 @@ class Component extends DCLogic {
     if (t.indexOf('pdf') >= 0) return 'pdf';
     return 'image';
   }
-  openMediaModal() { this.setState({ mediaModal: true }); }
-  closeMediaModal() { this.setState({ mediaModal: false }); }
+  openMediaModal() { this.setState({ mediaModal: true, mediaQuery: '' }); }
+  closeMediaModal() { this.setState({ mediaModal: false, mediaQuery: '' }); }
   onMediaLibFile(e) {
     const f = e && e.target && e.target.files && e.target.files[0];
     if (!f) return;
@@ -4089,6 +4103,14 @@ class Component extends DCLogic {
     const list = [...this.state.globalMedia, { ...asset, id: 'g' + Date.now() }];
     this.persistGlobalMedia(list); this.setState({ globalMedia: list });
   }
+  // Builder-button wrapper: promote + toast (Undo removes the just-added global copy).
+  promoteAssetToGlobal(asset) {
+    if (this.state.globalMedia.some(a => a.url === asset.url)) { this._showToast('Already in the global library'); return; }
+    this.saveAssetToGlobal(asset);
+    const added = this.state.globalMedia.find(a => a.url === asset.url);
+    this._showToast('Added to global library', added ? (() => this.removeGlobalMedia(added.id)) : null);
+  }
+  setMediaQuery(v) { this.setState({ mediaQuery: v || '' }); }
   // Harvest every media URL already used across the course into the library (deduped).
   importCourseMedia() {
     const seen = new Set(this.state.mediaLibrary.map(a => a.url));
@@ -7217,7 +7239,13 @@ class Component extends DCLogic {
       ...(() => {
         const ICON = { image: '🖼️', video: '📹', audio: '🎧', pdf: '📑' };
         const lib = Array.isArray(s.mediaLibrary) ? s.mediaLibrary : [];
+        const glob = Array.isArray(s.globalMedia) ? s.globalMedia : [];
         const selIsMedia = ['video', 'image', 'audio', 'pdf'].includes(selBlock?.type);
+        const mq = (s.mediaQuery || '').trim().toLowerCase();
+        const mMatch = a => !mq || ((a.name || '').toLowerCase().includes(mq) || (a.kind || '').toLowerCase().includes(mq));
+        const libF = lib.filter(mMatch);
+        const globF = glob.filter(mMatch);
+        const globUrls = new Set(glob.map(a => a.url));
         return {
           mediaModalOpen: s.mediaModal,
           openMediaModal: () => this.openMediaModal(),
@@ -7226,9 +7254,12 @@ class Component extends DCLogic {
           onImportCourseMedia: () => this.importCourseMedia(),
           mediaLibEmpty: lib.length === 0,
           mediaLibCount: lib.length,
+          mediaQuery: s.mediaQuery || '',
+          onMediaQuery: e => this.setMediaQuery(e.target.value),
+          mediaNoMatch: !!mq && libF.length === 0 && globF.length === 0,
           mediaSelIsMedia: selIsMedia,
           mediaUseHint: selIsMedia ? 'Click “Use” to insert into the selected block.' : 'Select a media block (image / video / audio / PDF) to insert an asset.',
-          mediaLibraryItems: lib.map(a => {
+          mediaLibraryItems: libF.map(a => {
             const SRC = [['upload','📁 Uploaded'],['synthesia','🎬 Synthesia'],['vyond','🎞 Vyond'],['elevenlabs','🎙️ ElevenLabs'],['course','⤵ From course'],['other','Other']];
             const cur = a.source || 'upload';
             return {
@@ -7238,12 +7269,16 @@ class Component extends DCLogic {
               source: cur, sourceOptions: SRC.map(([value,label]) => ({ value, label, selected: value === cur })),
               onSource: e => this.setMediaSource(a.id, e.target.value),
               canUse: selIsMedia,
+              inGlobal: globUrls.has(a.url),
+              promoteTitle: globUrls.has(a.url) ? 'Already in the global library' : 'Promote to the global library (reuse in any course)',
+              promoteColor: globUrls.has(a.url) ? 'rgba(81,46,145,.35)' : '#512E91',
               onUse: () => this.useMediaAsset(a),
+              onPromote: () => this.promoteAssetToGlobal(a),
               onRemove: () => this.removeMediaAsset(a.id),
               onRename: e => this.renameMediaAsset(a.id, e.target.value),
             };
           }),
-          mediaModalGlobalItems: (Array.isArray(s.globalMedia) ? s.globalMedia : []).map(a => ({
+          mediaModalGlobalItems: globF.map(a => ({
             id: a.id, name: a.name || a.kind, url: a.url,
             isImage: a.kind === 'image', icon: ICON[a.kind] || '📦', kindLabel: (a.kind || '').toUpperCase(),
             canUse: selIsMedia, onUse: () => this.useGlobalMedia(a),
