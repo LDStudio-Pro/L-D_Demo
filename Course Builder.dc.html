@@ -579,7 +579,7 @@
                       <!-- TEXT + QUOTE -->
                       <sc-if value="{{ pb.isText }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;font-family:var(--head)"></div>
                           <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:var(--pv-text);line-height:1.7;margin-bottom:12px"></div>
                           <sc-if value="{{ pb.hasQuote }}" hint-placeholder-val="{{ true }}">
                             <div style="padding:14px 16px;border-left:4px solid {{ pb.color }};background:{{ pb.colorBg }};border-radius:0 12px 12px 0;font-size:14px;font-style:italic;color:var(--pv-heading);line-height:1.5">{{ pb.quote }}</div>
@@ -591,7 +591,7 @@
                       <sc-if value="{{ pb.isVideo }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF4D00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📹 Video</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;font-family:var(--head)"></div>
                           <div style="aspect-ratio:16/9;border-radius:14px;background:var(--pv-video);border:2px solid rgba(94,42,43,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
                             <div style="width:54px;height:54px;border-radius:50%;background:#FF4D00;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(255,77,0,.4)">▶</div>
                             <div contentEditable="true" data-ph="{{ pb.captionPh }}" data-init="{{ pb.captionRaw }}" onInput="{{ pb.onEditCaption }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:var(--pv-subtext)"></div>
@@ -659,7 +659,7 @@
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF8300;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📊 Chart</div>
                           <sc-if value="{{ pb.hasChartTitle }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px">{{ pb.chartTitle }}</div>
+                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;font-family:var(--head)">{{ pb.chartTitle }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.hasChart }}" hint-placeholder-val="{{ true }}">
                             <div style="border-radius:12px;border:1.5px solid rgba(94,42,43,.1);background:#FFFDF8;padding:14px 12px">{{ pb.chartSvg }}</div>
@@ -675,7 +675,7 @@
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#B4BD00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📋 Table</div>
                           <sc-if value="{{ pb.hasTableTitle }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px">{{ pb.tableTitle }}</div>
+                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;font-family:var(--head)">{{ pb.tableTitle }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.hasRows }}" hint-placeholder-val="{{ true }}">
                             <div style="overflow-x:auto;border-radius:10px;border:1.5px solid rgba(94,42,43,.1)">
@@ -751,7 +751,7 @@
                       <sc-if value="{{ pb.isAudio }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF8300;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🎙️ Audio</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;font-family:var(--head)"></div>
                           <div style="border-radius:12px;background:var(--pv-video);border:2px solid rgba(94,42,43,.1);padding:14px;display:flex;align-items:center;gap:12px">
                             <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#FF8300,#FFD100);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🎙️</div>
                             <div style="flex:1;height:6px;background:rgba(94,42,43,.15);border-radius:3px"><div style="width:30%;height:100%;background:#FF8300;border-radius:3px"></div></div>
@@ -1018,7 +1018,7 @@
                             <sc-if value="{{ pb.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ pb.photo }}" style="width:100%;height:120px;object-fit:cover;display:block"></sc-if>
                             <sc-if value="{{ pb.noPhoto }}" hint-placeholder-val="{{ true }}"><div style="height:100px;background:var(--pv-video);display:flex;align-items:center;justify-content:center;font-size:30px">🍳</div></sc-if>
                             <div style="padding:14px 16px">
-                              <div contentEditable="true" data-ph="{{ pb.dishPh }}" data-init="{{ pb.dishRaw }}" onInput="{{ pb.onEditDish }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none"></div>
+                              <div contentEditable="true" data-ph="{{ pb.dishPh }}" data-init="{{ pb.dishRaw }}" onInput="{{ pb.onEditDish }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none;font-family:var(--head)"></div>
                               <sc-if value="{{ pb.hasSpecs }}" hint-placeholder-val="{{ false }}">
                                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
                                   <sc-for list="{{ pb.specs }}" as="sp" hint-placeholder-count="2">
@@ -1084,7 +1084,7 @@
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🏅 Manager Skills Sign-Off</div>
                           <div style="border-radius:14px;border:1.5px solid rgba(94,42,43,.12);background:#fff;padding:16px">
-                            <div contentEditable="true" data-ph="{{ pb.skillTitlePh }}" data-init="{{ pb.skillTitleRaw }}" onInput="{{ pb.onEditSkillTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none"></div>
+                            <div contentEditable="true" data-ph="{{ pb.skillTitlePh }}" data-init="{{ pb.skillTitleRaw }}" onInput="{{ pb.onEditSkillTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none;font-family:var(--head)"></div>
                             <sc-if value="{{ pb.hasCriteria }}" hint-placeholder-val="{{ true }}">
                               <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
                                 <sc-for list="{{ pb.criteria }}" as="cr" hint-placeholder-count="3">
