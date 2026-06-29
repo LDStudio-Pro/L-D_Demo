@@ -472,6 +472,8 @@
                 <button onClick="{{ setDeviceDesktop }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ devDesktopBg }};color:{{ devDesktopColor }};transition:all .2s">🖥 Desktop</button>
               </div>
               <div style="width:1px;height:20px;background:rgba(94,42,43,.15)"></div>
+              <button onClick="{{ togglePrevDark }}" title="{{ prevDarkTitle }}" aria-label="{{ prevDarkTitle }}" aria-pressed="{{ prevDark }}" style="padding:5px 11px;border-radius:8px;border:1.5px solid {{ prevDarkBorder }};background:{{ prevDarkBg }};color:{{ prevDarkColor }};cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;transition:all .2s">{{ prevDarkIcon }}</button>
+              <div style="width:1px;height:20px;background:rgba(94,42,43,.15)"></div>
               <button onClick="{{ openInPlayer }}" style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(94,42,43,.2);background:#FFFFFF;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#5E2A2B" style-hover="border-color:#FF4D00">Open in Player ↗</button>
             </div>
 
@@ -498,17 +500,17 @@
             <div style="padding:7px 16px;font-size:13px;color:rgba(94,42,43,.74);background:rgba(255,209,0,.08);border-bottom:1px solid rgba(255,209,0,.25)">💡 {{ previewHint }}</div>
 
             <!-- Device viewport -->
-            <div style="overflow:auto;padding:24px 16px 48px;display:flex;justify-content:center;background:rgba(94,42,43,.03)">
-              <div style="width:{{ deviceWidth }};max-width:{{ deviceMaxW }};flex-shrink:0;background:#FFFBF3;border-radius:{{ deviceRadius }};box-shadow:0 16px 56px rgba(0,0,0,.18);overflow:hidden;border:1.5px solid rgba(94,42,43,.12)">
+            <div style="overflow:auto;padding:24px 16px 48px;display:flex;justify-content:center;background:var(--pv-gutter);{{ pvVarsCss }}">
+              <div style="width:{{ deviceWidth }};max-width:{{ deviceMaxW }};flex-shrink:0;background:var(--pv-bg);border-radius:{{ deviceRadius }};box-shadow:0 16px 56px rgba(0,0,0,.18);overflow:hidden;border:1.5px solid rgba(94,42,43,.12)">
 
                 <!-- Module header -->
-                <div style="padding:12px 16px;background:#FFFFFF;border-bottom:1px solid rgba(94,42,43,.08);display:flex;align-items:center;gap:10px">
+                <div style="padding:12px 16px;background:var(--pv-card);border-bottom:1px solid rgba(94,42,43,.08);display:flex;align-items:center;gap:10px">
                   <div style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(94,42,43,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">←</div>
                   <div style="flex:1;min-width:0">
                     <div style="font-size:12px;font-weight:700;color:{{ previewModColor }};text-transform:uppercase;letter-spacing:1px">MODULE {{ selectedModuleNum }}</div>
-                    <div style="font-size:14px;font-weight:900;color:#5E2A2B;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ previewModuleTitle }}</div>
+                    <div style="font-size:14px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ previewModuleTitle }}</div>
                   </div>
-                  <span style="font-size:12px;color:rgba(94,42,43,.74)">{{ selectedModuleNum }} / {{ totalModules }}</span>
+                  <span style="font-size:12px;color:var(--pv-subtext)">{{ selectedModuleNum }} / {{ totalModules }}</span>
                 </div>
                 <div style="height:4px;background:linear-gradient(90deg,{{ previewModColor }},#FFD100)"></div>
 
@@ -523,24 +525,24 @@
 
                   <sc-for list="{{ previewBlocks }}" as="pb" hint-placeholder-count="5">
                     <div onClick="{{ pb.onClick }}" class="prev-block" style="position:relative;cursor:pointer;border-bottom:{{ pb.fmtBorder }};border-left:3px solid {{ pb.selBorder }};background:{{ pb.fmtBg }};padding-top:{{ pb.fmtPadTop }};padding-bottom:{{ pb.fmtPadBot }};transition:background .15s">
-                      <div onClick="{{ pb.onToggleSelect }}" class="prev-edit-badge" title="{{ pb.editBadgeTitle }}" style="position:absolute;top:6px;left:6px;z-index:4;font-size:11px;font-weight:700;color:#FFFFFF;background:{{ pb.color }};border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px;opacity:{{ pb.badgeOpacity }};transition:opacity .15s;cursor:pointer">{{ pb.editBadgeIcon }} {{ pb.label }}</div>
+                      <div onClick="{{ pb.onToggleSelect }}" class="prev-edit-badge" title="{{ pb.editBadgeTitle }}" style="position:absolute;top:6px;left:6px;z-index:4;font-size:11px;font-weight:700;color:var(--pv-card);background:{{ pb.color }};border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px;opacity:{{ pb.badgeOpacity }};transition:opacity .15s;cursor:pointer">{{ pb.editBadgeIcon }} {{ pb.label }}</div>
 
                       <!-- Hover action toolbar -->
                       <div class="prev-block-toolbar" style="position:absolute;top:6px;right:6px;z-index:3;display:flex;gap:3px;opacity:0;transition:opacity .15s">
-                        <button onClick="{{ pb.onMoveUp }}" title="Move up" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:rgba(255,255,255,.96);cursor:{{ pb.upCursor }};font-size:13px;color:{{ pb.upColor }};display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">↑</button>
-                        <button onClick="{{ pb.onMoveDown }}" title="Move down" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:rgba(255,255,255,.96);cursor:{{ pb.downCursor }};font-size:13px;color:{{ pb.downColor }};display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">↓</button>
-                        <button onClick="{{ pb.onCopy }}" title="Copy block (paste into any lesson)" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:rgba(255,255,255,.96);cursor:pointer;font-size:12px;color:#5E2A2B;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">📋</button>
-                        <button onClick="{{ pb.onSaveTemplate }}" title="Save as reusable template" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:rgba(255,255,255,.96);cursor:pointer;font-size:12px;color:#5E2A2B;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">💾</button>
-                        <button onClick="{{ pb.onDupe }}" title="Duplicate" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:rgba(255,255,255,.96);cursor:pointer;font-size:13px;color:#5E2A2B;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">⧉</button>
-                        <button onClick="{{ pb.onDelete }}" title="Delete" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(255,77,0,.3);background:rgba(255,255,255,.96);cursor:pointer;font-size:13px;color:#FF4D00;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">✕</button>
+                        <button onClick="{{ pb.onMoveUp }}" title="Move up" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:{{ pb.upCursor }};font-size:13px;color:{{ pb.upColor }};display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">↑</button>
+                        <button onClick="{{ pb.onMoveDown }}" title="Move down" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:{{ pb.downCursor }};font-size:13px;color:{{ pb.downColor }};display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">↓</button>
+                        <button onClick="{{ pb.onCopy }}" title="Copy block (paste into any lesson)" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:pointer;font-size:12px;color:var(--pv-heading);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">📋</button>
+                        <button onClick="{{ pb.onSaveTemplate }}" title="Save as reusable template" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:pointer;font-size:12px;color:var(--pv-heading);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">💾</button>
+                        <button onClick="{{ pb.onDupe }}" title="Duplicate" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:pointer;font-size:13px;color:var(--pv-heading);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">⧉</button>
+                        <button onClick="{{ pb.onDelete }}" title="Delete" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(255,77,0,.3);background:var(--pv-card);cursor:pointer;font-size:13px;color:#FF4D00;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">✕</button>
                       </div>
 
                       <!-- HERO -->
                       <sc-if value="{{ pb.isHero }}" hint-placeholder-val="{{ true }}">
                         <div style="padding:22px 18px">
                           <div style="display:inline-block;font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;background:{{ pb.colorBg }};border-radius:50px;padding:3px 12px;margin-bottom:10px">Module {{ selectedModuleNum }}</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:22px;font-weight:900;color:#5E2A2B;text-transform:uppercase;line-height:1.15;margin-bottom:8px;font-family:var(--head)"></div>
-                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:rgba(61,26,27,.85);line-height:1.6"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:22px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;line-height:1.15;margin-bottom:8px;font-family:var(--head)"></div>
+                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:var(--pv-text);line-height:1.6"></div>
                         </div>
                       </sc-if>
 
@@ -550,9 +552,9 @@
                           <div style="font-size:12px;font-weight:700;color:#B4BD00;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🎯 Objectives</div>
                           <div style="display:flex;flex-direction:column;gap:8px">
                             <sc-for list="{{ pb.objectives }}" as="o" hint-placeholder-count="3">
-                              <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:rgba(180,189,0,.07);border-radius:12px">
+                              <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--pv-objbg);border-radius:12px">
                                 <div style="width:20px;height:20px;border-radius:50%;background:#B4BD00;color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div>
-                                <div contentEditable="true" data-ph="{{ o.ph }}" data-init="{{ o.text }}" onInput="{{ o.onEdit }}" onKeyDown="{{ stopEnter }}" style="flex:1;font-size:14px;color:#3d1a1b;line-height:1.5"></div>
+                                <div contentEditable="true" data-ph="{{ o.ph }}" data-init="{{ o.text }}" onInput="{{ o.onEdit }}" onKeyDown="{{ stopEnter }}" style="flex:1;font-size:14px;color:var(--pv-text);line-height:1.5"></div>
                               </div>
                             </sc-for>
                           </div>
@@ -562,10 +564,10 @@
                       <!-- TEXT + QUOTE -->
                       <sc-if value="{{ pb.isText }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px"></div>
-                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:#3d1a1b;line-height:1.7;margin-bottom:12px"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.bodyPh }}" data-init="{{ pb.bodyRaw }}" onInput="{{ pb.onEditBody }}" style="font-size:14px;color:var(--pv-text);line-height:1.7;margin-bottom:12px"></div>
                           <sc-if value="{{ pb.hasQuote }}" hint-placeholder-val="{{ true }}">
-                            <div style="padding:14px 16px;border-left:4px solid {{ pb.color }};background:{{ pb.colorBg }};border-radius:0 12px 12px 0;font-size:14px;font-style:italic;color:#5E2A2B;line-height:1.5">{{ pb.quote }}</div>
+                            <div style="padding:14px 16px;border-left:4px solid {{ pb.color }};background:{{ pb.colorBg }};border-radius:0 12px 12px 0;font-size:14px;font-style:italic;color:var(--pv-heading);line-height:1.5">{{ pb.quote }}</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -574,10 +576,10 @@
                       <sc-if value="{{ pb.isVideo }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF4D00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📹 Video</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px"></div>
-                          <div style="aspect-ratio:16/9;border-radius:14px;background:#F4EDE0;border:2px solid rgba(94,42,43,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div style="aspect-ratio:16/9;border-radius:14px;background:var(--pv-video);border:2px solid rgba(94,42,43,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
                             <div style="width:54px;height:54px;border-radius:50%;background:#FF4D00;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(255,77,0,.4)">▶</div>
-                            <div contentEditable="true" data-ph="{{ pb.captionPh }}" data-init="{{ pb.captionRaw }}" onInput="{{ pb.onEditCaption }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:rgba(94,42,43,.74)"></div>
+                            <div contentEditable="true" data-ph="{{ pb.captionPh }}" data-init="{{ pb.captionRaw }}" onInput="{{ pb.onEditCaption }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:var(--pv-subtext)"></div>
                           </div>
                         </div>
                       </sc-if>
@@ -590,9 +592,9 @@
                             <img src="{{ pb.url }}" style="width:100%;border-radius:12px;display:block;object-fit:{{ pb.imgFit }};object-position:{{ pb.imgPos }};background:{{ pb.imgBg }};max-height:{{ pb.imgMaxH }};aspect-ratio:{{ pb.imgAspect }};height:auto">
                           </sc-if>
                           <sc-if value="{{ pb.noUrl }}" hint-placeholder-val="{{ true }}">
-                            <div style="aspect-ratio:3/2;border-radius:12px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div>
+                            <div style="aspect-ratio:3/2;border-radius:12px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div>
                           </sc-if>
-                          <div contentEditable="true" data-ph="{{ pb.altPh }}" data-init="{{ pb.altRaw }}" onInput="{{ pb.onEditAlt }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:rgba(94,42,43,.74);text-align:center;margin-top:6px;font-style:italic"></div>
+                          <div contentEditable="true" data-ph="{{ pb.altPh }}" data-init="{{ pb.altRaw }}" onInput="{{ pb.onEditAlt }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:var(--pv-subtext);text-align:center;margin-top:6px;font-style:italic"></div>
                         </div>
                       </sc-if>
 
@@ -601,7 +603,7 @@
                         <div style="padding:20px 18px;text-align:center">
                           <span contentEditable="true" data-ph="{{ pb.labelPh }}" data-init="{{ pb.labelRaw }}" onInput="{{ pb.onEditLabel }}" onKeyDown="{{ stopEnter }}" style="display:inline-block;padding:12px 28px;border-radius:50px;background:{{ pb.btnBg }};color:{{ pb.btnColor }};border:2px solid {{ pb.btnBorder }};font-family:'Exo',sans-serif;font-weight:900;font-size:14px;box-shadow:2px 2px 0 rgba(0,0,0,.18);outline:none"></span>
                           <sc-if value="{{ pb.btnHasUrl }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px">⚠ No link set — add a URL in the Block panel</div>
+                            <div style="font-size:12px;color:var(--pv-subtext);margin-top:8px">⚠ No link set — add a URL in the Block panel</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -612,12 +614,12 @@
                           <div style="font-size:12px;font-weight:700;color:#B4BD00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🖼️ Gallery · {{ pb.galLayoutLabel }}</div>
                           <sc-if value="{{ pb.hasImages }}" hint-placeholder-val="{{ true }}">
                             <div style="position:relative;border-radius:12px;overflow:hidden;border:1.5px solid rgba(94,42,43,.1)">
-                              <img src="{{ pb.firstUrl }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#F4EDE0">
+                              <img src="{{ pb.firstUrl }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--pv-video)">
                               <div style="position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:50px">{{ pb.galCount }} images</div>
                             </div>
                           </sc-if>
                           <sc-if value="{{ pb.noImages }}" hint-placeholder-val="{{ false }}">
-                            <div style="aspect-ratio:16/9;border-radius:12px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div>
+                            <div style="aspect-ratio:16/9;border-radius:12px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -632,7 +634,7 @@
                             </div>
                           </sc-if>
                           <sc-if value="{{ pb.noEmbed }}" hint-placeholder-val="{{ false }}">
-                            <div style="aspect-ratio:16/9;border-radius:12px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🌐</div>
+                            <div style="aspect-ratio:16/9;border-radius:12px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">🌐</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -642,13 +644,13 @@
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF8300;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📊 Chart</div>
                           <sc-if value="{{ pb.hasChartTitle }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:15px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px">{{ pb.chartTitle }}</div>
+                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px">{{ pb.chartTitle }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.hasChart }}" hint-placeholder-val="{{ true }}">
                             <div style="border-radius:12px;border:1.5px solid rgba(94,42,43,.1);background:#FFFDF8;padding:14px 12px">{{ pb.chartSvg }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.noChart }}" hint-placeholder-val="{{ false }}">
-                            <div style="aspect-ratio:16/9;border-radius:12px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">📊</div>
+                            <div style="aspect-ratio:16/9;border-radius:12px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);display:flex;align-items:center;justify-content:center;font-size:30px">📊</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -658,11 +660,11 @@
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#B4BD00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📋 Table</div>
                           <sc-if value="{{ pb.hasTableTitle }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:15px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px">{{ pb.tableTitle }}</div>
+                            <div style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px">{{ pb.tableTitle }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.hasRows }}" hint-placeholder-val="{{ true }}">
                             <div style="overflow-x:auto;border-radius:10px;border:1.5px solid rgba(94,42,43,.1)">
-                              <table style="width:100%;border-collapse:collapse;font-size:14px;color:#3d1a1b">
+                              <table style="width:100%;border-collapse:collapse;font-size:14px;color:var(--pv-text)">
                                 <sc-if value="{{ pb.hasHeader }}" hint-placeholder-val="{{ true }}">
                                   <thead><tr>
                                     <sc-for list="{{ pb.headerCells }}" as="hc" hint-placeholder-count="3">
@@ -683,7 +685,7 @@
                             </div>
                           </sc-if>
                           <sc-if value="{{ pb.noRows }}" hint-placeholder-val="{{ false }}">
-                            <div style="border-radius:10px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">📋</div>
+                            <div style="border-radius:10px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">📋</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -705,12 +707,12 @@
                           <sc-if value="{{ pb.hasQuotes }}" hint-placeholder-val="{{ true }}">
                             <div style="border-radius:14px;border:1.5px solid rgba(94,42,43,.1);background:#FFFDF8;padding:18px 16px">
                               <div style="font-size:30px;color:#512E91;line-height:.4;font-family:Georgia,serif;margin-bottom:6px">“</div>
-                              <div contentEditable="true" data-ph="{{ pb.qcTextPh }}" data-init="{{ pb.qcTextRaw }}" onInput="{{ pb.onEditQcText }}" style="font-size:15px;font-style:italic;color:#5E2A2B;line-height:1.5;outline:none"></div>
+                              <div contentEditable="true" data-ph="{{ pb.qcTextPh }}" data-init="{{ pb.qcTextRaw }}" onInput="{{ pb.onEditQcText }}" style="font-size:15px;font-style:italic;color:var(--pv-heading);line-height:1.5;outline:none"></div>
                               <div style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:1px;margin-top:10px">— <span contentEditable="true" data-ph="{{ pb.qcAuthorPh }}" data-init="{{ pb.qcAuthorRaw }}" onInput="{{ pb.onEditQcAuthor }}" onKeyDown="{{ stopEnter }}" style="outline:none"></span></div>
                             </div>
                           </sc-if>
                           <sc-if value="{{ pb.noQuotes }}" hint-placeholder-val="{{ false }}">
-                            <div style="border-radius:14px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">❝</div>
+                            <div style="border-radius:14px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">❝</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -726,7 +728,7 @@
                       <sc-if value="{{ pb.isContinue }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:18px;text-align:center">
                           <span style="display:inline-flex;align-items:center;gap:6px;padding:11px 30px;border-radius:50px;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-weight:900;font-size:14px;box-shadow:2px 2px 0 rgba(0,0,0,.18)"><span contentEditable="true" data-ph="{{ pb.contLabelPh }}" data-init="{{ pb.contLabelRaw }}" onInput="{{ pb.onEditContLabel }}" onKeyDown="{{ stopEnter }}" style="outline:none"></span> ↓</span>
-                          <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px">⏭ Gate — hides following blocks until clicked</div>
+                          <div style="font-size:12px;color:var(--pv-subtext);margin-top:8px">⏭ Gate — hides following blocks until clicked</div>
                         </div>
                       </sc-if>
 
@@ -734,8 +736,8 @@
                       <sc-if value="{{ pb.isAudio }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF8300;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🎙️ Audio</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px"></div>
-                          <div style="border-radius:12px;background:#F4EDE0;border:2px solid rgba(94,42,43,.1);padding:14px;display:flex;align-items:center;gap:12px">
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px"></div>
+                          <div style="border-radius:12px;background:var(--pv-video);border:2px solid rgba(94,42,43,.1);padding:14px;display:flex;align-items:center;gap:12px">
                             <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#FF8300,#FFD100);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🎙️</div>
                             <div style="flex:1;height:6px;background:rgba(94,42,43,.15);border-radius:3px"><div style="width:30%;height:100%;background:#FF8300;border-radius:3px"></div></div>
                           </div>
@@ -745,8 +747,8 @@
                       <!-- PDF -->
                       <sc-if value="{{ pb.isPdf }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:20px 18px">
-                          <div style="font-size:12px;font-weight:700;color:#5E2A2B;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📄 Document</div>
-                          <div style="border-radius:12px;border:2px solid rgba(94,42,43,.1);height:160px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;font-size:34px">📄</div>
+                          <div style="font-size:12px;font-weight:700;color:var(--pv-heading);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">📄 Document</div>
+                          <div style="border-radius:12px;border:2px solid rgba(94,42,43,.1);height:160px;background:var(--pv-video);display:flex;align-items:center;justify-content:center;font-size:34px">📄</div>
                           <div style="text-align:center;margin-top:8px"><span style="display:inline-block;padding:8px 18px;border-radius:50px;background:#FF4D00;color:#fff;font-size:14px;font-weight:700">📄 {{ pb.label }}</span></div>
                         </div>
                       </sc-if>
@@ -765,21 +767,21 @@
                             <div style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:2px">🧠 Knowledge Check</div>
                             <div style="font-size:11px;font-weight:700;color:#512E91;background:rgba(81,46,145,.1);border-radius:50px;padding:2px 8px;text-transform:uppercase;letter-spacing:.5px">{{ pb.qTypeLabel }}</div>
                           </div>
-                          <div contentEditable="true" data-ph="{{ pb.questionPh }}" data-init="{{ pb.questionRaw }}" onInput="{{ pb.onEditQuestion }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;color:#3d1a1b;line-height:1.6;margin-bottom:14px;font-weight:700"></div>
+                          <div contentEditable="true" data-ph="{{ pb.questionPh }}" data-init="{{ pb.questionRaw }}" onInput="{{ pb.onEditQuestion }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;color:var(--pv-text);line-height:1.6;margin-bottom:14px;font-weight:700"></div>
                           <sc-if value="{{ pb.qHasMedia }}" hint-placeholder-val="{{ false }}">
                             <sc-if value="{{ pb.qMediaIsImage }}" hint-placeholder-val="{{ true }}"><img src="{{ pb.qMediaUrl }}" alt="" style="width:100%;max-height:240px;object-fit:cover;border-radius:14px;margin-bottom:14px;border:1.5px solid rgba(94,42,43,.1)"></sc-if>
                             <sc-if value="{{ pb.qMediaIsVideo }}" hint-placeholder-val="{{ false }}"><video src="{{ pb.qMediaUrl }}" controls playsinline style="width:100%;border-radius:14px;margin-bottom:14px;background:#000"></video></sc-if>
                           </sc-if>
                           <sc-if value="{{ pb.qIsFill }}" hint-placeholder-val="{{ false }}">
-                            <div style="padding:11px 14px;border-radius:12px;border:2px dashed rgba(81,46,145,.3);background:#fff;font-size:14px;color:rgba(94,42,43,.74);font-style:italic">{{ pb.fillAnswers }}</div>
+                            <div style="padding:11px 14px;border-radius:12px;border:2px dashed rgba(81,46,145,.3);background:#fff;font-size:14px;color:var(--pv-subtext);font-style:italic">{{ pb.fillAnswers }}</div>
                           </sc-if>
                           <sc-if value="{{ pb.qIsMatch }}" hint-placeholder-val="{{ false }}">
                             <div style="display:flex;flex-direction:column;gap:6px">
                               <sc-for list="{{ pb.matchRows }}" as="mr" hint-placeholder-count="3">
                                 <div style="display:flex;align-items:center;gap:8px">
-                                  <div style="flex:1;padding:9px 11px;border-radius:10px;background:#fff;border:1.5px solid rgba(94,42,43,.12);font-size:14px;font-weight:700;color:#5E2A2B">{{ mr.l }}</div>
+                                  <div style="flex:1;padding:9px 11px;border-radius:10px;background:#fff;border:1.5px solid rgba(94,42,43,.12);font-size:14px;font-weight:700;color:var(--pv-heading)">{{ mr.l }}</div>
                                   <span style="font-size:14px;color:#512E91">↔</span>
-                                  <div style="flex:1;padding:9px 11px;border-radius:10px;background:rgba(81,46,145,.06);border:1.5px solid rgba(81,46,145,.2);font-size:14px;color:#3d1a1b">{{ mr.r }}</div>
+                                  <div style="flex:1;padding:9px 11px;border-radius:10px;background:rgba(81,46,145,.06);border:1.5px solid rgba(81,46,145,.2);font-size:14px;color:var(--pv-text)">{{ mr.r }}</div>
                                 </div>
                               </sc-for>
                             </div>
@@ -789,8 +791,8 @@
                               <sc-for list="{{ pb.sortItems }}" as="si" hint-placeholder-count="3">
                                 <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;background:#fff;border:1.5px solid rgba(94,42,43,.12)">
                                   <div style="width:22px;height:22px;border-radius:50%;background:#512E91;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ si.num }}</div>
-                                  <div style="flex:1;font-size:14px;color:#3d1a1b">{{ si.text }}</div>
-                                  <span style="font-size:13px;color:rgba(94,42,43,.74);flex-shrink:0">↕</span>
+                                  <div style="flex:1;font-size:14px;color:var(--pv-text)">{{ si.text }}</div>
+                                  <span style="font-size:13px;color:var(--pv-subtext);flex-shrink:0">↕</span>
                                 </div>
                               </sc-for>
                             </div>
@@ -800,7 +802,7 @@
                               <sc-for list="{{ pb.options }}" as="op" hint-placeholder-count="4">
                                 <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;border:2px solid {{ op.optBorder }};background:{{ op.optBg }}">
                                   <div style="width:24px;height:24px;border-radius:50%;border:2px solid {{ op.optBorder }};color:{{ op.optColor }};font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ op.letter }}</div>
-                                  <div contentEditable="{{ op.optEditable }}" data-ph="{{ op.optPh }}" data-init="{{ op.optRaw }}" onInput="{{ op.onEditOpt }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;color:#3d1a1b;flex:1;outline:none"></div>
+                                  <div contentEditable="{{ op.optEditable }}" data-ph="{{ op.optPh }}" data-init="{{ op.optRaw }}" onInput="{{ op.onEditOpt }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;color:var(--pv-text);flex:1;outline:none"></div>
                                 </div>
                               </sc-for>
                             </div>
@@ -818,7 +820,7 @@
                       <!-- LOCK -->
                       <sc-if value="{{ pb.isLock }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:16px 18px">
-                          <div style="border:2px dashed rgba(94,42,43,.2);border-radius:12px;padding:14px;display:flex;gap:10px;align-items:center;background:rgba(94,42,43,.03)"><span style="font-size:20px">🔒</span><div contentEditable="true" data-ph="{{ pb.messagePh }}" data-init="{{ pb.messageRaw }}" onInput="{{ pb.onEditMessage }}" style="font-size:14px;color:rgba(94,42,43,.74);line-height:1.5;flex:1;outline:none"></div></div>
+                          <div style="border:2px dashed rgba(94,42,43,.2);border-radius:12px;padding:14px;display:flex;gap:10px;align-items:center;background:rgba(94,42,43,.03)"><span style="font-size:20px">🔒</span><div contentEditable="true" data-ph="{{ pb.messagePh }}" data-init="{{ pb.messageRaw }}" onInput="{{ pb.onEditMessage }}" style="font-size:14px;color:var(--pv-subtext);line-height:1.5;flex:1;outline:none"></div></div>
                         </div>
                       </sc-if>
 
@@ -826,7 +828,7 @@
                       <sc-if value="{{ pb.isHotspot }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:16px 18px">
                           <div style="font-size:12px;font-weight:700;color:#512E91;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🎯 Hotspot</div>
-                          <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(94,42,43,.1);background:#F4EDE0">
+                          <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(94,42,43,.1);background:var(--pv-video)">
                             <sc-if value="{{ pb.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ pb.url }}" style="width:100%;display:block"></sc-if>
                             <sc-if value="{{ pb.noImg }}" hint-placeholder-val="{{ true }}"><div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div></sc-if>
                             <sc-for list="{{ pb.pins }}" as="pin" hint-placeholder-count="2">
@@ -840,14 +842,14 @@
                       <sc-if value="{{ pb.isFindissues }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:16px 18px">
                           <div style="font-size:12px;font-weight:700;color:#FF4D00;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🔎 Spot the Issues · {{ pb.issueCount }}</div>
-                          <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(94,42,43,.1);background:#F4EDE0">
+                          <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(94,42,43,.1);background:var(--pv-video)">
                             <sc-if value="{{ pb.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ pb.url }}" style="width:100%;display:block"></sc-if>
                             <sc-if value="{{ pb.noImg }}" hint-placeholder-val="{{ true }}"><div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:30px">🔎</div></sc-if>
                             <sc-for list="{{ pb.pins }}" as="pin" hint-placeholder-count="2">
                               <div style="position:absolute;left:{{ pin.x }};top:{{ pin.y }};transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#FF4D00;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-shadow:0 0 0 5px rgba(255,77,0,.25);border:2px solid #fff">{{ pin.label }}</div>
                             </sc-for>
                           </div>
-                          <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px">Markers show where issues are (authoring view). Learners tap to find them — hidden until found.</div>
+                          <div style="font-size:12px;color:var(--pv-subtext);margin-top:8px">Markers show where issues are (authoring view). Learners tap to find them — hidden until found.</div>
                         </div>
                       </sc-if>
 
@@ -859,10 +861,10 @@
                             <sc-for list="{{ pb.items }}" as="ai" hint-placeholder-count="3">
                               <div style="border:1.5px solid rgba(94,42,43,.12);border-radius:10px;overflow:hidden">
                                 <div style="padding:10px 12px;background:{{ pb.colorBg }};display:flex;align-items:center;justify-content:space-between">
-                                  <span contentEditable="true" data-ph="{{ ai.aPh }}" data-init="{{ ai.aRaw }}" onInput="{{ ai.onEditA }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:#5E2A2B;flex:1;outline:none"></span>
+                                  <span contentEditable="true" data-ph="{{ ai.aPh }}" data-init="{{ ai.aRaw }}" onInput="{{ ai.onEditA }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:var(--pv-heading);flex:1;outline:none"></span>
                                   <span style="font-size:13px;color:{{ pb.color }}">{{ ai.sign }}</span>
                                 </div>
-                                <sc-if value="{{ ai.open }}" hint-placeholder-val="{{ true }}"><div contentEditable="true" data-rich="1" data-ph="{{ ai.bPh }}" data-init="{{ ai.bRaw }}" onInput="{{ ai.onEditB }}" style="padding:10px 12px;font-size:14px;color:#3d1a1b;line-height:1.5;background:#fff;outline:none"></div></sc-if>
+                                <sc-if value="{{ ai.open }}" hint-placeholder-val="{{ true }}"><div contentEditable="true" data-rich="1" data-ph="{{ ai.bPh }}" data-init="{{ ai.bRaw }}" onInput="{{ ai.onEditB }}" style="padding:10px 12px;font-size:14px;color:var(--pv-text);line-height:1.5;background:#fff;outline:none"></div></sc-if>
                               </div>
                             </sc-for>
                           </div>
@@ -878,7 +880,7 @@
                               <div style="padding:6px 14px;border-radius:50px;background:{{ tb.tabBg }};border:1.5px solid {{ pb.colorBg }};font-size:13px;font-weight:700;color:{{ tb.tabColor }}"><span contentEditable="true" data-ph="{{ tb.labelPh }}" data-init="{{ tb.labelRaw }}" onInput="{{ tb.onEditLabel }}" onKeyDown="{{ stopEnter }}" style="outline:none"></span></div>
                             </sc-for>
                           </div>
-                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.tabBodyPh }}" data-init="{{ pb.tabBodyRaw }}" onInput="{{ pb.onEditTabBody }}" style="padding:14px;border-radius:12px;background:#fff;border:1.5px solid rgba(94,42,43,.1);font-size:14px;color:#3d1a1b;line-height:1.6;outline:none"></div>
+                          <div contentEditable="true" data-rich="1" data-ph="{{ pb.tabBodyPh }}" data-init="{{ pb.tabBodyRaw }}" onInput="{{ pb.onEditTabBody }}" style="padding:14px;border-radius:12px;background:#fff;border:1.5px solid rgba(94,42,43,.1);font-size:14px;color:var(--pv-text);line-height:1.6;outline:none"></div>
                         </div>
                       </sc-if>
 
@@ -889,7 +891,7 @@
                           <div style="display:flex;gap:10px;flex-wrap:wrap">
                             <sc-for list="{{ pb.cards }}" as="cd" hint-placeholder-count="3">
                               <div style="flex:1;min-width:120px;aspect-ratio:3/2;border-radius:12px;background:{{ pb.colorBg }};border:2px solid {{ pb.color }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;text-align:center">
-                                <div contentEditable="true" data-ph="{{ cd.frontPh }}" data-init="{{ cd.frontRaw }}" onInput="{{ cd.onEditFront }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:#5E2A2B;outline:none;width:100%;text-align:center"></div>
+                                <div contentEditable="true" data-ph="{{ cd.frontPh }}" data-init="{{ cd.frontRaw }}" onInput="{{ cd.onEditFront }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:var(--pv-heading);outline:none;width:100%;text-align:center"></div>
                                 <div style="font-size:12px;color:{{ pb.color }}">🔄 tap to flip</div>
                               </div>
                             </sc-for>
@@ -903,11 +905,11 @@
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🎭 Scenario</div>
                           <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px">
                             <img src="assets/mascot/pollito-emoji.png" style="width:28px;height:28px;flex-shrink:0;object-fit:contain">
-                            <div contentEditable="true" data-rich="1" data-ph="{{ pb.promptPh }}" data-init="{{ pb.promptRaw }}" onInput="{{ pb.onEditPrompt }}" style="font-size:14px;color:#3d1a1b;line-height:1.6;font-weight:700;flex:1;outline:none"></div>
+                            <div contentEditable="true" data-rich="1" data-ph="{{ pb.promptPh }}" data-init="{{ pb.promptRaw }}" onInput="{{ pb.onEditPrompt }}" style="font-size:14px;color:var(--pv-text);line-height:1.6;font-weight:700;flex:1;outline:none"></div>
                           </div>
                           <div style="display:flex;flex-direction:column;gap:6px">
                             <sc-for list="{{ pb.choices }}" as="ch" hint-placeholder-count="2">
-                              <div style="padding:10px 12px;border-radius:10px;border:1.5px solid {{ ch.chBorder }};background:{{ ch.chBg }};font-size:14px;color:#3d1a1b;display:flex;gap:8px;align-items:center"><span>{{ ch.tag }}</span><span contentEditable="true" data-ph="{{ ch.textPh }}" data-init="{{ ch.textRaw }}" onInput="{{ ch.onEditText }}" onKeyDown="{{ stopEnter }}" style="flex:1;outline:none"></span></div>
+                              <div style="padding:10px 12px;border-radius:10px;border:1.5px solid {{ ch.chBorder }};background:{{ ch.chBg }};font-size:14px;color:var(--pv-text);display:flex;gap:8px;align-items:center"><span>{{ ch.tag }}</span><span contentEditable="true" data-ph="{{ ch.textPh }}" data-init="{{ ch.textRaw }}" onInput="{{ ch.onEditText }}" onKeyDown="{{ stopEnter }}" style="flex:1;outline:none"></span></div>
                             </sc-for>
                           </div>
                         </div>
@@ -924,7 +926,7 @@
                             <sc-for list="{{ pb.qbankPreview }}" as="qq" hint-placeholder-count="3">
                               <div style="display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:10px;background:#fff;border:1.5px dashed rgba(81,46,145,.25)">
                                 <div style="width:20px;height:20px;border-radius:50%;background:rgba(81,46,145,.1);color:#512E91;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ qq.n }}</div>
-                                <div style="font-size:14px;color:#3d1a1b;line-height:1.4">{{ qq.text }}</div>
+                                <div style="font-size:14px;color:var(--pv-text);line-height:1.4">{{ qq.text }}</div>
                               </div>
                             </sc-for>
                           </div>
@@ -935,7 +937,7 @@
                       <sc-if value="{{ pb.isChat }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">💬 Conversation</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:800;color:#3d1a1b;margin-bottom:14px;outline:none"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:800;color:var(--pv-text);margin-bottom:14px;outline:none"></div>
                           <div style="display:flex;flex-direction:column;gap:10px">
                             <sc-for list="{{ pb.messages }}" as="msg" hint-placeholder-count="2">
                               <div style="display:flex;justify-content:{{ msg.rowJustify }}">
@@ -953,7 +955,7 @@
                       <sc-if value="{{ pb.isTimeline }}" hint-placeholder-val="{{ false }}">
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">📅 Timeline</div>
-                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:800;color:#3d1a1b;margin-bottom:14px;outline:none"></div>
+                          <div contentEditable="true" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:800;color:var(--pv-text);margin-bottom:14px;outline:none"></div>
                           <div style="display:flex;flex-direction:column;gap:0">
                             <sc-for list="{{ pb.events }}" as="ev" hint-placeholder-count="3">
                               <div style="display:flex;gap:12px">
@@ -963,8 +965,8 @@
                                 </div>
                                 <div style="padding-bottom:16px;flex:1;min-width:0">
                                   <span contentEditable="true" data-ph="{{ ev.datePh }}" data-init="{{ ev.dateRaw }}" onInput="{{ ev.onEditDate }}" onKeyDown="{{ stopEnter }}" style="font-size:11px;font-weight:800;color:{{ pb.color }};text-transform:uppercase;letter-spacing:1px;outline:none;display:inline-block"></span>
-                                  <div contentEditable="true" data-ph="{{ ev.evTitlePh }}" data-init="{{ ev.evTitleRaw }}" onInput="{{ ev.onEditEvTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:700;color:#3d1a1b;margin:2px 0;outline:none"></div>
-                                  <div contentEditable="true" data-ph="{{ ev.detailPh }}" data-init="{{ ev.detailRaw }}" onInput="{{ ev.onEditDetail }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:rgba(94,42,43,.74);line-height:1.5;outline:none"></div>
+                                  <div contentEditable="true" data-ph="{{ ev.evTitlePh }}" data-init="{{ ev.evTitleRaw }}" onInput="{{ ev.onEditEvTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:700;color:var(--pv-text);margin:2px 0;outline:none"></div>
+                                  <div contentEditable="true" data-ph="{{ ev.detailPh }}" data-init="{{ ev.detailRaw }}" onInput="{{ ev.onEditDetail }}" onKeyDown="{{ stopEnter }}" style="font-size:13px;color:var(--pv-subtext);line-height:1.5;outline:none"></div>
                                 </div>
                               </div>
                             </sc-for>
@@ -984,8 +986,8 @@
                                   <div style="flex:1;width:2px;background:{{ pb.colorBg }};min-height:10px"></div>
                                 </div>
                                 <div style="padding-bottom:14px">
-                                  <div contentEditable="true" data-ph="{{ sp.titlePh }}" data-init="{{ sp.titleRaw }}" onInput="{{ sp.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:#5E2A2B;outline:none"></div>
-                                  <div contentEditable="true" data-rich="1" data-ph="{{ sp.bodyPh }}" data-init="{{ sp.bodyRaw }}" onInput="{{ sp.onEditBody }}" style="font-size:14px;color:#3d1a1b;line-height:1.5;margin-top:2px;outline:none"></div>
+                                  <div contentEditable="true" data-ph="{{ sp.titlePh }}" data-init="{{ sp.titleRaw }}" onInput="{{ sp.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:700;color:var(--pv-heading);outline:none"></div>
+                                  <div contentEditable="true" data-rich="1" data-ph="{{ sp.bodyPh }}" data-init="{{ sp.bodyRaw }}" onInput="{{ sp.onEditBody }}" style="font-size:14px;color:var(--pv-text);line-height:1.5;margin-top:2px;outline:none"></div>
                                 </div>
                               </div>
                             </sc-for>
@@ -999,15 +1001,15 @@
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🍳 Recipe Card</div>
                           <div style="border-radius:14px;overflow:hidden;border:1.5px solid rgba(94,42,43,.12);background:#FFFDF8">
                             <sc-if value="{{ pb.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ pb.photo }}" style="width:100%;height:120px;object-fit:cover;display:block"></sc-if>
-                            <sc-if value="{{ pb.noPhoto }}" hint-placeholder-val="{{ true }}"><div style="height:100px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;font-size:30px">🍳</div></sc-if>
+                            <sc-if value="{{ pb.noPhoto }}" hint-placeholder-val="{{ true }}"><div style="height:100px;background:var(--pv-video);display:flex;align-items:center;justify-content:center;font-size:30px">🍳</div></sc-if>
                             <div style="padding:14px 16px">
-                              <div contentEditable="true" data-ph="{{ pb.dishPh }}" data-init="{{ pb.dishRaw }}" onInput="{{ pb.onEditDish }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px;outline:none"></div>
+                              <div contentEditable="true" data-ph="{{ pb.dishPh }}" data-init="{{ pb.dishRaw }}" onInput="{{ pb.onEditDish }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none"></div>
                               <sc-if value="{{ pb.hasSpecs }}" hint-placeholder-val="{{ false }}">
                                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
                                   <sc-for list="{{ pb.specs }}" as="sp" hint-placeholder-count="2">
                                     <div style="padding:7px 9px;border-radius:9px;background:rgba(255,77,0,.06);border:1.5px solid rgba(94,42,43,.1)">
-                                      <div contentEditable="true" data-ph="{{ sp.labelPh }}" data-init="{{ sp.label }}" onInput="{{ sp.onEditLabel }}" onKeyDown="{{ stopEnter }}" style="font-size:11px;font-weight:700;color:rgba(94,42,43,.74);text-transform:uppercase;letter-spacing:.5px;outline:none"></div>
-                                      <div contentEditable="true" data-ph="{{ sp.valuePh }}" data-init="{{ sp.value }}" onInput="{{ sp.onEditValue }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:900;color:#5E2A2B;outline:none"></div>
+                                      <div contentEditable="true" data-ph="{{ sp.labelPh }}" data-init="{{ sp.label }}" onInput="{{ sp.onEditLabel }}" onKeyDown="{{ stopEnter }}" style="font-size:11px;font-weight:700;color:var(--pv-subtext);text-transform:uppercase;letter-spacing:.5px;outline:none"></div>
+                                      <div contentEditable="true" data-ph="{{ sp.valuePh }}" data-init="{{ sp.value }}" onInput="{{ sp.onEditValue }}" onKeyDown="{{ stopEnter }}" style="font-size:14px;font-weight:900;color:var(--pv-heading);outline:none"></div>
                                     </div>
                                   </sc-for>
                                 </div>
@@ -1017,7 +1019,7 @@
                                   <sc-for list="{{ pb.steps }}" as="rs" hint-placeholder-count="3">
                                     <div style="display:flex;gap:9px;align-items:flex-start">
                                       <div style="width:22px;height:22px;border-radius:50%;background:{{ pb.color }};color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ rs.n }}</div>
-                                      <div contentEditable="true" data-ph="{{ rs.ph }}" data-init="{{ rs.text }}" onInput="{{ rs.onEdit }}" style="font-size:14px;color:#3d1a1b;line-height:1.45;padding-top:2px;flex:1;outline:none"></div>
+                                      <div contentEditable="true" data-ph="{{ rs.ph }}" data-init="{{ rs.text }}" onInput="{{ rs.onEdit }}" style="font-size:14px;color:var(--pv-text);line-height:1.45;padding-top:2px;flex:1;outline:none"></div>
                                     </div>
                                   </sc-for>
                                 </div>
@@ -1032,12 +1034,12 @@
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">✍️ Acknowledge &amp; Sign</div>
                           <div style="border-radius:14px;border:1.5px solid rgba(94,42,43,.12);background:#fff;padding:16px">
-                            <div contentEditable="true" data-ph="{{ pb.statementPh }}" data-init="{{ pb.statementRaw }}" onInput="{{ pb.onEditStatement }}" style="font-size:14px;color:#3d1a1b;line-height:1.55;margin-bottom:12px;outline:none"></div>
+                            <div contentEditable="true" data-ph="{{ pb.statementPh }}" data-init="{{ pb.statementRaw }}" onInput="{{ pb.onEditStatement }}" style="font-size:14px;color:var(--pv-text);line-height:1.55;margin-bottom:12px;outline:none"></div>
                             <div style="display:flex;align-items:center;gap:9px;padding:11px 13px;border-radius:11px;border:2px solid {{ pb.color }};background:rgba(180,189,0,.06)">
                               <span style="font-size:18px;color:{{ pb.color }}">☐</span>
-                              <div style="font-size:14px;font-weight:700;color:#5E2A2B">I have read and understand the above</div>
+                              <div style="font-size:14px;font-weight:700;color:var(--pv-heading)">I have read and understand the above</div>
                             </div>
-                            <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px;text-align:center">🔒 Gate — must sign before continuing; stamps name + date</div>
+                            <div style="font-size:12px;color:var(--pv-subtext);margin-top:8px;text-align:center">🔒 Gate — must sign before continuing; stamps name + date</div>
                           </div>
                         </div>
                       </sc-if>
@@ -1047,17 +1049,17 @@
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🔁 Compare</div>
                           <sc-if value="{{ pb.hasImages }}" hint-placeholder-val="{{ true }}">
-                            <div style="position:relative;border-radius:12px;overflow:hidden;border:1.5px solid rgba(94,42,43,.12);background:#F4EDE0">
+                            <div style="position:relative;border-radius:12px;overflow:hidden;border:1.5px solid rgba(94,42,43,.12);background:var(--pv-video)">
                               <img src="{{ pb.rightImage }}" style="display:block;width:100%;height:auto">
                               <img src="{{ pb.leftImage }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(0 50% 0 0)">
                               <div style="position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-1.5px)"></div>
                               <div style="position:absolute;top:8px;left:8px;background:#B4BD00;color:#fff;font-size:12px;font-weight:900;text-transform:uppercase;padding:3px 8px;border-radius:50px">✓ <span contentEditable="true" data-ph="{{ pb.leftLabelPh }}" data-init="{{ pb.leftLabelRaw }}" onInput="{{ pb.onEditLeftLabel }}" onKeyDown="{{ stopEnter }}" style="outline:none"></span></div>
                               <div style="position:absolute;top:8px;right:8px;background:#FF4D00;color:#fff;font-size:12px;font-weight:900;text-transform:uppercase;padding:3px 8px;border-radius:50px">✕ <span contentEditable="true" data-ph="{{ pb.rightLabelPh }}" data-init="{{ pb.rightLabelRaw }}" onInput="{{ pb.onEditRightLabel }}" onKeyDown="{{ stopEnter }}" style="outline:none"></span></div>
                             </div>
-                            <sc-if value="{{ pb.hasCaption }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#3d1a1b;text-align:center;margin-top:8px;line-height:1.5">{{ pb.caption }}</div></sc-if>
+                            <sc-if value="{{ pb.hasCaption }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:var(--pv-text);text-align:center;margin-top:8px;line-height:1.5">{{ pb.caption }}</div></sc-if>
                           </sc-if>
                           <sc-if value="{{ pb.noImages }}" hint-placeholder-val="{{ false }}">
-                            <div style="border-radius:12px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">🔁</div>
+                            <div style="border-radius:12px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);padding:22px;text-align:center;font-size:24px">🔁</div>
                           </sc-if>
                         </div>
                       </sc-if>
@@ -1067,23 +1069,23 @@
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🏅 Manager Skills Sign-Off</div>
                           <div style="border-radius:14px;border:1.5px solid rgba(94,42,43,.12);background:#fff;padding:16px">
-                            <div contentEditable="true" data-ph="{{ pb.skillTitlePh }}" data-init="{{ pb.skillTitleRaw }}" onInput="{{ pb.onEditSkillTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:#5E2A2B;text-transform:uppercase;margin-bottom:10px;outline:none"></div>
+                            <div contentEditable="true" data-ph="{{ pb.skillTitlePh }}" data-init="{{ pb.skillTitleRaw }}" onInput="{{ pb.onEditSkillTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:16px;font-weight:900;color:var(--pv-heading);text-transform:uppercase;margin-bottom:10px;outline:none"></div>
                             <sc-if value="{{ pb.hasCriteria }}" hint-placeholder-val="{{ true }}">
                               <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
                                 <sc-for list="{{ pb.criteria }}" as="cr" hint-placeholder-count="3">
                                   <div style="display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:10px;border:1.5px solid rgba(81,46,145,.2);background:rgba(81,46,145,.04)">
                                     <span style="font-size:16px;color:#512E91">☐</span>
-                                    <div contentEditable="true" data-ph="{{ cr.ph }}" data-init="{{ cr.text }}" onInput="{{ cr.onEdit }}" style="font-size:14px;color:#3d1a1b;line-height:1.4;flex:1;outline:none"></div>
+                                    <div contentEditable="true" data-ph="{{ cr.ph }}" data-init="{{ cr.text }}" onInput="{{ cr.onEdit }}" style="font-size:14px;color:var(--pv-text);line-height:1.4;flex:1;outline:none"></div>
                                   </div>
                                 </sc-for>
                               </div>
                             </sc-if>
                             <sc-if value="{{ pb.noCriteria }}" hint-placeholder-val="{{ false }}">
-                              <div style="border-radius:10px;background:#F4EDE0;border:2px dashed rgba(94,42,43,.2);padding:18px;text-align:center;font-size:13px;color:rgba(94,42,43,.74)">Add criteria a manager will observe</div>
+                              <div style="border-radius:10px;background:var(--pv-video);border:2px dashed rgba(94,42,43,.2);padding:18px;text-align:center;font-size:13px;color:var(--pv-subtext)">Add criteria a manager will observe</div>
                             </sc-if>
-                            <div style="height:32px;border-radius:9px;border:1.5px solid rgba(94,42,43,.15);background:#FAF5EE;display:flex;align-items:center;padding:0 11px;font-size:13px;color:rgba(94,42,43,.55);margin-bottom:10px">Manager name…</div>
+                            <div style="height:32px;border-radius:9px;border:1.5px solid rgba(94,42,43,.15);background:var(--pv-field);display:flex;align-items:center;padding:0 11px;font-size:13px;color:rgba(94,42,43,.55);margin-bottom:10px">Manager name…</div>
                             <span style="display:inline-flex;align-items:center;gap:6px;padding:9px 22px;border-radius:50px;background:#512E91;color:#fff;font-family:'Exo',sans-serif;font-weight:900;font-size:14px">Confirm sign-off ✓</span>
-                            <div style="font-size:12px;color:rgba(94,42,43,.74);margin-top:8px">🔒 Gate + xAPI — manager checks each item, signs, date-stamped; printable sheet</div>
+                            <div style="font-size:12px;color:var(--pv-subtext);margin-top:8px">🔒 Gate + xAPI — manager checks each item, signs, date-stamped; printable sheet</div>
                           </div>
                         </div>
                       </sc-if>
@@ -1100,7 +1102,7 @@
 
                   <!-- Add block (always visible; also the entry point for an empty lesson) -->
                   <div style="padding:14px 16px;display:flex;gap:8px">
-                    <button onClick="{{ openPicker }}" style="flex:1;padding:13px;border-radius:14px;border:2px dashed rgba(94,42,43,.22);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(94,42,43,.74);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00;background:rgba(255,77,0,.03)"><span style="font-size:18px;line-height:1">+</span> Add Block</button>
+                    <button onClick="{{ openPicker }}" style="flex:1;padding:13px;border-radius:14px;border:2px dashed rgba(94,42,43,.22);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--pv-subtext);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00;background:rgba(255,77,0,.03)"><span style="font-size:18px;line-height:1">+</span> Add Block</button>
                     <sc-if value="{{ hasClipboard }}" hint-placeholder-val="{{ false }}">
                       <button onClick="{{ onPasteBlock }}" style="padding:13px 16px;border-radius:14px;border:2px solid #512E91;background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91;white-space:nowrap;display:flex;align-items:center;gap:6px" style-hover="background:rgba(81,46,145,.14)" title="Paste the copied block here">📋 Paste {{ clipboardType }}</button>
                     </sc-if>
@@ -1108,8 +1110,8 @@
                 </div>
 
                 <!-- Bottom nav (chrome) -->
-                <div style="padding:12px 16px;border-top:1px solid rgba(94,42,43,.1);display:flex;justify-content:space-between;align-items:center;background:#FFFFFF">
-                  <span style="padding:8px 14px;border-radius:50px;border:1.5px solid rgba(94,42,43,.2);font-size:13px;font-weight:700;color:rgba(94,42,43,.74)">← Back</span>
+                <div style="padding:12px 16px;border-top:1px solid rgba(94,42,43,.1);display:flex;justify-content:space-between;align-items:center;background:var(--pv-card)">
+                  <span style="padding:8px 14px;border-radius:50px;border:1.5px solid rgba(94,42,43,.2);font-size:13px;font-weight:700;color:var(--pv-subtext)">← Back</span>
                   <span style="padding:8px 16px;border-radius:50px;background:#FF4D00;color:white;font-size:13px;font-weight:900">Complete ✓</span>
                 </div>
               </div>
@@ -3070,6 +3072,7 @@ class Component extends DCLogic {
     selectedBlock: null,
     rightTab: 'block',
     device: 'desktop',
+    prevDark: false,
     leftW: 280, rightW: 344, dragging: null, leftCollapsed: false,
     pickerAt: null,
     pickerSearch: '',
@@ -6228,6 +6231,20 @@ class Component extends DCLogic {
       devTabletColor:s.device==='tablet'  ? '#FF4D00' : 'rgba(94,42,43,.55)',
       devDesktopBg:  s.device==='desktop' ? '#FFFFFF' : 'transparent',
       devDesktopColor:s.device==='desktop'? '#FF4D00' : 'rgba(94,42,43,.55)',
+
+      // Live-preview "night view" — mirrors the Player's learner dark mode (getTheme(dark)) so
+      // authors can QA dark while authoring. Each --pv-* var's LIGHT value equals the original
+      // hardcoded literal, so light mode is visually unchanged; dark just flips the palette.
+      prevDark: s.prevDark,
+      togglePrevDark: () => this.setState({ prevDark: !s.prevDark }),
+      prevDarkIcon:  s.prevDark ? '☀️ Light' : '🌙 Dark',
+      prevDarkTitle: s.prevDark ? 'Preview in light mode' : 'Preview in dark mode (learner night view)',
+      prevDarkBg:     s.prevDark ? '#241011' : 'transparent',
+      prevDarkColor:  s.prevDark ? '#FFD2BE' : 'rgba(94,42,43,.7)',
+      prevDarkBorder: s.prevDark ? 'rgba(255,100,60,.4)' : 'rgba(94,42,43,.2)',
+      pvVarsCss: s.prevDark
+        ? '--pv-bg:#1a0a0b;--pv-card:#241011;--pv-heading:#FFFFFF;--pv-text:#FFEFE6;--pv-subtext:rgba(255,210,190,.62);--pv-video:#2a1213;--pv-field:#2a1213;--pv-objbg:rgba(180,189,0,.12);--pv-gutter:#0d0405'
+        : '--pv-bg:#FFFBF3;--pv-card:#FFFFFF;--pv-heading:#5E2A2B;--pv-text:#3d1a1b;--pv-subtext:rgba(94,42,43,.74);--pv-video:#F4EDE0;--pv-field:#FAF5EE;--pv-objbg:rgba(180,189,0,.07);--pv-gutter:rgba(94,42,43,.03)',
 
       // Left panel
       moduleList: this.getModuleList(s),
