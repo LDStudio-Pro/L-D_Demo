@@ -4094,6 +4094,16 @@ class Component extends DCLogic {
       : 'This removes the asset from your reusable library. You can undo right after.';
     this.setState({ confirmDelete: { type: 'media', id, title: (a.name || a.kind || 'this asset'), msg } });
   }
+  // Per-course media library delete-confirm. mediaLibrary is history-tracked, so undo() reverts it.
+  askDeleteCourseMedia(id) {
+    const a = (this.state.mediaLibrary || []).find(x => x.id === id);
+    if (!a) return;
+    const n = this._mediaUsageCount(a.url);
+    const msg = n > 0
+      ? `In use in ${n} block${n > 1 ? 's' : ''} in this course. Removing it from the library won't delete those copies, but you'll lose the reusable original. You can undo right after.`
+      : 'This removes the asset from this course’s library. You can undo right after.';
+    this.setState({ confirmDelete: { type: 'mediaCourse', id, title: (a.name || a.kind || 'this asset'), msg } });
+  }
   openMediaLightbox(url, name) { this.setState({ mediaLightbox: { url, name } }); }
   closeMediaLightbox() { this.setState({ mediaLightbox: null }); }
   useGlobalMedia(asset) { this.useMediaAsset(asset); }
@@ -5895,6 +5905,7 @@ class Component extends DCLogic {
       this.removeGlobalMedia(cd.id);
       this._showToast('Asset removed', a ? (() => this._restoreGlobalMedia(a)) : null);
     }
+    else if (cd.type === 'mediaCourse') { this.removeMediaAsset(cd.id); this._showToast('Asset removed'); }
     this.setState({ confirmDelete: null });
   }
   // Optional undoFn lets non-history deletions (e.g. global media in localStorage) restore themselves;
@@ -7274,7 +7285,7 @@ class Component extends DCLogic {
               promoteColor: globUrls.has(a.url) ? 'rgba(81,46,145,.35)' : '#512E91',
               onUse: () => this.useMediaAsset(a),
               onPromote: () => this.promoteAssetToGlobal(a),
-              onRemove: () => this.removeMediaAsset(a.id),
+              onRemove: () => this.askDeleteCourseMedia(a.id),
               onRename: e => this.renameMediaAsset(a.id, e.target.value),
             };
           }),
