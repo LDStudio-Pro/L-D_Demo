@@ -115,7 +115,7 @@
         </div>
         <sc-if value="{{ addingTeammate }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;align-items:center;gap:5px;padding:4px 6px;border-radius:50px;background:var(--bx-card);border:1.5px solid #FF4D00">
-            <input type="text" value="{{ teammateDraft }}" onChange="{{ onTeammateDraft }}" onKeyDown="{{ onTeammateKey }}" placeholder="New teammate…" autofocus style="width:120px;border:none;background:transparent;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none">
+            <input type="text" value="{{ teammateDraft }}" onChange="{{ onTeammateDraft }}" onKeyDown="{{ onTeammateKey }}" placeholder="New teammate…" aria-label="New teammate name" autofocus style="width:120px;border:none;background:transparent;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none">
             <button onClick="{{ onAddTeammate }}" style="padding:4px 10px;border-radius:50px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800">Add</button>
           </div>
         </sc-if>
@@ -139,7 +139,7 @@
             <div style="border-radius:18px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card);overflow:hidden;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.1)">
               <div onClick="{{ cc.onOpen }}" style="height:118px;background:linear-gradient(135deg,{{ cc.color }},#FFD100);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative">
                 <span style="font-size:46px">{{ cc.icon }}</span>
-                <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);border-radius:50px;padding:3px 10px;font-size:12px;font-weight:700;color:var(--bx-heading)">{{ cc.moduleCount }} modules</div>
+                <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);border-radius:50px;padding:3px 10px;font-size:12px;font-weight:700;color:#5E2A2B">{{ cc.moduleCount }} modules</div>
               </div>
               <div style="padding:14px">
                 <div onClick="{{ cc.onOpen }}" style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cc.title }}</div>
@@ -240,7 +240,7 @@
         <div style="display:flex;align-items:center;gap:10px">
           <div style="position:relative;display:flex;align-items:center">
             <span style="position:absolute;left:11px;font-size:13px;color:rgba(var(--bx-line-rgb),.45);pointer-events:none">🔍</span>
-            <input type="text" value="{{ mediaSearch }}" onChange="{{ onMediaSearch }}" placeholder="Search assets…" style="padding:9px 12px 9px 32px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;width:190px" style-focus="border-color:#FF4D00">
+            <input type="text" value="{{ mediaSearch }}" onChange="{{ onMediaSearch }}" placeholder="Search assets…" aria-label="Search media assets" style="padding:9px 12px 9px 32px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;width:190px" style-focus="border-color:#FF4D00">
           </div>
           <select value="{{ mediaSort }}" onChange="{{ onMediaSort }}" title="Sort assets" style="padding:9px 12px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);cursor:pointer;outline:none">
             <sc-for list="{{ mediaSortOpts }}" as="o"><option value="{{ o.v }}" selected="{{ o.selected }}">{{ o.l }}</option></sc-for>
@@ -294,7 +294,7 @@
                   <sc-for list="{{ ga.tags }}" as="tg" hint-placeholder-count="2">
                     <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--bx-heading);background:rgba(var(--bx-line-rgb),.08);border-radius:50px;padding:2px 4px 2px 8px">{{ tg.label }}<button onClick="{{ tg.onRemove }}" style="border:none;background:none;cursor:pointer;color:rgba(var(--bx-line-rgb),.5);font-size:12px;line-height:1;padding:0 2px" title="Remove tag" aria-label="Remove tag">×</button></span>
                   </sc-for>
-                  <input type="text" onChange="{{ ga.onAddTag }}" onKeyDown="{{ ga.onAddTagKey }}" placeholder="+ tag" style="width:54px;flex:1;min-width:48px;padding:3px 6px;border-radius:50px;border:1.5px dashed rgba(var(--bx-line-rgb),.2);background:transparent;font-family:'Exo',sans-serif;font-size:11px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00" title="Type a tag and press Enter">
+                  <input type="text" onChange="{{ ga.onAddTag }}" onKeyDown="{{ ga.onAddTagKey }}" placeholder="+ tag" aria-label="Add a tag" style="width:54px;flex:1;min-width:48px;padding:3px 6px;border-radius:50px;border:1.5px dashed rgba(var(--bx-line-rgb),.2);background:transparent;font-family:'Exo',sans-serif;font-size:11px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00" title="Type a tag and press Enter">
                 </div>
                 <button onClick="{{ ga.onRemove }}" style="padding:6px;border-radius:7px;border:1.5px solid rgba(255,77,0,.2);background:transparent;color:#FF4D00;font-size:13px;cursor:pointer">🗑 Remove</button>
               </div>
@@ -389,7 +389,7 @@
       </div>
     </div>
 
-    <button onClick="{{ onPublish }}" style="padding:8px 16px;border-radius:8px;border:none;background:#FF4D00;color:#FFFFFF;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0;box-shadow:2px 2px 0 #5E2A2B;transition:transform .15s" style-hover="transform:translateY(-1px)">🚀 Publish</button>
+    <button onClick="{{ openPublish }}" style="padding:8px 16px;border-radius:8px;border:none;background:#FF4D00;color:#FFFFFF;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0;box-shadow:2px 2px 0 #5E2A2B;transition:transform .15s" style-hover="transform:translateY(-1px)">🚀 Publish</button>
   </div>
 
   <!-- ══ CONTENT TAB ══ -->
@@ -406,10 +406,12 @@
           <span style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);letter-spacing:2px;text-transform:uppercase">Modules</span>
           <div style="display:flex;gap:6px;align-items:center">
             <!-- Split add control: + Module (primary) · Section (rare) — one unified control -->
+            <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:center;border-radius:7px;overflow:hidden;box-shadow:1px 1px 0 #5E2A2B">
               <button onClick="{{ addModule }}" style="height:24px;padding:0 9px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:4px;line-height:1" title="Add a module"><span style="font-size:14px;font-weight:900">+</span>Module</button>
               <button onClick="{{ addSection }}" style="height:24px;padding:0 9px;border:none;border-left:1px solid rgba(255,255,255,.4);background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;line-height:1" title="Add a section to group lessons">Section</button>
             </div>
+            </sc-if>
             <button onClick="{{ toggleLeftCollapse }}" style="width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);color:var(--bx-heading);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1" title="Hide the Modules panel" aria-label="Hide the Modules panel">⟨</button>
           </div>
         </div>
@@ -443,12 +445,14 @@
                     <div style="font-size:11px;font-weight:800;color:{{ m.numColor }};margin-bottom:2px;letter-spacing:1px">MODULE {{ m.num }}</div>
                     <div style="font-size:14px;font-weight:700;color:var(--bx-text);line-height:1.32;word-break:break-word;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ m.title }}</div>
                   </div>
+                  <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
                   <div class="mod-actions" style="opacity:0;transition:opacity .15s;display:flex;gap:2px;position:absolute;top:7px;right:7px;background:rgba(var(--bx-elev-rgb),.94);border-radius:8px;padding:2px;box-shadow:0 2px 8px rgba(var(--bx-line-rgb),.14)">
                     <button onClick="{{ m.onMoveUp }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:{{ m.upCursor }};font-size:13px;color:{{ m.upColor }};display:flex;align-items:center;justify-content:center" title="Move up">↑</button>
                     <button onClick="{{ m.onMoveDown }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:{{ m.downCursor }};font-size:13px;color:{{ m.downColor }};display:flex;align-items:center;justify-content:center" title="Move down">↓</button>
                     <button onClick="{{ m.onDupe }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" title="Duplicate">⧉</button>
                     <button onClick="{{ m.onDelete }}" style="width:22px;height:22px;border-radius:6px;border:none;background:rgba(255,77,0,.1);cursor:pointer;font-size:13px;color:#FF4D00;display:flex;align-items:center;justify-content:center" title="Delete">✕</button>
                   </div>
+                  </sc-if>
                 </div>
                 <div style="margin-top:6px;margin-left:12px;display:flex;gap:6px;align-items:center">
                   <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74)">{{ m.blockCount }} blocks · {{ m.duration }}</div>
@@ -478,8 +482,10 @@
         </div>
 
         <div style="padding:10px 8px 16px;display:flex;flex-direction:column;gap:8px">
+          <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
           <button onClick="{{ addModule }}" style="width:100%;padding:10px;border-radius:12px;border:2px dashed rgba(var(--bx-line-rgb),.2);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00">+ Add Module</button>
           <button onClick="{{ openOutline }}" style="width:100%;padding:10px;border-radius:12px;border:none;background:rgba(255,77,0,.08);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-orange2);transition:all .2s" style-hover="background:rgba(255,77,0,.16)" title="Draft a new lesson from a topic with Claude — you review before it's added">✨ Draft a lesson with AI</button>
+          </sc-if>
         </div>
       </div>
 
@@ -503,6 +509,22 @@
                 <button onClick="{{ setDeviceTablet }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ devTabletBg }};color:{{ devTabletColor }};transition:all .2s">📋 Tablet</button>
                 <button onClick="{{ setDeviceDesktop }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ devDesktopBg }};color:{{ devDesktopColor }};transition:all .2s">🖥 Desktop</button>
               </div>
+              <!-- 👁 Audience lens (store/role visibility preview) — only when store/role branching is on -->
+              <sc-if value="{{ lensAnyDim }}" hint-placeholder-val="{{ false }}">
+                <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
+                <span style="font-size:13px;font-weight:800;color:var(--bx-heading);white-space:nowrap">👁 Audience</span>
+                <sc-if value="{{ lensShowStores }}" hint-placeholder-val="{{ false }}">
+                  <select value="{{ lensStore }}" onChange="{{ onLensStore }}" style="padding:5px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer">
+                    <sc-for list="{{ lensStoreOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+                  </select>
+                </sc-if>
+                <sc-if value="{{ lensShowRoles }}" hint-placeholder-val="{{ false }}">
+                  <select value="{{ lensRole }}" onChange="{{ onLensRole }}" style="padding:5px 9px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer">
+                    <sc-for list="{{ lensRoleOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+                  </select>
+                </sc-if>
+                <button onClick="{{ toggleHideExcluded }}" title="{{ hideExcludedTitle }}" aria-pressed="{{ hideExcluded }}" style="padding:5px 11px;border-radius:8px;border:1.5px solid {{ hideExcludedBorder }};background:{{ hideExcludedBg }};color:{{ hideExcludedColor }};cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;transition:all .2s">{{ hideExcludedLabel }}</button>
+              </sc-if>
               <!-- Spanish-mode context: editing indicator + AI translate + bulk table (only while working in ES) -->
               <sc-if value="{{ previewLangEs }}" hint-placeholder-val="{{ false }}">
                 <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
@@ -513,6 +535,7 @@
               <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
               <button onClick="{{ togglePrevDark }}" title="{{ prevDarkTitle }}" aria-label="{{ prevDarkTitle }}" aria-pressed="{{ prevDark }}" style="padding:5px 11px;border-radius:8px;border:1.5px solid {{ prevDarkBorder }};background:{{ prevDarkBg }};color:{{ prevDarkColor }};cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;transition:all .2s">{{ prevDarkIcon }}</button>
               <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
+              <button onClick="{{ openBranchPreview }}" title="Play the real course end-to-end as a specific Language × Store × Role learner" style="padding:6px 12px;border-radius:8px;border:none;background:#FF4D00;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:#fff" style-hover="background:#e64500">▶ Preview as branch</button>
               <button onClick="{{ openInPlayer }}" style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading)" style-hover="border-color:#FF4D00">Open in Player ↗</button>
             </div>
 
@@ -521,8 +544,9 @@
               <div style="width:34px;height:34px;border-radius:10px;background:{{ selectedModIconBg }};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">{{ selectedModIcon }}</div>
               <div style="flex:1;min-width:0">
                 <div style="font-size:10px;font-weight:700;color:{{ selectedModColor }};text-transform:uppercase;letter-spacing:1.5px">Module {{ selectedModuleNum }}</div>
-                <input type="text" value="{{ selectedModTitle }}" onChange="{{ onModTitleChange }}" placeholder="Module title…" style="font-size:16px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;background:transparent;border:1.5px solid transparent;border-radius:6px;outline:none;width:100%;font-family:'Exo',sans-serif;letter-spacing:.5px;padding:1px 5px;margin-left:-5px" style-focus="background:var(--bx-card);border-color:rgba(var(--bx-line-rgb),.18)">
+                <input type="text" value="{{ selectedModTitle }}" onChange="{{ onModTitleChange }}" readOnly="{{ isViewerMode }}" placeholder="Module title…" style="font-size:16px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;background:transparent;border:1.5px solid transparent;border-radius:6px;outline:none;width:100%;font-family:'Exo',sans-serif;letter-spacing:.5px;padding:1px 5px;margin-left:-5px" style-focus="background:var(--bx-card);border-color:rgba(var(--bx-line-rgb),.18)">
               </div>
+              <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
               <sc-if value="{{ hasSections }}" hint-placeholder-val="{{ false }}">
                 <select value="{{ moduleCurrentSection }}" onChange="{{ onModuleSection }}" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer;max-width:140px" title="Move this lesson to a section">
                   <sc-for list="{{ moduleSectionOptions }}" as="so" hint-placeholder-count="2"><option value="{{ so.value }}">▦ {{ so.label }}</option></sc-for>
@@ -533,7 +557,13 @@
               </select>
               <button onClick="{{ toggleModLock }}" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-size:13px;font-family:'Exo',sans-serif;font-weight:700;color:var(--bx-heading)" title="{{ lockTooltip }}">{{ lockIcon }}</button>
               <button onClick="{{ dupeCurrentModule }}" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-size:13px;font-family:'Exo',sans-serif;font-weight:700;color:var(--bx-heading)" title="Duplicate this module">⧉</button>
+              </sc-if>
             </div>
+
+            <!-- Audience-lens banner: who's being previewed + how many blocks they see -->
+            <sc-if value="{{ lensActive }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:7px 16px;font-size:13px;font-weight:700;color:#5E2A2B;background:rgba(255,77,0,.08);border-bottom:1px solid rgba(255,77,0,.22);display:flex;align-items:center;gap:8px">👁 Previewing as: <span style="font-weight:900">{{ lensSummary }}</span> — {{ lensShownCount }} of {{ lensTotalCount }} blocks shown</div>
+            </sc-if>
 
             <!-- Edit hint -->
             <div style="padding:7px 16px;font-size:13px;color:rgba(var(--bx-line-rgb),.74);background:rgba(255,209,0,.08);border-bottom:1px solid rgba(255,209,0,.25)">💡 {{ previewHint }}</div>
@@ -553,17 +583,29 @@
                 </div>
                 <div style="height:4px;background:linear-gradient(90deg,{{ previewModColor }},#FFD100)"></div>
 
-                <!-- Live blocks -->
-                <div style="padding-bottom:8px;--head:{{ themeHeadFontCss }}">
+                <!-- Live blocks — centered max-760px column so the canvas matches the Player's
+                     Rise-style centered content on desktop (no effect on mobile/tablet frames). -->
+                <div style="padding-bottom:8px;max-width:760px;margin:0 auto;--head:{{ themeHeadFontCss }}">
+
+                  <!-- Viewer read-only banner -->
+                  <sc-if value="{{ isViewerMode }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin:0 0 10px;padding:10px 14px;border-radius:11px;background:rgba(81,46,145,.08);border:1.5px solid rgba(81,46,145,.2);display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--bx-purple)">👁 Viewer access — read-only. Ask the owner for Editor access to make changes.</div>
+                  </sc-if>
 
                   <!-- Insert at very top -->
+                  <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
                   <div onClick="{{ insertAtTop }}" class="ins-zone" title="Add a block here" style="position:relative;height:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">
                     <div class="ins-line" style="position:absolute;left:14px;right:14px;height:2px;background:rgba(255,77,0,.4);border-radius:2px"></div>
                     <div style="position:relative;z-index:1;width:20px;height:20px;border-radius:50%;background:#FF4D00;color:#fff;font-size:15px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,77,0,.4)">+</div>
                   </div>
+                  </sc-if>
 
                   <sc-for list="{{ previewBlocks }}" as="pb" hint-placeholder-count="5">
-                    <div onClick="{{ pb.onClick }}" class="prev-block" style="position:relative;cursor:pointer;border-bottom:{{ pb.fmtBorder }};border-left:3px solid {{ pb.selBorder }};background:{{ pb.fmtBg }};padding-top:{{ pb.fmtPadTop }};padding-bottom:{{ pb.fmtPadBot }};transition:background .15s">
+                    <div onClick="{{ pb.onClick }}" class="prev-block" style="position:relative;cursor:pointer;border-bottom:{{ pb.fmtBorder }};border-left:3px solid {{ pb.selBorder }};background:{{ pb.fmtBg }};padding-top:{{ pb.fmtPadTop }};padding-bottom:{{ pb.fmtPadBot }};opacity:{{ pb.audOpacity }};{{ pb.fmtVars }};transition:background .15s,opacity .15s">
+                      <sc-if value="{{ pb.audChipShow }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:5;font-size:10px;font-weight:800;color:#fff;background:rgba(94,42,43,.82);border-radius:6px;padding:2px 9px;letter-spacing:.5px;white-space:nowrap;pointer-events:none">🚫 Hidden for this audience</div>
+                      </sc-if>
+                      <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
                       <div onClick="{{ pb.onToggleSelect }}" class="prev-edit-badge" title="{{ pb.editBadgeTitle }}" style="position:absolute;top:6px;left:6px;z-index:4;font-size:11px;font-weight:700;color:var(--pv-card);background:{{ pb.color }};border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px;opacity:{{ pb.badgeOpacity }};transition:opacity .15s;cursor:pointer">{{ pb.editBadgeIcon }} {{ pb.label }}</div>
 
                       <!-- Hover action toolbar -->
@@ -575,6 +617,7 @@
                         <button onClick="{{ pb.onDupe }}" title="Duplicate" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(94,42,43,.18);background:var(--pv-card);cursor:pointer;font-size:13px;color:var(--pv-heading);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">⧉</button>
                         <button onClick="{{ pb.onDelete }}" title="Delete" style="width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(255,77,0,.3);background:var(--pv-card);cursor:pointer;font-size:13px;color:#FF4D00;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12)">✕</button>
                       </div>
+                      </sc-if>
 
                       <!-- HERO -->
                       <sc-if value="{{ pb.isHero }}" hint-placeholder-val="{{ true }}">
@@ -977,7 +1020,7 @@
                         <div style="padding:18px">
                           <div style="font-size:12px;font-weight:700;color:{{ pb.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">💬 Conversation</div>
                           <div contentEditable="{{ ceEdit }}" data-ph="{{ pb.titlePh }}" data-init="{{ pb.titleRaw }}" onInput="{{ pb.onEditTitle }}" onKeyDown="{{ stopEnter }}" style="font-size:15px;font-weight:800;color:var(--pv-text);margin-bottom:14px;outline:none"></div>
-                          <div style="display:flex;flex-direction:column;gap:10px">
+                          <div style="display:flex;flex-direction:column;gap:10px;max-width:560px;margin:0 auto">
                             <sc-for list="{{ pb.messages }}" as="msg" hint-placeholder-count="2">
                               <div style="display:flex;justify-content:{{ msg.rowJustify }}">
                                 <div style="max-width:78%;display:flex;flex-direction:column;gap:2px">
@@ -1133,19 +1176,23 @@
                     </div>
 
                     <!-- Insert after this block -->
+                    <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
                     <div onClick="{{ pb.onInsertAfter }}" class="ins-zone" title="Add a block here" style="position:relative;height:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">
                       <div class="ins-line" style="position:absolute;left:14px;right:14px;height:2px;background:rgba(255,77,0,.4);border-radius:2px"></div>
                       <div style="position:relative;z-index:1;width:20px;height:20px;border-radius:50%;background:#FF4D00;color:#fff;font-size:15px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,77,0,.4)">+</div>
                     </div>
+                    </sc-if>
                   </sc-for>
 
-                  <!-- Add block (always visible; also the entry point for an empty lesson) -->
+                  <!-- Add block (hidden for Viewers; also the entry point for an empty lesson) -->
+                  <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
                   <div style="padding:14px 16px;display:flex;gap:8px">
                     <button onClick="{{ openPicker }}" style="flex:1;padding:13px;border-radius:14px;border:2px dashed rgba(94,42,43,.22);background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--pv-subtext);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s" style-hover="border-color:#FF4D00;color:#FF4D00;background:rgba(255,77,0,.03)"><span style="font-size:18px;line-height:1">+</span> Add Block</button>
                     <sc-if value="{{ hasClipboard }}" hint-placeholder-val="{{ false }}">
                       <button onClick="{{ onPasteBlock }}" style="padding:13px 16px;border-radius:14px;border:2px solid #512E91;background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#512E91;white-space:nowrap;display:flex;align-items:center;gap:6px" style-hover="background:rgba(81,46,145,.14)" title="Paste the copied block here">📋 Paste {{ clipboardType }}</button>
                     </sc-if>
                   </div>
+                  </sc-if>
                 </div>
 
                 <!-- Bottom nav (chrome) -->
@@ -1214,13 +1261,13 @@
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:5px">
                     <div style="padding:9px 11px;border-radius:8px;background:rgba(var(--bx-line-rgb),.04);font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.45">✍️ Click the heading or body text on the canvas to edit it directly.</div>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:6px">Pull quote (optional)</div>
-                    <input type="text" value="{{ blockQuote }}" onChange="{{ onBlockQuote }}" placeholder='"Pull quote..."' style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-style:italic;color:var(--bx-text);outline:none" style-focus="border-color:#FFD100">
+                    <input type="text" value="{{ blockQuote }}" onChange="{{ onBlockQuote }}" placeholder='"Pull quote..."' aria-label="Pull quote" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;font-style:italic;color:var(--bx-text);outline:none" style-focus="border-color:#FFD100">
                   </div>
                 </sc-if>
                 <sc-if value="{{ selBlockIsCallout }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:5px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Pollito message</div>
-                    <textarea value="{{ blockCallout }}" onChange="{{ onBlockCallout }}" rows="3" placeholder="What Pollito says to the learner..." style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+                    <textarea value="{{ blockCallout }}" onChange="{{ onBlockCallout }}" rows="3" placeholder="What Pollito says to the learner..." aria-label="Pollito message" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
                   </div>
                 </sc-if>
                 <sc-if value="{{ selBlockIsQuiz }}" hint-placeholder-val="{{ false }}">
@@ -1445,7 +1492,7 @@
                 <sc-if value="{{ selBlockIsFindissues }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Instruction</div>
-                    <input type="text" value="{{ blockFindPrompt }}" onChange="{{ onBlockFindPrompt }}" placeholder="e.g. Tap every food-safety issue…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+                    <input type="text" value="{{ blockFindPrompt }}" onChange="{{ onBlockFindPrompt }}" placeholder="e.g. Tap every food-safety issue…" aria-label="Find-the-issues instruction" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-top:2px">Image</div>
                     <label style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1.5px dashed #FF4D00;background:rgba(255,77,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#FF4D00" style-hover="background:rgba(255,77,0,.12)">📁 Upload image<input type="file" accept="image/*" onChange="{{ onFindImageFile }}" style="display:none"></label>
                     <input type="text" value="{{ blockFindImage }}" onChange="{{ onBlockFindImage }}" placeholder="…or paste image URL" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
@@ -1946,9 +1993,12 @@
             <div style="padding:12px;border-radius:12px;background:rgba(var(--bx-line-rgb),.03);border:1.5px solid rgba(var(--bx-line-rgb),.1)">
               <div onClick="{{ togRole.onClick }}" role="switch" aria-checked="{{ togRole.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">Role Branching</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togRole.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togRole.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
             </div>
-            <div style="padding:10px;border-radius:10px;background:rgba(255,77,0,.06);border:1.5px solid rgba(255,77,0,.2)">
-              <div style="font-size:13px;font-weight:700;color:#FF4D00;margin-bottom:4px">💡 Full config in Branching tab</div>
-              <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Manage roles, paths, and language-specific content from the top Branching tab.</div>
+            <div onClick="{{ toBranch }}" style="padding:10px 12px;border-radius:10px;background:rgba(255,77,0,.06);border:1.5px solid rgba(255,77,0,.2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s" style-hover="background:rgba(255,77,0,.12)">
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:700;color:#FF4D00;margin-bottom:2px">Open branching setup →</div>
+                <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Manage roles, paths, and language-specific content in the Branching tab.</div>
+              </div>
+              <span style="font-size:18px;color:#FF4D00;flex-shrink:0">⚙️</span>
             </div>
           </div>
         </sc-if>
@@ -2331,15 +2381,20 @@
           <button onClick="{{ setSettingsGeneral }}" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;text-align:left;background:{{ navGeneralBg }};color:{{ navGeneralColor }};transition:all .18s">👋 General</button>
           <button onClick="{{ setSettingsExperience }}" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;text-align:left;background:{{ navExperienceBg }};color:{{ navExperienceColor }};transition:all .18s">✨ Experience</button>
           <button onClick="{{ setSettingsTracking }}" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;text-align:left;background:{{ navTrackingBg }};color:{{ navTrackingColor }};transition:all .18s">📦 Tracking &amp; Export</button>
+          <button onClick="{{ setSettingsCollab }}" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;text-align:left;background:{{ navCollabBg }};color:{{ navCollabColor }};transition:all .18s">👥 Collaborators</button>
+          <button onClick="{{ setSettingsLabels }}" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;text-align:left;background:{{ navLabelsBg }};color:{{ navLabelsColor }};transition:all .18s">🏷️ Labels</button>
         </nav>
 
-        <div style="flex:1;min-width:0;padding:32px 32px 56px">
+        <div style="flex:1;min-width:0;padding:32px 32px 56px;pointer-events:{{ settingsPE }}">
           <div style="max-width:700px;display:flex;flex-direction:column;gap:20px">
 
         <div style="margin-bottom:4px">
           <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">COURSE SETTINGS</div>
           <div style="font-size:26px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">{{ settingsSectionTitle }}</div>
         </div>
+        <sc-if value="{{ isViewerMode }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:10px 14px;border-radius:11px;background:rgba(81,46,145,.08);border:1.5px solid rgba(81,46,145,.2);display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--bx-purple)">👁 Viewer access — settings are read-only. Ask the owner for Editor access to make changes.</div>
+        </sc-if>
 
         <sc-if value="{{ settingsIsGeneral }}" hint-placeholder-val="{{ true }}">
         <!-- Welcome / Start Screen editor -->
@@ -2614,71 +2669,91 @@
         </sc-if>
 
         <sc-if value="{{ settingsIsTracking }}" hint-placeholder-val="{{ false }}">
-        <!-- Learner Name Source -->
-        <div style="padding:20px;border-radius:18px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
-          <div style="font-size:14px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Learner Name Source</div>
-          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:14px">How should the course get the learner's name to personalize Pollito's messages?</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid #FF4D00;background:rgba(255,77,0,.05)">
-              <input type="radio" name="nameSource" defaultChecked style="accent-color:#FF4D00">
-              <div>
-                <div style="font-size:14px;font-weight:700;color:var(--bx-text)">Auto-detect from LMS (SCORM/xAPI)</div>
-                <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Pulls learner_name from the LMS session data</div>
-              </div>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-bg2)">
-              <input type="radio" name="nameSource" style="accent-color:#FF4D00">
-              <div>
-                <div style="font-size:14px;font-weight:700;color:var(--bx-text)">Manual entry at course launch</div>
-                <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Learner types their name on the welcome screen</div>
-              </div>
-            </label>
-          </div>
+        <!-- Output format, completion tracking & export all live in one place: the Publish dialog. -->
+        <div style="padding:22px;border-radius:18px;border:2px solid rgba(255,77,0,.2);background:rgba(255,77,0,.04)">
+          <div style="font-size:14px;font-weight:900;color:#FF4D00;text-transform:uppercase;margin-bottom:4px">📦 Output &amp; Export</div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px;line-height:1.5">Choose your LMS format (SCORM 1.2 · SCORM 2004 · xAPI / Tin Can), set how learners are marked complete, and download the package — all from <b>Publish</b>. One place, no duplication.</div>
+          <button onClick="{{ openPublish }}" style="padding:11px 22px;border-radius:10px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B">🚀 Open Publish →</button>
         </div>
 
-        <!-- SCORM -->
+        <!-- Learner name handling (informational — behavior is automatic) -->
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
-          <div style="font-size:14px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">SCORM / Tracking Standard</div>
-          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:14px">Used for reporting to Absorb LMS. xAPI is recommended for the richest reporting data.</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button onClick="{{ setScormXapi }}" style="padding:10px 20px;border-radius:50px;border:2px solid {{ scormXapiBorder }};background:{{ scormXapiBg }};font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:{{ scormXapiColor }};cursor:pointer;transition:all .2s">xAPI / TinCan ⭐</button>
-            <button onClick="{{ setScorm12 }}" style="padding:10px 20px;border-radius:50px;border:2px solid {{ scorm12Border }};background:{{ scorm12Bg }};font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:{{ scorm12Color }};cursor:pointer;transition:all .2s">SCORM 1.2</button>
-            <button onClick="{{ setScorm2004 }}" style="padding:10px 20px;border-radius:50px;border:2px solid {{ scorm2004Border }};background:{{ scorm2004Bg }};font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:{{ scorm2004Color }};cursor:pointer;transition:all .2s">SCORM 2004</button>
-          </div>
+          <div style="font-size:14px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Learner Name</div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);line-height:1.55">Pollito greets each learner by name. When the course is launched from an LMS (SCORM / xAPI), the name is <b>detected automatically</b> from the session. Otherwise, learners simply type it on the welcome screen. No setup needed.</div>
         </div>
+        </sc-if>
 
-        <!-- Completion criteria -->
-        <div style="padding:20px;border-radius:18px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
-          <div style="font-size:14px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Completion Criteria</div>
-          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:14px">What counts as completing this course for LMS reporting?</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2)">
-              <input type="checkbox" defaultChecked style="accent-color:#FF4D00">
-              <span style="font-size:14px;font-weight:700;color:var(--bx-text)">View all lessons / screens</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2)">
-              <input type="checkbox" defaultChecked style="accent-color:#FF4D00">
-              <span style="font-size:14px;font-weight:700;color:var(--bx-text)">Pass the final assessment ({{ passingScore }}%+)</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2)">
-              <input type="checkbox" style="accent-color:#FF4D00">
-              <span style="font-size:14px;font-weight:700;color:var(--bx-text)">Minimum time in course</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2)">
-              <input type="checkbox" style="accent-color:#FF4D00">
-              <span style="font-size:14px;font-weight:700;color:var(--bx-text)">Learner acknowledgement / signature</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Export -->
+        <!-- ── Collaborators / ownership ── -->
+        <sc-if value="{{ settingsIsCollab }}" hint-placeholder-val="{{ false }}">
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(81,46,145,.2);background:rgba(81,46,145,.04)">
-          <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">Export Package</div>
-          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px">Package this course as a SCORM/xAPI zip ready to upload to Absorb LMS.</div>
-          <div style="display:flex;gap:10px">
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Button" variant="primary" size="md" pop onClick="{{ onPublish }}" hint-size="auto,44px">🚀 Export {{ scormLabel }} Package</x-import>
-            <button style="padding:10px 18px;border-radius:50px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading)">Preview in Browser</button>
+          <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">👥 Collaborators</div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:18px">Add or remove people who can work on this course, set their access, or transfer ownership. Lives in the platform — no LMS account needed.</div>
+
+          <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Name</div>
+
+          <!-- Owner row -->
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid rgba(var(--bx-line-rgb),.1)">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--bx-purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex-shrink:0">{{ collabOwnerInitial }}</div>
+            <div style="flex:1;min-width:0;font-size:15px;font-weight:800;color:var(--bx-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ collabOwnerName }}</div>
+            <span style="font-size:12px;font-weight:800;color:var(--bx-purple);background:rgba(81,46,145,.1);border-radius:50px;padding:4px 12px">Owner</span>
           </div>
+
+          <!-- Collaborator rows -->
+          <sc-for list="{{ collabRows }}" as="cr" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid rgba(var(--bx-line-rgb),.1)">
+              <div style="width:38px;height:38px;border-radius:50%;background:#FF4D00;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex-shrink:0">{{ cr.initial }}</div>
+              <div style="flex:1;min-width:0;font-size:15px;font-weight:800;color:var(--bx-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cr.name }}</div>
+              <select value="{{ cr.roleVal }}" onChange="{{ cr.onRole }}" style="padding:7px 10px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer">
+                <option value="editor">Editor</option>
+                <option value="viewer">Viewer</option>
+              </select>
+              <button onClick="{{ cr.onTransfer }}" title="Transfer ownership to this person" style="padding:7px 11px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading)">⤴ Make owner</button>
+              <button onClick="{{ cr.onRemove }}" title="Remove collaborator" style="width:32px;height:32px;border-radius:8px;border:none;background:rgba(217,45,45,.1);color:#d92d2d;cursor:pointer;font-size:15px;flex-shrink:0">✕</button>
+            </div>
+          </sc-for>
+
+          <!-- Add collaborator -->
+          <div style="display:flex;align-items:center;gap:8px;padding:14px 4px 4px;border-top:1px solid rgba(var(--bx-line-rgb),.1);margin-top:4px">
+            <input type="text" list="collab-team-list" value="{{ collabDraft }}" onChange="{{ onCollabDraft }}" onKeyDown="{{ onCollabKey }}" placeholder="Add a teammate by name…" style="flex:1;padding:10px 12px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+            <datalist id="collab-team-list"><sc-for list="{{ collabTeamOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}"></option></sc-for></datalist>
+            <select value="{{ collabRoleDraft }}" onChange="{{ onCollabRoleDraft }}" style="padding:10px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer">
+              <option value="editor">Editor</option>
+              <option value="viewer">Viewer</option>
+            </select>
+            <button onClick="{{ addCollaborator }}" style="padding:10px 18px;border-radius:9px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800">Add</button>
+          </div>
+          <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.7);margin-top:12px"><b>Editor</b> — can edit course content. <b>Viewer</b> — can open and review but not change. <b>Owner</b> — full control + manages collaborators.</div>
+        </div>
+        </sc-if>
+
+        <!-- ── Custom course labels ── -->
+        <sc-if value="{{ settingsIsLabels }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:20px;border-radius:18px;border:2px solid rgba(255,77,0,.2);background:rgba(255,77,0,.03)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px">
+            <div style="font-size:14px;font-weight:900;color:#FF4D00;text-transform:uppercase">🏷️ Course Labels</div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:12px;font-weight:800;color:var(--bx-heading);background:rgba(var(--bx-line-rgb),.08);border-radius:50px;padding:4px 12px">Editing: {{ labelsLangName }}</span>
+              <sc-if value="{{ hasLabelOverrides }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ onResetLabels }}" style="padding:5px 12px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);cursor:pointer;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;color:var(--bx-heading)" title="Clear all overrides for this language">↺ Reset {{ labelsLangName }} ({{ labelsOverrideCount }})</button>
+              </sc-if>
+            </div>
+          </div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px">Reword the interface text learners see — buttons, headings, and messages. Leave a field blank to keep the default. Use the top-bar <b>EN / ES</b> switch to edit each language.</div>
+
+          <sc-for list="{{ labelGroups }}" as="lg" hint-placeholder-count="6">
+            <div style="margin-bottom:18px">
+              <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border-bottom:1px solid rgba(var(--bx-line-rgb),.1);padding-bottom:5px">{{ lg.title }}</div>
+              <sc-for list="{{ lg.fields }}" as="lf" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:12px;padding:6px 0">
+                  <div style="width:190px;flex-shrink:0">
+                    <div style="font-size:13px;font-weight:700;color:var(--bx-heading)">{{ lf.desc }}</div>
+                    <div style="font-size:11px;color:rgba(var(--bx-line-rgb),.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ lf.def }}">Default: {{ lf.def }}</div>
+                  </div>
+                  <input type="text" value="{{ lf.value }}" onChange="{{ lf.onChange }}" placeholder="{{ lf.def }}" style="flex:1;padding:8px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
         </div>
         </sc-if>
 
@@ -2691,7 +2766,7 @@
   <!-- ══ BLOCK PICKER MODAL ══ -->
   <sc-if value="{{ picker }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closePicker }}">
-      <div style="background:var(--bx-card);border-radius:24px;padding:28px;width:540px;max-width:90vw;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+      <div role="dialog" aria-modal="true" aria-label="Add a block" style="background:var(--bx-card);border-radius:24px;padding:28px;width:540px;max-width:90vw;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:sticky;top:-28px;background:var(--bx-card);padding-top:4px;z-index:1">
           <div style="font-size:16px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">Add a Block</div>
           <button onClick="{{ closePicker }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading);display:flex;align-items:center;justify-content:center">✕</button>
@@ -2745,7 +2820,7 @@
   <!-- ══ MEDIA LIBRARY MODAL ══ -->
   <sc-if value="{{ mediaModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeMediaModal }}">
-      <div style="background:var(--bx-card);border-radius:24px;padding:26px;width:640px;max-width:92vw;max-height:86vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+      <div role="dialog" aria-modal="true" aria-label="Media Library" style="background:var(--bx-card);border-radius:24px;padding:26px;width:640px;max-width:92vw;max-height:86vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div style="font-size:16px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">📚 Media Library</div>
           <button onClick="{{ closeMediaModal }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading);display:flex;align-items:center;justify-content:center">✕</button>
@@ -3034,7 +3109,7 @@
   <!-- ══ CONFIRM DELETE DIALOG ══ -->
   <sc-if value="{{ confirmDeleteOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:120;animation:fadeIn .2s ease" onClick="{{ cancelConfirmDelete }}">
-      <div style="background:var(--bx-card);border-radius:20px;width:420px;max-width:92vw;padding:26px;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+      <div role="dialog" aria-modal="true" aria-label="Confirm delete" style="background:var(--bx-card);border-radius:20px;width:420px;max-width:92vw;padding:26px;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
         <div style="font-size:17px;font-weight:900;color:var(--bx-heading);margin-bottom:8px">Delete “{{ confirmDeleteTitle }}”?</div>
         <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);line-height:1.5;margin-bottom:20px">{{ confirmDeleteMsg }}</div>
         <div style="display:flex;gap:10px;justify-content:flex-end">
@@ -3110,7 +3185,7 @@
   <!-- ══ AI: GENERATE QUIZ QUESTIONS ══ -->
   <sc-if value="{{ aiModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.55);display:flex;align-items:center;justify-content:center;z-index:140;animation:fadeIn .2s ease;padding:28px" onClick="{{ closeAiQuiz }}">
-      <div style="background:var(--bx-card);border-radius:20px;width:680px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+      <div role="dialog" aria-modal="true" aria-label="Generate quiz with AI" style="background:var(--bx-card);border-radius:20px;width:680px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
         <div style="padding:18px 24px;border-bottom:1.5px solid rgba(var(--bx-line-rgb),.1);display:flex;align-items:center;justify-content:space-between;gap:10px">
           <div style="font-size:17px;font-weight:900;color:var(--bx-heading)">✨ Generate quiz questions with AI</div>
           <button onClick="{{ closeAiQuiz }}" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);color:var(--bx-heading);font-size:14px;cursor:pointer">✕</button>
@@ -3226,7 +3301,7 @@
   <!-- ══ TRANSLATE TO SPANISH MODAL ══ -->
   <sc-if value="{{ translateModalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .2s ease" onClick="{{ closeTranslateModal }}">
-      <div style="background:var(--bx-card);border-radius:24px;padding:24px;width:720px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+      <div role="dialog" aria-modal="true" aria-label="Translate to Spanish" style="background:var(--bx-card);border-radius:24px;padding:24px;width:720px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .25s ease" onClick="{{ stopProp }}">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div style="font-size:16px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">🌐 Translate to Spanish</div>
           <button onClick="{{ closeTranslateModal }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading);display:flex;align-items:center;justify-content:center">✕</button>
@@ -3268,6 +3343,131 @@
         </div>
       </div>
     </div>
+  </sc-if>
+
+  <!-- ══ PREVIEW AS BRANCH — embedded REAL Player, seeded + splash-skipped (Layer B) ══ -->
+  <sc-if value="{{ branchPreviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:#1c0c0d;animation:fadeIn .2s ease">
+      <!-- Slim top bar -->
+      <div style="flex-shrink:0;display:flex;align-items:center;gap:10px;padding:9px 16px;background:#2a1213;border-bottom:1px solid rgba(255,255,255,.1)">
+        <button onClick="{{ closeBranchPreview }}" style="padding:6px 13px;border-radius:8px;border:1.5px solid rgba(255,255,255,.22);background:transparent;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800">← Back to editing</button>
+        <div style="width:1px;height:20px;background:rgba(255,255,255,.15)"></div>
+        <span style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap">▶ Preview as branch</span>
+        <!-- Language -->
+        <sc-if value="{{ bpShowLang }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:8px;padding:3px">
+            <button onClick="{{ setBpLangEn }}" style="padding:4px 11px;border-radius:6px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;background:{{ bpLangEnBg }};color:{{ bpLangEnColor }}">EN</button>
+            <button onClick="{{ setBpLangEs }}" style="padding:4px 11px;border-radius:6px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;background:{{ bpLangEsBg }};color:{{ bpLangEsColor }}">ES</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ bpShowStore }}" hint-placeholder-val="{{ false }}">
+          <select value="{{ bpStore }}" onChange="{{ onBpStore }}" style="padding:5px 9px;border-radius:8px;border:1.5px solid rgba(255,255,255,.18);background:#2a1213;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;outline:none;cursor:pointer">
+            <sc-for list="{{ bpStoreOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </sc-if>
+        <sc-if value="{{ bpShowRole }}" hint-placeholder-val="{{ false }}">
+          <select value="{{ bpRole }}" onChange="{{ onBpRole }}" style="padding:5px 9px;border-radius:8px;border:1.5px solid rgba(255,255,255,.18);background:#2a1213;color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;outline:none;cursor:pointer">
+            <sc-for list="{{ bpRoleOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </sc-if>
+        <div style="flex:1"></div>
+        <!-- Device -->
+        <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:8px;padding:3px">
+          <button onClick="{{ setBpMobile }}" style="padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ bpDevMobileBg }};color:{{ bpDevMobileColor }}">📱</button>
+          <button onClick="{{ setBpTablet }}" style="padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ bpDevTabletBg }};color:{{ bpDevTabletColor }}">📋</button>
+          <button onClick="{{ setBpDesktop }}" style="padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ bpDevDesktopBg }};color:{{ bpDevDesktopColor }}">🖥</button>
+        </div>
+      </div>
+      <!-- Real Player iframe (reloads when bpNonce changes → re-reads the seed) -->
+      <div style="flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;background:#1c0c0d;padding:0">
+        <iframe src="{{ bpPlayerSrc }}" title="Course preview" style="width:{{ bpFrameWidth }};max-width:{{ bpFrameMaxW }};height:100%;border:none;background:#fff"></iframe>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ══ PUBLISH (Rise-style) — menu cards + Publish-to-LMS settings (Roadmap #3) ══ -->
+  <sc-if value="{{ publishOpen }}" hint-placeholder-val="{{ false }}">
+    <!-- Menu: route cards -->
+    <sc-if value="{{ publishIsMenu }}" hint-placeholder-val="{{ true }}">
+      <div style="position:fixed;inset:0;background:rgba(30,10,10,.5);display:flex;align-items:center;justify-content:center;z-index:210;animation:fadeIn .2s ease" onClick="{{ closePublish }}">
+        <div role="dialog" aria-modal="true" aria-label="Publish" style="background:var(--bx-card);border-radius:22px;padding:20px;width:480px;max-width:94vw;box-shadow:0 24px 64px rgba(0,0,0,.28);animation:modalIn .25s ease" onClick="{{ stopProp }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="font-size:17px;font-weight:900;color:var(--bx-heading);text-transform:uppercase">🚀 Publish</div>
+            <button onClick="{{ closePublish }}" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(var(--bx-line-rgb),.08);cursor:pointer;font-size:16px;color:var(--bx-heading)">✕</button>
+          </div>
+          <!-- LMS -->
+          <div onClick="{{ publishGoLms }}" style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:1.5px solid rgba(var(--bx-line-rgb),.12);cursor:pointer;margin-bottom:10px" style-hover="border-color:#FF4D00;background:rgba(255,77,0,.04)">
+            <div style="font-size:26px">📦</div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">LMS</div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Export a SCORM / xAPI package to track learner progress.</div></div>
+            <div style="font-size:18px;color:rgba(var(--bx-line-rgb),.4)">›</div>
+          </div>
+          <!-- Web -->
+          <div onClick="{{ publishDoWeb }}" style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:1.5px solid rgba(var(--bx-line-rgb),.12);cursor:pointer;margin-bottom:10px" style-hover="border-color:#FF4D00;background:rgba(255,77,0,.04)">
+            <div style="font-size:26px">🌐</div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">Web</div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Export a standalone bundle to host on your own server.</div></div>
+            <div style="font-size:18px;color:rgba(var(--bx-line-rgb),.4)">›</div>
+          </div>
+          <!-- Quick Share (coming soon) -->
+          <div style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:1.5px dashed rgba(var(--bx-line-rgb),.16);opacity:.55;margin-bottom:10px">
+            <div style="font-size:26px">🔗</div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">Quick Share <span style="font-size:11px;font-weight:700;color:#FF4D00;background:rgba(255,77,0,.1);border-radius:20px;padding:2px 8px;margin-left:4px">Coming soon</span></div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Instant hosted link with view tracking (needs hosting).</div></div>
+          </div>
+          <!-- PDF (coming soon) -->
+          <div style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:1.5px dashed rgba(var(--bx-line-rgb),.16);opacity:.55">
+            <div style="font-size:26px">📄</div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">PDF <span style="font-size:11px;font-weight:700;color:#FF4D00;background:rgba(255,77,0,.1);border-radius:20px;padding:2px 8px;margin-left:4px">Coming soon</span></div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74)">Export to PDF for print, archival, or compliance.</div></div>
+          </div>
+          <sc-if value="{{ hasPublishStatus }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--bx-heading);text-align:center">{{ publishStatus }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+    <!-- Publish to LMS — full-screen settings page -->
+    <sc-if value="{{ publishIsLms }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;z-index:210;background:var(--bx-bg);overflow-y:auto;animation:fadeIn .2s ease">
+        <div style="position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:var(--bx-card);border-bottom:1.5px solid rgba(var(--bx-line-rgb),.1)">
+          <div style="font-size:15px;font-weight:900;color:var(--bx-heading)">Publish to LMS</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:13px;font-weight:700;color:rgba(var(--bx-line-rgb),.74)">{{ publishStatus }}</span>
+            <button onClick="{{ publishBackToMenu }}" disabled="{{ publishBusy }}" style="padding:8px 16px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:transparent;color:var(--bx-heading);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700">Cancel</button>
+            <button onClick="{{ publishDoLms }}" disabled="{{ publishBusy }}" style="padding:8px 20px;border-radius:8px;border:none;background:#FF4D00;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B">⬇ Download</button>
+          </div>
+        </div>
+        <div style="max-width:760px;margin:0 auto;padding:36px 28px 60px">
+          <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);letter-spacing:2px;text-transform:uppercase">Publish course</div>
+          <input type="text" value="{{ pubTitle }}" onChange="{{ onPubTitle }}" placeholder="Course title…" style="font-size:30px;font-weight:900;color:var(--bx-heading);background:transparent;border:1.5px solid transparent;border-radius:8px;outline:none;width:100%;font-family:'Exo',sans-serif;padding:2px 6px;margin:4px 0 28px -6px" style-focus="border-color:rgba(var(--bx-line-rgb),.18);background:var(--bx-card)">
+
+          <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Publish settings</div>
+          <!-- LMS format -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid rgba(var(--bx-line-rgb),.1)">
+            <div><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">LMS format</div></div>
+            <select value="{{ pubFormat }}" onChange="{{ onPubFormat }}" style="padding:8px 14px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none;cursor:pointer;min-width:180px">
+              <sc-for list="{{ pubFormatOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+            </select>
+          </div>
+          <!-- Identifier -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid rgba(var(--bx-line-rgb),.1)">
+            <div><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">Identifier</div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.7)">Optional — leave blank to auto-generate.</div></div>
+            <input type="text" value="{{ pubIdentifier }}" onChange="{{ onPubIdentifier }}" placeholder="campero_…" style="padding:8px 12px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-heading);outline:none;min-width:180px">
+          </div>
+
+          <div style="font-size:18px;font-weight:900;color:var(--bx-heading);margin:28px 0 4px">Tracking</div>
+          <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.7);margin-bottom:14px">Choose how learners are marked complete.</div>
+          <!-- Course completion -->
+          <div onClick="{{ setPubTrackCompletion }}" style="display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;border:1.5px solid {{ pubComplBorder }};background:{{ pubComplBg }};cursor:pointer;margin-bottom:10px">
+            <div style="width:20px;height:20px;border-radius:50%;border:2px solid {{ pubComplBorder }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:10px;height:10px;border-radius:50%;background:{{ pubComplDot }}"></div></div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">Course completion</div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.7)">Mark learners complete when they finish the course.</div></div>
+          </div>
+          <!-- Quiz result -->
+          <div onClick="{{ setPubTrackQuiz }}" style="display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;border:1.5px solid {{ pubQuizBorder }};background:{{ pubQuizBg }};cursor:pointer">
+            <div style="width:20px;height:20px;border-radius:50%;border:2px solid {{ pubQuizBorder }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:10px;height:10px;border-radius:50%;background:{{ pubQuizDot }}"></div></div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:800;color:var(--bx-heading)">Quiz result</div><div style="font-size:13px;color:rgba(var(--bx-line-rgb),.7)">Pass when the final assessment score meets the passing score.</div></div>
+            <div style="display:flex;align-items:center;gap:6px"><input type="number" value="{{ pubPassingScore }}" onChange="{{ onPubPassingScore }}" min="1" max="100" style="width:64px;padding:7px 8px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.2);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none;text-align:center"><span style="font-size:14px;font-weight:700;color:var(--bx-heading)">%</span></div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
   </sc-if>
 
 </div>
@@ -3335,6 +3535,10 @@ class Component extends DCLogic {
     outlineStatus: '',
     outlineResult: null,
     settingsSection: 'general',
+    // ── Collaborators / ownership (native to this standalone platform; per-course) ──
+    courseOwner: '', collaborators: [], collabDraft: '', collabRoleDraft: 'editor',
+    // ── Custom course labels (per-course UI-string overrides over the Player EN/ES chrome) ──
+    labels: { en: {}, es: {} },
     commentDraft: '',
     replyTo: null,
     replyDraft: '',
@@ -3350,6 +3554,10 @@ class Component extends DCLogic {
     storeBranch: true,
     roleBranch: true,
     previewLang: 'en',
+    // Layer A — canvas Audience lens (store/role visibility preview). Default '' = Everyone.
+    lensStore: '', lensRole: '', hideExcluded: false,
+    // Layer B — "Preview as branch": embed the REAL Player, seeded + splash-skipped.
+    branchPreviewOpen: false, bpLang: 'en', bpStore: '', bpRole: '', bpDevice: 'desktop', bpNonce: 0,
     roles: [
       {id:'manager', icon:'👔', label:'Manager'},
       {id:'cashier', icon:'💳', label:'Cashier'},
@@ -3371,6 +3579,9 @@ class Component extends DCLogic {
     elevenKey: '', elevenVoice: '21m00Tcm4TlvDq8ikWAM', voGenBusy: false, voGenStatus: '',
     altGenBusy: false, altGenStatus: '',
     scormVersion: 'xapi',
+    // ── Roadmap #3 — Productize Publish (Rise-style publish panel + real bundler) ──
+    publishOpen: false, publishView: 'menu', publishBusy: false, publishStatus: '',
+    pubFormat: 'scorm12', pubTracking: 'quiz', pubCompletionPct: 100, pubIdentifier: '',
     theme: { accent: '#FF4D00', headingFont: 'Exo' },
     welcome: {
       title: 'START YOUR CAMPERO JOURNEY',
@@ -3529,6 +3740,7 @@ class Component extends DCLogic {
     let newSel = sorted.findIndex(m => m.__sel);
     sorted.forEach(m => { delete m.__sel; });
     this.setState({ modules: sorted, sections, selectedModule: newSel < 0 ? 0 : newSel });
+    this.persistCurrentCourse();   // persist immediately so a section move can't be lost to the autosave debounce
   }
   addSection() {
     const sections = [...(this.state.sections || []), { id: 'sec' + Date.now(), title: 'New Section' }];
@@ -3778,6 +3990,20 @@ class Component extends DCLogic {
       el.click();
     };
     document.addEventListener('keydown', this._a11yKey, true);
+    // ── Accessibility: Esc closes the top-most open modal (highest z-index first) ──
+    this._escKey = (e) => {
+      if (e.key !== 'Escape' && e.key !== 'Esc') return;
+      const s = this.state;
+      if (s.confirmDelete) this.cancelConfirmDelete();
+      else if (s.aiModalOpen) this.closeAiQuiz();
+      else if (s.translateModal) this.closeTranslateModal();
+      else if (s.mediaModal) this.closeMediaModal();
+      else if (s.publishOpen) this.closePublish();
+      else if (s.picker) this.setState({ picker: false, pickerAt: null, pickerSearch: '' });
+      else return;
+      e.stopPropagation();
+    };
+    document.addEventListener('keydown', this._escKey, true);
     this._enhanceA11y();
     this._initRichToolbar();
     this._seedEditables();
@@ -3785,6 +4011,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     if (this._a11yKey) document.removeEventListener('keydown', this._a11yKey, true);
+    if (this._escKey) document.removeEventListener('keydown', this._escKey, true);
     this._endSplit();
   }
 
@@ -4020,7 +4247,7 @@ class Component extends DCLogic {
     if (host) host.dispatchEvent(new Event('input', { bubbles: true }));
   }
   // Content keys tracked for undo/redo + autosave.
-  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','done','certificate','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary']; }
+  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','done','certificate','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary','labels']; }
   snapKeys(src) { const o = {}; this.HISTORY_KEYS.forEach(k => o[k] = src[k]); return o; }
 
   // dc only passes prevProps (no prevState), so we track our own last snapshot.
@@ -4074,6 +4301,8 @@ class Component extends DCLogic {
       id: id || s.currentCourseId || ('c' + Date.now()),
       courseTitle: s.courseTitle,
       author: (existing && existing.author) || s.currentAuthor,
+      owner: s.courseOwner || (existing && existing.owner) || (existing && existing.author) || s.currentAuthor,
+      collaborators: Array.isArray(s.collaborators) ? s.collaborators : [],
       icon: (s.modules[0] && s.modules[0].icon) || '📚',
       color: (s.modules[0] && s.modules[0].color) || '#FF4D00',
       modules: s.modules, sections: s.sections, roles: s.roles,
@@ -4083,6 +4312,7 @@ class Component extends DCLogic {
       pollitoEnabled: s.pollitoEnabled, readAloud: s.readAloud, gamification: s.gamification, scormVersion: s.scormVersion,
       welcome: s.welcome, done: s.done, certificate: s.certificate, assessQuestions: s.assessQuestions, theme: s.theme,
       mediaLibrary: s.mediaLibrary,
+      labels: (s.labels && typeof s.labels === 'object') ? s.labels : { en: {}, es: {} },
       savedAt: new Date().toISOString(),
     };
   }
@@ -4101,7 +4331,7 @@ class Component extends DCLogic {
       view: 'editor', currentCourseId: id,
       undoStack: [], redoStack: [], saveState: 'saved',
       courseTitle: c.courseTitle || 'Untitled Course',
-      modules: c.modules || [], sections: Array.isArray(c.sections) ? c.sections : [], roles: c.roles || this.state.roles,
+      modules: c.modules || [], sections: Array.isArray(c.sections) ? c.sections : [], roles: this._normalizeRoles(c.roles && c.roles.length ? c.roles : this.state.roles),
       langBranch: !!c.langBranch, storeBranch: !!c.storeBranch, roleBranch: !!c.roleBranch,
       assessEnabled: c.assessEnabled !== false, passingScore: c.passingScore || 80,
       assessBank: c.assessBank === true, assessDrawN: c.assessDrawN || 5,
@@ -4110,14 +4340,19 @@ class Component extends DCLogic {
       welcome: c.welcome || this.state.welcome, done: c.done || this.state.done, certificate: c.certificate || this.state.certificate, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
       mediaLibrary: Array.isArray(c.mediaLibrary) ? c.mediaLibrary : [],
       theme: c.theme || { accent: '#FF4D00', headingFont: 'Exo' },
+      courseOwner: c.owner || c.author || this.state.currentAuthor,
+      collaborators: Array.isArray(c.collaborators) ? c.collaborators : [],
+      labels: (c.labels && typeof c.labels === 'object') ? { en: c.labels.en || {}, es: c.labels.es || {} } : { en: {}, es: {} },
+      collabDraft: '', collabRoleDraft: 'editor',
       selectedModule: 0, selectedBlock: null, tab: 'content', previewLang: 'en',
+      lensStore: '', lensRole: '', hideExcluded: false,
       leftCollapsed: false,   // Modules panel always open when a course opens (in-session collapse is fine)
     });
   }
   newCourse() {
     const id = 'c' + Date.now();
     const blank = {
-      id, courseTitle: 'Untitled Course', author: this.state.currentAuthor, icon: '📘', color: '#512E91',
+      id, courseTitle: 'Untitled Course', author: this.state.currentAuthor, owner: this.state.currentAuthor, collaborators: [], icon: '📘', color: '#512E91',
       sections: [],
       modules: [{ title: 'New Module 1', icon: '📌', color: '#FF4D00', duration: '8 min', locked: false,
         blocks: [
@@ -4133,7 +4368,7 @@ class Component extends DCLogic {
         { id: 'b_quiz',  name: 'Quiz Champ',  icon: '🧠', trigger: 'assessment', n: 0 },
         { id: 'b_pro',   name: 'Campero Pro', icon: '🏆', trigger: 'course',  n: 0 },
       ] },
-      welcome: { ...this.state.welcome }, done: { eyebrow: '', title: '', body: '', image: '' }, certificate: { enabled: true, audience: { stores: [], roles: [] } }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], savedAt: new Date().toISOString(),
+      welcome: { ...this.state.welcome }, done: { eyebrow: '', title: '', body: '', image: '' }, certificate: { enabled: true, audience: { stores: [], roles: [] } }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], labels: { en: {}, es: {} }, savedAt: new Date().toISOString(),
     };
     const lib = [...this.state.library, blank];
     this.setState({ library: lib });
@@ -4648,17 +4883,34 @@ class Component extends DCLogic {
     });
     return out;
   }
+  // KEEP IN SYNC WITH PLAYER `audienceAllows` (Course Player.dc.html). Show/hide
+  // targeting: a block with no audience is shown to everyone; otherwise the learner's
+  // store/role must be in the block's allow-lists. ctx = { storeType, role }.
+  audienceAllows(blk, ctx) {
+    const a = blk && blk.audience;
+    if (!a) return true;
+    const stores = Array.isArray(a.stores) ? a.stores : [];
+    const roles = Array.isArray(a.roles) ? a.roles : [];
+    if (stores.length && ctx.storeType && !stores.includes(ctx.storeType)) return false;
+    if (roles.length && ctx.role && !roles.includes(ctx.role)) return false;
+    return true;
+  }
+
   getPreviewBlocks(s) {
     const mod = s.modules[s.selectedModule] || s.modules[0];
     const blocks = mod?.blocks || [];
     const es = s.previewLang === 'es';
-    return blocks.map((bl, i) => {
+    // Audience lens context: only dimensions whose branching is enabled apply.
+    const lensCtx = { storeType: s.storeBranch ? (s.lensStore || '') : '', role: s.roleBranch ? (s.lensRole || '') : '' };
+    const mapped = blocks.map((bl, i) => {
       const meta = this.BLOCK_META[bl.type] || this.BLOCK_META.hero;
       const c = es ? this.localizeContent(bl.content || {}) : (bl.content || {});
       const type = bl.type;
       const selected = i === s.selectedBlock;
       // Per-block formatting (block.style) — mirror the Player so the live preview
       // faithfully shows background tint / spacing / divider as learners will see them.
+      // Audience lens: is this block hidden for the previewed store/role?
+      const audExcluded = !this.audienceAllows(bl, lensCtx);
       const st = bl.style || {};
       const FMT_BG = { none: 'transparent', cream: '#FAF5EE', tint: meta.color + '0f', dark: '#2a1213' };
       const FMT_PAD = { compact: '0px', normal: '10px', spacious: '34px' };
@@ -4668,11 +4920,17 @@ class Component extends DCLogic {
         type,
         color: meta.color, colorBg: `${meta.color}14`, icon: meta.icon, label: meta.type,
         selected,
+        // Audience-lens ghosting: dim excluded blocks + show a "Hidden for this audience" chip.
+        audExcluded,
+        audOpacity: audExcluded ? '.42' : '1',
+        audChipShow: audExcluded,
         selBorder: selected ? meta.color : 'transparent',
         selBg: selected ? `${meta.color}08` : 'transparent',
         // background shows the chosen tint always (so it's visible while selected too);
         // falls back to the faint selection tint when no tint is set.
         fmtBg: fmtBgVal !== 'transparent' ? fmtBgVal : (selected ? `${meta.color}08` : 'transparent'),
+        // On a dark block background, lighten the canvas text vars so the preview stays readable (Player parity).
+        fmtVars: st.bg === 'dark' ? '--pv-heading:#FFFFFF;--pv-text:#F3E7E2;--pv-subtext:rgba(243,231,226,.72);' : '',
         fmtPadTop: fmtPad, fmtPadBot: fmtPad,
         fmtBorder: st.noDivider ? 'none' : '1px solid rgba(94,42,43,.06)',
         badgeOpacity: selected ? '1' : '0',
@@ -4860,7 +5118,7 @@ class Component extends DCLogic {
             fillAnswers: c.answers ? ('Accepted: ' + c.answers) : 'Learner types their answer',
             options: src.slice(0,6).map((text, idx) => {
               const isC = qType==='mr' ? correctMulti.includes(idx) : (idx === correct);
-              const editable = qType !== 'tf';
+              const editable = qType !== 'tf' && this._canEditCurrent(s);
               return { text: text || `Option ${letters[idx]}`, letter: letters[idx], correct: isC,
                 optEditable: editable ? 'true' : 'false',
                 optRaw: editable ? (text || '') : text, optPh: 'Option ' + letters[idx] + '…',
@@ -4936,6 +5194,8 @@ class Component extends DCLogic {
           return base;
       }
     });
+    // "Hide excluded" lens toggle: drop ghosted blocks for a pixel-true learner view.
+    return s.hideExcluded ? mapped.filter(b => !b.audExcluded) : mapped;
   }
 
   getBranchTree(s) {
@@ -5869,6 +6129,93 @@ class Component extends DCLogic {
     this.setState({ qbankActiveQIndex: ni });
   }
   setSettingsSection(s) { this.setState({ settingsSection: s }); }
+
+  // ── Collaborators / ownership (per-course; native to the standalone platform) ──
+  // Whether the active author profile may edit this course. Viewers are read-only;
+  // owner / editors / anyone not explicitly a viewer can edit (open authoring model).
+  _canEditCurrent(s) {
+    s = s || this.state;
+    const me = (s.currentAuthor || '').trim().toLowerCase();
+    const owner = (s.courseOwner || '').trim().toLowerCase();
+    if (!me || me === owner) return true;
+    const mine = (s.collaborators || []).find(c => (c.name || '').trim().toLowerCase() === me);
+    return !(mine && mine.role === 'viewer');
+  }
+  _collabExists(name) {
+    const n = (name || '').trim().toLowerCase();
+    if (!n) return true;
+    if ((this.state.courseOwner || '').trim().toLowerCase() === n) return true;
+    return (this.state.collaborators || []).some(c => (c.name || '').trim().toLowerCase() === n);
+  }
+  addCollaborator() {
+    const name = (this.state.collabDraft || '').trim();
+    if (!name || this._collabExists(name)) { this.setState({ collabDraft: '' }); return; }
+    const role = this.state.collabRoleDraft === 'viewer' ? 'viewer' : 'editor';
+    const collaborators = [...(this.state.collaborators || []), { name, role }];
+    // Make the new name available across the platform's team roster too.
+    this._ensureTeamMember(name);
+    this.setState({ collaborators, collabDraft: '' });
+    this.persistCurrentCourse();
+  }
+  removeCollaborator(i) {
+    const collaborators = (this.state.collaborators || []).filter((_, k) => k !== i);
+    this.setState({ collaborators });
+    this.persistCurrentCourse();
+  }
+  setCollaboratorRole(i, role) {
+    const collaborators = (this.state.collaborators || []).map((c, k) => k === i ? { ...c, role: role === 'viewer' ? 'viewer' : 'editor' } : c);
+    this.setState({ collaborators });
+    this.persistCurrentCourse();
+  }
+  // Promote a collaborator to Owner; the previous owner becomes an Editor collaborator.
+  transferOwnership(i) {
+    const list = this.state.collaborators || [];
+    const target = list[i]; if (!target) return;
+    const prevOwner = (this.state.courseOwner || '').trim();
+    const collaborators = list.filter((_, k) => k !== i);
+    const already = collaborators.some(c => (c.name || '').trim().toLowerCase() === prevOwner.toLowerCase());
+    if (prevOwner && !already) collaborators.push({ name: prevOwner, role: 'editor' });
+    this.setState({ courseOwner: target.name, collaborators });
+    this.persistCurrentCourse();
+  }
+  _ensureTeamMember(name) {
+    const n = (name || '').trim(); if (!n) return;
+    const team = Array.isArray(this.state.team) ? this.state.team.slice() : [];
+    const nameOf = t => typeof t === 'string' ? t : (t && t.name) || '';
+    if (!team.some(t => nameOf(t).trim().toLowerCase() === n.toLowerCase())) {
+      team.push({ name: n });
+      this.setState({ team });
+      try { localStorage.setItem('campero_team', JSON.stringify(team)); } catch (e) {}
+    }
+  }
+
+  // ── Custom course labels (per-course UI-string overrides) ──
+  // Curated set of the Player's scalar chrome strings authors most often want to reword/
+  // rebrand. KEEP IN SYNC with the Player EN/ES dicts (Course Player.dc.html get EN()/get ES()).
+  get LABEL_GROUPS() { return [
+    // NOTE: the splash/welcome strings (title/subtitle/bubble/name/start) are owned by
+    // Settings → General → Welcome Screen — intentionally NOT duplicated here to avoid a conflict.
+    { title: 'Navigation', items: [['next','Continue button'],['beginCourse','Begin training button'],['back','Back link'],['backLabel','Back to course']] },
+    { title: 'Course map', items: [['mapEyebrow','Map eyebrow'],['progress','Progress label'],['completed','Done tag'],['locked','Locked tag'],['startNow','Start button']] },
+    { title: 'Lesson', items: [['completeLesson','Complete-lesson button'],['objTitle','Objectives heading'],['kcTitle','Knowledge-check title'],['checkAnswer','Check-answer button']] },
+    { title: 'Quiz & assessment', items: [['correct','Correct feedback'],['notQuite','Incorrect feedback'],['nextQ','Next-question button'],['submitAssessment','Submit button'],['passed','Passed banner'],['tryAgain','Failed banner'],['retake','Retake button']] },
+    { title: 'Completion', items: [['finish','Finish (with certificate)'],['finishNoCert','Finish (no certificate)'],['doneEyebrow','Completion eyebrow'],['doneBody','Completion message'],['doneCertLabel','Download-certificate button'],['doneBackLabel','Back-to-map button']] },
+  ]; }
+  get LABEL_DEFAULTS() { return {
+    en: { splashTitle:'START YOUR CAMPERO JOURNEY', splashSubtitle:'Training that feels like an adventure, not a chore.', splashBubble:'¡Hola! Ready?', nameLabel:'YOUR NAME', namePlaceholder:'Enter your name...', startLabel:'Begin My Journey', next:'Continue →', beginCourse:'Begin Training 🚀', back:'← Back', backLabel:'Back to Course', mapEyebrow:'YOUR COURSE', progress:'Course Progress', completed:'✓ DONE', locked:'LOCKED', startNow:'START →', completeLesson:'Complete ✓', objTitle:"WHAT YOU'LL LEARN", kcTitle:'Quick Check', checkAnswer:'Check Answer', correct:'Correct!', notQuite:'Good try!', nextQ:'Next Question →', submitAssessment:'Submit Quiz', passed:'PASSED!', tryAgain:'SO CLOSE!', retake:'Try Again', finish:'Get My Certificate 🎉', finishNoCert:'Finish 🎉', doneEyebrow:'TRAINING COMPLETE!', doneBody:"You've completed all modules and passed the assessment. Welcome to the #CamperoFamily!", doneCertLabel:'📄 Download My Certificate', doneBackLabel:'Back to Course Map' },
+    es: { splashTitle:'COMIENZA TU VIAJE CAMPERO', splashSubtitle:'Capacitación que se siente como una aventura.', splashBubble:'¡Hola! ¿Listo?', nameLabel:'TU NOMBRE', namePlaceholder:'Ingresa tu nombre...', startLabel:'Comenzar Mi Viaje', next:'Continuar →', beginCourse:'Iniciar Entrenamiento 🚀', back:'← Regresar', backLabel:'Regresar al Curso', mapEyebrow:'TU CURSO', progress:'Progreso del Curso', completed:'✓ COMPLETADO', locked:'BLOQUEADO', startNow:'INICIAR →', completeLesson:'Completar ✓', objTitle:'LO QUE APRENDERÁS', kcTitle:'Comprobación Rápida', checkAnswer:'Verificar Respuesta', correct:'¡Correcto!', notQuite:'¡Buen intento!', nextQ:'Siguiente →', submitAssessment:'Enviar Examen', passed:'¡APROBADO!', tryAgain:'¡MUY CERCA!', retake:'Intentar de Nuevo', finish:'Obtener Mi Certificado 🎉', finishNoCert:'Finalizar 🎉', doneEyebrow:'¡ENTRENAMIENTO COMPLETO!', doneBody:'Has completado todos los módulos y aprobado la evaluación. ¡Bienvenido a la #FamiliaCampero!', doneCertLabel:'📄 Descargar Mi Certificado', doneBackLabel:'Regresar al Mapa del Curso' },
+  }; }
+  setLabel(key, lang, value) {
+    const labels = { en: { ...(this.state.labels?.en || {}) }, es: { ...(this.state.labels?.es || {}) } };
+    const v = (value || '').trim();
+    if (v) labels[lang][key] = v; else delete labels[lang][key];
+    this.setState({ labels });
+  }
+  resetLabels(lang) {
+    const labels = { en: { ...(this.state.labels?.en || {}) }, es: { ...(this.state.labels?.es || {}) } };
+    labels[lang] = {};
+    this.setState({ labels });
+  }
   setDashView(v) { this.setState({ dashView: v }); }
   editBankFromDash(id) { this.setState({ qbankModal: true, qbankActiveId: id, qbankActiveQIndex: 0 }); }
   bankEdit(fn) {
@@ -6034,15 +6381,24 @@ class Component extends DCLogic {
   removeAssessQuestion(qi) { this.assessEdit(aq => { aq.splice(qi, 1); }); }
   moveAssessQuestion(qi, delta) { this.assessEdit(aq => { const ni = qi + delta; if (ni < 0 || ni >= aq.length) return; const tmp = aq[ni]; aq[ni] = aq[qi]; aq[qi] = tmp; }); }
 
+  _xml(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // Resource file declarations shared by both SCORM manifests — the REAL runtime files
+  // the package ships (the launcher + baked config + the live Player + its dc runtime).
+  _resFiles() {
+    return '<file href="index.html"/><file href="course-config.js"/><file href="Course Player.dc.html"/><file href="support.js"/>';
+  }
+
   // ── SCORM 1.2 manifest ──
   mf12(id, title, score) {
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<manifest identifier="'+id+'" version="1" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">\n  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>\n  <organizations default="'+id+'_org"><organization identifier="'+id+'_org" structure="hierarchical"><title>'+title+'</title><item identifier="item_001" identifierref="res_001"><title>'+title+'</title><adlcp:masteryscore>'+score+'</adlcp:masteryscore></item></organization></organizations>\n  <resources><resource identifier="res_001" type="webcontent" adlcp:scormtype="sco" href="index.html"><file href="index.html"/><file href="course_player.html"/></resource></resources>\n</manifest>';
+    var t = this._xml(title);
+    return '<?xml version="1.0" encoding="UTF-8"?>\n<manifest identifier="'+id+'" version="1" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">\n  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>\n  <organizations default="'+id+'_org"><organization identifier="'+id+'_org" structure="hierarchical"><title>'+t+'</title><item identifier="item_001" identifierref="res_001"><title>'+t+'</title><adlcp:masteryscore>'+score+'</adlcp:masteryscore></item></organization></organizations>\n  <resources><resource identifier="res_001" type="webcontent" adlcp:scormtype="sco" href="index.html">'+this._resFiles()+'</resource></resources>\n</manifest>';
   }
 
   // ── SCORM 2004 manifest ──
   mf2004(id, title, score) {
-    var s = (score/100).toFixed(2);
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<manifest identifier="'+id+'" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3p2" xmlns:imsss="http://www.imsglobal.org/xsd/imsss">\n  <metadata><schema>ADL SCORM</schema><schemaversion>2004 4th Edition</schemaversion></metadata>\n  <organizations default="'+id+'_org"><organization identifier="'+id+'_org"><title>'+title+'</title><item identifier="item_001" identifierref="res_001"><title>'+title+'</title><imsss:sequencing><imsss:objectives><imsss:primaryObjective objectiveID="pri" satisfiedByMeasure="true"><imsss:minNormalizedMeasure>'+s+'</imsss:minNormalizedMeasure></imsss:primaryObjective></imsss:objectives></imsss:sequencing></item></organization></organizations>\n  <resources><resource identifier="res_001" type="webcontent" adlcp:scormType="sco" href="index.html"><file href="index.html"/><file href="course_player.html"/></resource></resources>\n</manifest>';
+    var s = (score/100).toFixed(2); var t = this._xml(title);
+    return '<?xml version="1.0" encoding="UTF-8"?>\n<manifest identifier="'+id+'" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3p2" xmlns:imsss="http://www.imsglobal.org/xsd/imsss">\n  <metadata><schema>ADL SCORM</schema><schemaversion>2004 4th Edition</schemaversion></metadata>\n  <organizations default="'+id+'_org"><organization identifier="'+id+'_org"><title>'+t+'</title><item identifier="item_001" identifierref="res_001"><title>'+t+'</title><imsss:sequencing><imsss:objectives><imsss:primaryObjective objectiveID="pri" satisfiedByMeasure="true"><imsss:minNormalizedMeasure>'+s+'</imsss:minNormalizedMeasure></imsss:primaryObjective></imsss:objectives></imsss:sequencing></item></organization></organizations>\n  <resources><resource identifier="res_001" type="webcontent" adlcp:scormType="sco" href="index.html">'+this._resFiles()+'</resource></resources>\n</manifest>';
   }
 
   // ── xAPI / TinCan descriptor ──
@@ -6050,39 +6406,135 @@ class Component extends DCLogic {
     return '<?xml version="1.0" encoding="UTF-8"?>\n<tincan xmlns="http://projecttincan.com/tincan.xsd">\n  <activities>\n    <activity id="https://campero.com/training/'+id+'" type="http://adlnet.gov/expapi/activities/course">\n      <name lang="en-US">'+title+'</name>\n      <description lang="en-US">Pollo Campero team training — brand values, food safety, guest experience, and role responsibilities.</description>\n      <description lang="es">Entrenamiento del equipo Pollo Campero — valores de marca, seguridad alimentaria, experiencia del invitado y responsabilidades del rol.</description>\n      <launch lang="en-US">index.html</launch>\n    </activity>\n  </activities>\n</tincan>';
   }
 
-  // ── SCORM launch bridge ──
-  launchPage(title, ps) {
+  // The exact course definition the published Player reads (mirrors writeConfig, minus savedAt).
+  // Baked into course-config.js as window.__CAMPERO_CFG and seeded into localStorage by the launcher.
+  _configObject() {
+    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary, labels } = this.state;
+    return { courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary, labels };
+  }
+
+  // Static runtime files bundled into every package, fetched from the served Builder directory.
+  // (The launcher + course-config.js + manifest are GENERATED, not listed here.)
+  get PUBLISH_FILES() {
+    const ds = '_ds/pollo-campero-design-system-af736fe9-0132-41a8-b146-044b7d6ae383';
+    return [
+      'Course Player.dc.html', 'support.js', 'READ ME FIRST.txt',
+      ds+'/readme.md', ds+'/styles.css', ds+'/_adherence.oxlintrc.json', ds+'/_ds_bundle.js', ds+'/_ds_manifest.json',
+      ds+'/assets/fonts/BushcraftOne.otf', ds+'/assets/fonts/Exo-Black.ttf', ds+'/assets/fonts/Exo-BlackItalic.ttf', ds+'/assets/fonts/Exo-Bold.ttf', ds+'/assets/fonts/Exo-Medium.ttf', ds+'/assets/fonts/Exo-Regular.ttf', ds+'/assets/fonts/Exo-SemiBold.ttf', ds+'/assets/fonts/Exo-SemiBoldItalic.ttf', ds+'/assets/fonts/GuthenBloots.ttf', ds+'/assets/fonts/JustTellMeWhat.otf',
+      ds+'/tokens/colors.css', ds+'/tokens/effects.css', ds+'/tokens/fonts.css', ds+'/tokens/spacing.css', ds+'/tokens/typography.css',
+      'assets/doodles/hearts-row.png', 'assets/doodles/squiggle-wave.png', 'assets/doodles/underline-arc.png',
+      'assets/logos/logo-primary.png', 'assets/logos/logo-white.png',
+      'assets/mascot/pollito-circle.png', 'assets/mascot/pollito-emoji-cool.png', 'assets/mascot/pollito-emoji.png', 'assets/mascot/pollito-full.png',
+      'assets/textures/wood-orange.png', 'assets/textures/wood-yellow.png',
+    ];
+  }
+
+  // External-LRS config stub (xAPI packages only) — author pastes endpoint/key/secret, then re-zips.
+  _lrsConfig() {
+    return '/* External LRS (xAPI 1.0.x) — paste endpoint/key/secret to ALSO send rich statements\n   (SCORM Cloud, Veracity, Learning Locker, …). Leave endpoint blank to disable. */\nwindow.__CAMPERO_LRS = {\n  endpoint: "",\n  key:      "",\n  secret:   ""\n};\n';
+  }
+
+  // ── Unified LMS launch bridge (seeds config + SCORM API + optional xAPI to an external LRS) ──
+  // tracking: 'completion' (mark complete on finish) | 'quiz' (passed when score ≥ ps). fmt: scorm12|scorm2004|xapi.
+  _publishLauncher(title, ps, tracking, fmt) {
     var tag0 = '<'+'script>'; var tag1 = '<'+'/script>';
-    var css = 'body{margin:0;background:#1a0a0b;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}.w{text-align:center;color:#fff}.s{width:44px;height:44px;border:4px solid rgba(255,77,0,.2);border-top-color:#FF4D00;border-radius:50%;animation:sp .9s linear infinite;margin:0 auto 18px}@keyframes sp{to{transform:rotate(360deg)}}';
-    var js = "(function(){'use strict';var A=null,B=null,ver='none';function find(w){for(var i=0;i<8;i++){if(w.API)return{a:w.API,v:'1.2'};if(w.API_1484_11)return{a:w.API_1484_11,v:'2004'};if(!w.parent||w.parent===w)break;w=w.parent;}return null;}var f=find(window);if(f&&f.v==='1.2'){A=f.a;ver='1.2';}else if(f&&f.v==='2004'){B=f.a;ver='2004';}function get(a,b){return ver==='1.2'?A.LMSGetValue(a)||'':ver==='2004'?B.GetValue(b||a)||'':'';}function set(a,b,v){if(ver==='1.2')A.LMSSetValue(a,v);else if(ver==='2004')B.SetValue(b||a,v);}function save(){if(ver==='1.2')A.LMSCommit('');else if(ver==='2004')B.Commit('');}function done(){if(ver==='1.2')A.LMSFinish('');else if(ver==='2004')B.Terminate('');}if(ver==='1.2')A.LMSInitialize('');else if(ver==='2004')B.Initialize('');var nm=get('cmi.core.student_name','cmi.learner_name');var uid=get('cmi.core.student_id','cmi.learner_id');if(nm){var n=nm.indexOf(',')>-1?nm.split(',').reverse().join(' ').trim():nm.trim();localStorage.setItem('campero_learner_name',n);}if(uid)localStorage.setItem('campero_learner_id',uid);localStorage.setItem('campero_scorm_version',ver);set('cmi.core.lesson_status','cmi.completion_status','incomplete');if(ver==='2004')set('','cmi.success_status','unknown');save();window.addEventListener('message',function(e){if(!e.data||e.data.source!=='campero_course')return;if(e.data.type==='complete'){var sc=Number(e.data.score)||0,ok=sc>=" + ps + ";set('cmi.core.score.raw','cmi.score.raw',String(sc));set('cmi.core.score.min','cmi.score.min','0');set('cmi.core.score.max','cmi.score.max','100');if(ver==='2004')set('','cmi.score.scaled',(sc/100).toFixed(4));set('cmi.core.lesson_status','cmi.completion_status',ok?'passed':'completed');if(ver==='2004')set('','cmi.success_status',ok?'passed':'failed');set('cmi.core.lesson_location','cmi.location','complete');save();done();}});setTimeout(function(){document.body.innerHTML='<iframe src=\"course_player.html\" title=\"Course content\" style=\"position:fixed;inset:0;width:100%;height:100%;border:none\" allowfullscreen></iframe>';},500);}());";
-    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+css+'</style></head><body><div class="w" role="status" aria-live="polite"><div class="s" aria-hidden="true"></div><p style="font-size:14px;color:rgba(255,255,255,.7);margin:0">Loading '+title+'…</p></div>'+tag0+js+tag1+'</body></html>';
+    var t = String(title).replace(/[<>&"]/g, function(c){ return '&#'+c.charCodeAt(0)+';'; });
+    var actId = 'https://lndstudio.io/campero/' + String(title).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') ;
+    var css = 'body{margin:0;background:#1a0a0b;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}.w{text-align:center;color:#fff}.s{width:44px;height:44px;border:4px solid rgba(255,77,0,.2);border-top-color:#FF4D00;border-radius:50%;animation:sp .9s linear infinite;margin:0 auto 18px}@keyframes sp{to{transform:rotate(360deg)}}#f{position:fixed;inset:0;width:100%;height:100%;border:none}';
+    var head = 'var PS=' + (Number(ps)||80) + ',TRK=' + JSON.stringify(tracking||'quiz') + ',FMT=' + JSON.stringify(fmt||'scorm12') + ',ACT=' + JSON.stringify(actId) + ',TITLE=' + JSON.stringify(String(title)) + ';';
+    var seed = "try{if(window.__CAMPERO_CFG)localStorage.setItem('campero_builder_config',JSON.stringify(window.__CAMPERO_CFG));}catch(e){}";
+    var scorm = "var A=null,B=null,ver='none';function find(w){for(var i=0;i<8;i++){if(w.API)return{a:w.API,v:'1.2'};if(w.API_1484_11)return{a:w.API_1484_11,v:'2004'};if(!w.parent||w.parent===w)break;w=w.parent;}return null;}var f=find(window);if(f&&f.v==='1.2'){A=f.a;ver='1.2';}else if(f&&f.v==='2004'){B=f.a;ver='2004';}function get(a,b){return ver==='1.2'?A.LMSGetValue(a)||'':ver==='2004'?B.GetValue(b||a)||'':'';}function st(a,b,v){if(ver==='1.2')A.LMSSetValue(a,v);else if(ver==='2004')B.SetValue(b||a,v);}function save(){if(ver==='1.2')A.LMSCommit('');else if(ver==='2004')B.Commit('');}function fin(){if(ver==='1.2')A.LMSFinish('');else if(ver==='2004')B.Terminate('');}if(ver==='1.2')A.LMSInitialize('');else if(ver==='2004')B.Initialize('');var nm=get('cmi.core.student_name','cmi.learner_name');var uid=get('cmi.core.student_id','cmi.learner_id');if(nm){var n=nm.indexOf(',')>-1?nm.split(',').reverse().join(' ').trim():nm.trim();localStorage.setItem('campero_learner_name',n);}if(uid)localStorage.setItem('campero_learner_id',uid);if(ver!=='none'){st('cmi.core.lesson_status','cmi.completion_status','incomplete');if(ver==='2004')st('','cmi.success_status','unknown');save();}";
+    var wint = "function wInt(L){if(!L||!L.length||ver==='none')return;for(var i=0;i<L.length;i++){var it=L[i],p='cmi.interactions.'+i+'.';if(ver==='1.2'){st(p+'id','',it.id||('q'+(i+1)));st(p+'type','',it.type);st(p+'student_response','',String(it.response||''));st(p+'result','',it.correct?'correct':'wrong');}else{st('',p+'id',it.id||('q'+(i+1)));st('',p+'type',it.type);st('',p+'learner_response',String(it.response||''));st('',p+'result',it.correct?'correct':'incorrect');}}}";
+    var xapi = "function xapi(sc,ok,L,aud){try{var C=window.__CAMPERO_LRS||{};if(FMT!=='xapi'||!C.endpoint)return;var ep=C.endpoint+(C.endpoint.slice(-1)==='/'?'':'/')+'statements';var au='Basic '+btoa((C.key||'')+':'+(C.secret||''));var ag={objectType:'Agent',name:localStorage.getItem('campero_learner_name')||'Learner',account:{homePage:'https://lndstudio.io',name:localStorage.getItem('campero_learner_id')||'anon'}};function snd(s){var x=new XMLHttpRequest();x.open('POST',ep,true);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Authorization',au);x.setRequestHeader('X-Experience-API-Version','1.0.3');x.send(JSON.stringify(s));}var ext={'https://lndstudio.io/x/store':aud.store||'','https://lndstudio.io/x/role':aud.role||'','https://lndstudio.io/x/lang':aud.lang||'en'};snd({actor:ag,verb:{id:'http://adlnet.gov/expapi/verbs/'+(ok?'passed':'completed'),display:{'en-US':ok?'passed':'completed'}},object:{id:ACT,definition:{name:{'en-US':TITLE},type:'http://adlnet.gov/expapi/activities/course'}},result:{score:{scaled:sc/100,raw:sc,min:0,max:100},success:ok,completion:true},context:{extensions:ext}});for(var i=0;i<(L||[]).length;i++){var it=L[i];snd({actor:ag,verb:{id:'http://adlnet.gov/expapi/verbs/answered',display:{'en-US':'answered'}},object:{id:ACT+'/q/'+(it.id||('q'+(i+1))),definition:{name:{'en-US':it.description||('Q'+(i+1))},type:'http://adlnet.gov/expapi/activities/cmi.interaction'}},result:{response:String(it.response||''),success:!!it.correct}});}}catch(e){}}";
+    var onmsg = "window.addEventListener('message',function(e){if(!e.data||e.data.source!=='campero_course'||e.data.type!=='complete')return;var sc=Number(e.data.score)||0,ok=(TRK==='completion')?true:(typeof e.data.passed==='boolean'?e.data.passed:(sc>=PS)),aud=e.data.audience||{},L=e.data.interactions||[];if(ver!=='none'){st('cmi.core.score.raw','cmi.score.raw',String(sc));st('cmi.core.score.min','cmi.score.min','0');st('cmi.core.score.max','cmi.score.max','100');if(ver==='2004')st('','cmi.score.scaled',(sc/100).toFixed(4));var status=(TRK==='completion')?'completed':(ok?'passed':'completed');st('cmi.core.lesson_status','cmi.completion_status',(ver==='2004')?'completed':status);if(ver==='2004')st('','cmi.success_status',ok?'passed':'failed');st('cmi.core.lesson_location','cmi.location','complete');wInt(L);save();fin();}xapi(sc,ok,L,aud);});";
+    var boot = "document.getElementById('f').src='Course Player.dc.html';";
+    var ext = function(src){ return '<'+'script src="'+src+'">'+'<'+'/script>'; };
+    var js = "(function(){'use strict';" + head + seed + scorm + wint + xapi + onmsg + boot + "}());";
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+t+'</title><style>'+css+'</style>'+ext('course-config.js')+(fmt==='xapi'?ext('lrs-config.js'):'')+'</head><body><iframe id="f" title="Course content" allow="autoplay; fullscreen"></iframe>'+tag0+js+tag1+'</body></html>';
+  }
+
+  // ── Web (standalone) launcher — seed config + embed the Player, no LMS bridge ──
+  _publishWebLauncher(title) {
+    var tag0 = '<'+'script>'; var tag1 = '<'+'/script>';
+    var t = String(title).replace(/[<>&"]/g, function(c){ return '&#'+c.charCodeAt(0)+';'; });
+    var css = 'body{margin:0;background:#FFFBF3}#f{position:fixed;inset:0;width:100%;height:100%;border:none}';
+    var ext = function(src){ return '<'+'script src="'+src+'">'+'<'+'/script>'; };
+    var js = "(function(){'use strict';try{if(window.__CAMPERO_CFG)localStorage.setItem('campero_builder_config',JSON.stringify(window.__CAMPERO_CFG));}catch(e){}document.getElementById('f').src='Course Player.dc.html';}());";
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+t+'</title><style>'+css+'</style>'+ext('course-config.js')+'</head><body><iframe id="f" title="'+t+'" allow="autoplay; fullscreen"></iframe>'+tag0+js+tag1+'</body></html>';
   }
 
   // ── README ──
   readme(title, ver, ps, modules) {
-    var vl = ver==='xapi'?'xAPI/TinCan + SCORM 1.2':ver==='scorm12'?'SCORM 1.2':'SCORM 2004';
-    var ml = modules.map(function(m,i){return (i+1)+'. '+m.title+' ('+m.duration+')';}).join('\n');
-    return '# '+title+' — SCORM Package\nGenerated: '+new Date().toLocaleDateString()+'\nTracking: '+vl+' | Passing: '+ps+'%\n\n## ⚠️ Before uploading\n\n1. Copy Course Player.html into this folder → rename to course_player.html\n2. Copy the assets/ folder alongside it\n3. Zip all contents (not the folder) → upload to Absorb LMS\n\n## Absorb LMS steps\n\n1. Admin → Courses → Create Course → SCORM → Upload ZIP\n2. Set Passing Score to '+ps+'% in course settings\n3. Enroll learner groups\n\n## SCORM bridge features\n\n- Learner name pulled from LMS → Pollito uses it to greet learners personally\n- Completion reported when final assessment score ≥ '+ps+'%\n- Score (0-100), completion status, and location all tracked\n- Graceful fallback when run outside LMS\n\n## Course modules ('+modules.length+')\n\n'+ml+'\n\n---\nBuilt with Campero Learning Platform\n';
+    var vl = ver==='xapi'?'xAPI/Tin Can (+ SCORM 1.2 fallback)':ver==='scorm12'?'SCORM 1.2':ver==='scorm2004'?'SCORM 2004':'Web (standalone, no LMS)';
+    var ml = modules.map(function(m,i){return (i+1)+'. '+m.title+' ('+(m.duration||'')+')';}).join('\n');
+    var web = ver==='web';
+    var steps = web
+      ? '## Host it anywhere\n\n1. Unzip all contents into a folder on your web server / static host (Netlify, Cloudflare Pages, S3, …).\n2. Serve the folder and open **index.html**. That is the whole course — no LMS required.\n3. Keep every file together (index.html, course-config.js, Course Player.dc.html, support.js, _ds/, assets/).'
+      : '## Upload to your LMS\n\n1. This ZIP is a complete, self-contained package — **do not unzip before uploading**.\n2. Admin → Courses → Create Course → ' + (ver==='xapi'?'Tin Can / xAPI':'SCORM') + ' → Upload ZIP.\n3. Set the passing score to '+ps+'% in the LMS course settings if prompted.\n4. Enroll learners.' + (ver==='xapi'?'\n5. (Optional) To ALSO stream rich xAPI to your own LRS, paste your endpoint/key/secret into lrs-config.js and re-zip.':'');
+    return '# '+title+'\nGenerated: '+new Date().toLocaleDateString()+'\nFormat: '+vl+(web?'':' | Passing: '+ps+'%')+'\n\n'+steps+'\n\n## What\'s inside\n\n- index.html — launch page (seeds the course + '+(web?'loads':'reports completion/score to your LMS, then loads')+' the Player)\n- course-config.js — your course definition\n- Course Player.dc.html + support.js — the live course runtime\n- _ds/ + assets/ — design system, fonts, images\n\n## Course modules ('+modules.length+')\n\n'+ml+'\n\n---\nBuilt with the Campero Learning Platform\n';
   }
 
-  // ── Generate + download SCORM ZIP ──
-  async generateScormPackage() {
+  // ── Build + download a complete, working package (LMS or Web) ──
+  async buildPackage(opts) {
     if (typeof JSZip === 'undefined') { alert('JSZip library not loaded — check your internet connection and try again.'); return; }
-    const { courseTitle, modules, passingScore, scormVersion } = this.state;
-    const id = 'campero_' + Date.now();
-    const zip = new JSZip();
-    if (scormVersion === 'scorm12' || scormVersion === 'xapi') zip.file('imsmanifest.xml', this.mf12(id, courseTitle, passingScore));
-    if (scormVersion === 'scorm2004') zip.file('imsmanifest.xml', this.mf2004(id, courseTitle, passingScore));
-    if (scormVersion === 'xapi') zip.file('tincan.xml', this.tincan(id, courseTitle));
-    zip.file('index.html', this.launchPage(courseTitle, passingScore));
-    zip.file('README.md', this.readme(courseTitle, scormVersion, passingScore, modules));
-    zip.file('course_player.html', '<!-- Replace with exported Course Player.html -->');
-    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = courseTitle.replace(/[^a-z0-9]/gi,'_')+'_SCORM.zip';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    const fmt = opts.format;                 // scorm12 | scorm2004 | xapi | web
+    const tracking = opts.tracking || 'quiz';
+    const title = (opts.title || this.state.courseTitle || 'Course').trim();
+    const ps = Number(opts.passingScore) || Number(this.state.passingScore) || 80;
+    const id = (opts.identifier && opts.identifier.trim()) || ('campero_' + Date.now());
+    this.persistCurrentCourse();
+    this.setState({ publishBusy: true, publishStatus: 'Bundling runtime files…' });
+    try {
+      const zip = new JSZip();
+      const baseDir = location.href.split('#')[0].split('?')[0].replace(/[^/]*$/, '');
+      const files = this.PUBLISH_FILES;
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const url = baseDir + f.split('/').map(encodeURIComponent).join('/');
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Could not load runtime file: ' + f + ' (' + res.status + ')');
+        zip.file(f, await res.arrayBuffer());
+        if (i % 6 === 0) this.setState({ publishStatus: 'Bundling runtime files… ' + (i + 1) + '/' + files.length });
+      }
+      this.setState({ publishStatus: 'Baking course + manifest…' });
+      zip.file('course-config.js', '/* Campero course definition — seeded into the Player by index.html. */\nwindow.__CAMPERO_CFG = ' + JSON.stringify(this._configObject()) + ';\n');
+      if (fmt === 'web') {
+        zip.file('index.html', this._publishWebLauncher(title));
+      } else {
+        zip.file('index.html', this._publishLauncher(title, ps, tracking, fmt));
+        if (fmt === 'scorm2004') zip.file('imsmanifest.xml', this.mf2004(id, title, ps));
+        else zip.file('imsmanifest.xml', this.mf12(id, title, ps));   // scorm12 + xapi both ship a 1.2 manifest
+        if (fmt === 'xapi') { zip.file('tincan.xml', this.tincan(id, title)); zip.file('lrs-config.js', this._lrsConfig()); }
+      }
+      zip.file('README.md', this.readme(title, fmt, ps, this.state.modules || []));
+      this.setState({ publishStatus: 'Compressing…' });
+      const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+      const suffix = fmt === 'web' ? 'Web' : fmt === 'xapi' ? 'xAPI' : fmt === 'scorm2004' ? 'SCORM2004' : 'SCORM12';
+      const a = document.createElement('a');
+      const dlUrl = URL.createObjectURL(blob);
+      a.href = dlUrl; a.download = title.replace(/[^a-z0-9]/gi, '_') + '_' + suffix + '.zip';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(dlUrl), 4000);
+      this.setState({ publishBusy: false, publishStatus: '✅ Downloaded ' + a.download, publishOpen: false, publishView: 'menu' });
+    } catch (e) {
+      this.setState({ publishBusy: false, publishStatus: '⚠️ ' + (e && e.message ? e.message : 'Publish failed') });
+    }
+  }
+
+  // ── Publish panel control ──
+  openPublish() { this.persistCurrentCourse(); this.setState({ publishOpen: true, publishView: 'menu', publishStatus: '', pubFormat: this.state.scormVersion === 'scorm2004' ? 'scorm2004' : this.state.scormVersion === 'xapi' ? 'xapi' : 'scorm12' }); }
+  closePublish() { if (this.state.publishBusy) return; this.setState({ publishOpen: false, publishView: 'menu' }); }
+  publishGoLms() { this.setState({ publishView: 'lms', publishStatus: '' }); }
+  publishDoLms() {
+    this.buildPackage({ format: this.state.pubFormat, tracking: this.state.pubTracking, title: this.state.courseTitle, passingScore: this.state.passingScore, identifier: this.state.pubIdentifier });
+  }
+  publishDoWeb() {
+    this.buildPackage({ format: 'web', title: this.state.courseTitle });
+  }
+
+  // Back-compat: the old Settings "Export package" button → build using current scormVersion.
+  async generateScormPackage() {
+    return this.buildPackage({ format: this.state.scormVersion || 'scorm12', tracking: this.state.pubTracking || 'quiz', title: this.state.courseTitle, passingScore: this.state.passingScore });
   }
 
   // ── Save draft to localStorage ──
@@ -6093,8 +6545,37 @@ class Component extends DCLogic {
     alert('✅ Draft saved! The Course Player will use these settings when opened in this browser.');
   }
   writeConfig() {
-    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary } = this.state;
-    localStorage.setItem('campero_builder_config', JSON.stringify({ courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary, savedAt: new Date().toISOString() }));
+    localStorage.setItem('campero_builder_config', JSON.stringify({ ...this._configObject(), savedAt: new Date().toISOString() }));
+  }
+
+  // ── Layer B — "Preview as branch": seed the chosen branch + (re)load the embedded Player ──
+  // Writes the live builder config (incl. unsaved edits) + a one-shot branch seed the Player
+  // reads on mount to skip the splash and start in this Language × Store × Role. Seeded
+  // synchronously from the explicit combo (not state) so it lands before the iframe (re)loads.
+  _seedBranchPreview(combo) {
+    this.writeConfig();
+    const seed = { language: combo.lang === 'es' ? 'es' : 'en' };
+    if (this.state.storeBranch && combo.store) seed.storeType = combo.store;
+    if (this.state.roleBranch && combo.role) seed.role = combo.role;
+    localStorage.setItem('campero_preview_branch', JSON.stringify(seed));
+  }
+  openBranchPreview() {
+    // Default the overlay's branch to whatever the canvas lens is previewing.
+    this.persistCurrentCourse();
+    const combo = {
+      lang: this.state.previewLang || 'en',
+      store: this.state.storeBranch ? (this.state.lensStore || '') : '',
+      role: this.state.roleBranch ? (this.state.lensRole || '') : '',
+    };
+    this._seedBranchPreview(combo);
+    this.setState({ branchPreviewOpen: true, bpLang: combo.lang, bpStore: combo.store, bpRole: combo.role, bpNonce: this.state.bpNonce + 1 });
+  }
+  closeBranchPreview() { this.setState({ branchPreviewOpen: false }); }
+  setBranchPreview(patch) {
+    // Change the previewed combo without leaving the overlay: reseed + reload the iframe.
+    const combo = { lang: this.state.bpLang, store: this.state.bpStore, role: this.state.bpRole, ...patch };
+    this._seedBranchPreview(combo);
+    this.setState({ ...patch, bpNonce: this.state.bpNonce + 1 });
   }
 
   addModule() {
@@ -6472,6 +6953,7 @@ class Component extends DCLogic {
     const sorted = this.resortBySection(mods, sections);   // clusters by section + stable within
     const sel = sorted.indexOf(dragMod);
     this.setState({ modules: sorted, selectedModule: sel < 0 ? 0 : sel, selectedBlock: null });
+    this.persistCurrentCourse();   // persist immediately so a drag move can't be lost to the autosave debounce
   }
 
   addRole() {
@@ -6488,8 +6970,34 @@ class Component extends DCLogic {
     this.setState({ roles: [...roles, newRole], newRoleInput: '' });
   }
 
+  // Heal role data on load: guarantee every role is a {id,icon,label} object with a UNIQUE,
+  // non-empty id. Repairs two corruption modes seen in saved courses:
+  //  • a role saved as a bare string ("Manager")
+  //  • a role spread character-by-character into {0:'M',1:'a',…,label:''} with no id
+  // Without unique ids, renameRole(undefined) matched EVERY role → editing one renamed all.
+  _normalizeRoles(roles) {
+    const used = new Set();
+    const uid = (base) => {
+      let s = String(base || 'role').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'role';
+      let id = s, n = 2; while (used.has(id)) { id = s + '-' + n; n++; } used.add(id); return id;
+    };
+    return (Array.isArray(roles) ? roles : []).map((r, i) => {
+      if (typeof r === 'string') return { id: uid(r), icon: '👤', label: r };
+      if (r && typeof r === 'object') {
+        let label = (typeof r.label === 'string') ? r.label : '';
+        if (!label) { const ch = []; for (let k = 0; typeof r[k] === 'string'; k++) ch.push(r[k]); if (ch.length) label = ch.join(''); }
+        const icon = (typeof r.icon === 'string' && r.icon) ? r.icon : '👤';
+        let id = (typeof r.id === 'string' && r.id) ? r.id : '';
+        if (!id || used.has(id)) id = uid(label || ('role' + i)); else used.add(id);
+        return { id, icon, label };
+      }
+      return { id: uid('role' + i), icon: '👤', label: '' };
+    });
+  }
+
   // In-place rename keeps the role's id stable, so existing block.audience refs stay intact.
   renameRole(id, label) {
+    if (!id) return;   // never fan out across roles that share a missing id
     const next = (label || '').replace(/\s+$/, '');   // allow spaces while typing; trim trailing only
     this.setState({ roles: (this.state.roles || []).map(r => r.id === id ? { ...r, label: next } : r) });
   }
@@ -6583,7 +7091,8 @@ class Component extends DCLogic {
       onDragRight: (e) => this._startSplit('right', e),
       ...(() => {
         const inEditor = s.tab === 'content';
-        const panelOpen = inEditor && s.selectedBlock !== null;   // right editor panel docks in only when a block is selected
+        const canEdit = this._canEditCurrent(s);
+        const panelOpen = inEditor && s.selectedBlock !== null && canEdit;   // right editor panel docks in only when a block is selected (never for Viewers)
         const leftEff = s.leftCollapsed ? 0 : s.leftW;
         const leftSplitW = s.leftCollapsed ? 0 : 7;
         const rightEff = panelOpen ? s.rightW : 0;
@@ -6767,8 +7276,71 @@ class Component extends DCLogic {
           .replace('Course Builder.dc.html', 'Course Player.dc.html');
         window.open(url, '_blank');
       },
+      // ── Layer B — "Preview as branch" embedded-Player overlay binds ──
+      openBranchPreview: () => this.openBranchPreview(),
+      closeBranchPreview: () => this.closeBranchPreview(),
+      branchPreviewOpen: !!s.branchPreviewOpen,
+      bpPlayerSrc: location.href
+        .replace('Course%20Builder.dc.html', 'Course%20Player.dc.html')
+        .replace('Course Builder.dc.html', 'Course Player.dc.html')
+        .split('#')[0].split('?')[0] + '?bp=' + s.bpNonce,
+      bpLangEnBg: s.bpLang==='es' ? 'transparent' : '#FFFFFF', bpLangEnColor: s.bpLang==='es' ? 'rgba(243,231,226,.6)' : '#FF4D00',
+      bpLangEsBg: s.bpLang==='es' ? '#FF4D00' : 'transparent', bpLangEsColor: s.bpLang==='es' ? '#FFFFFF' : 'rgba(243,231,226,.6)',
+      bpShowLang: !!s.langBranch, bpShowStore: !!s.storeBranch, bpShowRole: !!s.roleBranch,
+      setBpLangEn: () => this.setBranchPreview({ lang: 'en' }),
+      setBpLangEs: () => this.setBranchPreview({ lang: 'es' }),
+      bpStore: s.bpStore || '', bpRole: s.bpRole || '',
+      bpStoreOpts: [{ v: '', l: 'Everyone (store)' }, { v: 'corporate', l: 'Corporate' }, { v: 'franchise', l: 'Franchise' }],
+      bpRoleOpts: [{ v: '', l: 'Everyone (role)' }].concat((s.roles || []).map(r => ({ v: r.id, l: (r.icon ? r.icon + ' ' : '') + r.label }))),
+      onBpStore: e => this.setBranchPreview({ store: e.target.value }),
+      onBpRole: e => this.setBranchPreview({ role: e.target.value }),
+      bpDevice: s.bpDevice,
+      bpFrameWidth: s.bpDevice==='mobile' ? '390px' : s.bpDevice==='tablet' ? '768px' : '100%',
+      bpFrameMaxW: s.bpDevice==='mobile' ? '390px' : s.bpDevice==='tablet' ? '768px' : '1100px',
+      setBpMobile: () => this.setState({ bpDevice: 'mobile' }),
+      setBpTablet: () => this.setState({ bpDevice: 'tablet' }),
+      setBpDesktop: () => this.setState({ bpDevice: 'desktop' }),
+      bpDevMobileBg: s.bpDevice==='mobile' ? '#FF4D00' : 'transparent', bpDevMobileColor: s.bpDevice==='mobile' ? '#fff' : 'rgba(243,231,226,.6)',
+      bpDevTabletBg: s.bpDevice==='tablet' ? '#FF4D00' : 'transparent', bpDevTabletColor: s.bpDevice==='tablet' ? '#fff' : 'rgba(243,231,226,.6)',
+      bpDevDesktopBg: s.bpDevice==='desktop' ? '#FF4D00' : 'transparent', bpDevDesktopColor: s.bpDevice==='desktop' ? '#fff' : 'rgba(243,231,226,.6)',
       onPublish: () => this.generateScormPackage(),
       onSaveDraft: () => this.saveDraft(),
+      // ── Publish panel (Rise-style) binds ──
+      openPublish: () => this.openPublish(),
+      closePublish: () => this.closePublish(),
+      publishOpen: !!s.publishOpen,
+      publishIsMenu: s.publishView === 'menu',
+      publishIsLms: s.publishView === 'lms',
+      publishBusy: !!s.publishBusy,
+      publishStatus: s.publishStatus || '',
+      hasPublishStatus: !!s.publishStatus,
+      publishGoLms: () => this.publishGoLms(),
+      publishBackToMenu: () => this.setState({ publishView: 'menu', publishStatus: '' }),
+      publishDoLms: () => this.publishDoLms(),
+      publishDoWeb: () => this.publishDoWeb(),
+      pubTitle: s.courseTitle || '',
+      onPubTitle: e => this.setState({ courseTitle: e.target.value }),
+      pubIdentifier: s.pubIdentifier || '',
+      onPubIdentifier: e => this.setState({ pubIdentifier: e.target.value }),
+      pubFormat: s.pubFormat,
+      // Publish is the single source of truth for output format — keep scormVersion (baked into
+      // the published config + back-compat export) in sync with the dialog's choice.
+      onPubFormat: e => this.setState({ pubFormat: e.target.value, scormVersion: e.target.value }),
+      pubFormatOpts: [{ v: 'scorm12', l: 'SCORM 1.2' }, { v: 'scorm2004', l: 'SCORM 2004' }, { v: 'xapi', l: 'xAPI / Tin Can' }],
+      pubTrackCompletion: s.pubTracking === 'completion',
+      pubTrackQuiz: s.pubTracking === 'quiz',
+      setPubTrackCompletion: () => this.setState({ pubTracking: 'completion' }),
+      setPubTrackQuiz: () => this.setState({ pubTracking: 'quiz' }),
+      pubCompletionPct: s.pubCompletionPct,
+      onPubCompletionPct: e => this.setState({ pubCompletionPct: Math.max(1, Math.min(100, parseInt(e.target.value, 10) || 100)) }),
+      pubPassingScore: s.passingScore,
+      onPubPassingScore: e => this.setState({ passingScore: Math.max(1, Math.min(100, parseInt(e.target.value, 10) || 80)) }),
+      pubComplBg: s.pubTracking === 'completion' ? 'rgba(255,77,0,.06)' : 'var(--bx-card)',
+      pubComplBorder: s.pubTracking === 'completion' ? '#FF4D00' : 'rgba(var(--bx-line-rgb),.15)',
+      pubQuizBg: s.pubTracking === 'quiz' ? 'rgba(255,77,0,.06)' : 'var(--bx-card)',
+      pubQuizBorder: s.pubTracking === 'quiz' ? '#FF4D00' : 'rgba(var(--bx-line-rgb),.15)',
+      pubComplDot: s.pubTracking === 'completion' ? '#FF4D00' : 'transparent',
+      pubQuizDot: s.pubTracking === 'quiz' ? '#FF4D00' : 'transparent',
 
       selectedModuleNum: s.selectedModule + 1,
 
@@ -6780,7 +7352,10 @@ class Component extends DCLogic {
       // AND routes inline canvas edits to the parallel *_es fields, so flipping to ES edits the
       // Spanish version in place. The canvas stays editable in both languages.
       previewLangEs: s.previewLang==='es',
-      ceEdit: 'true',
+      ceEdit: this._canEditCurrent(s) ? 'true' : 'false',
+      canEdit: this._canEditCurrent(s),
+      isViewerMode: !this._canEditCurrent(s),
+      settingsPE: this._canEditCurrent(s) ? 'auto' : 'none',
       setLangEn: () => this.setState({ previewLang: 'en' }),
       setLangEs: () => this.setState({ previewLang: 'es' }),
       langEnBg:    s.previewLang==='es' ? 'transparent' : '#FFFFFF',
@@ -6792,6 +7367,38 @@ class Component extends DCLogic {
       openBulkEs: () => this.setState({ translateModal: true, xlateStatus: '', xlateBusy: false }),
       previewModColor: mod?.color || '#FF4D00',
       previewBlocks: this.getPreviewBlocks(s),
+      ...(() => {
+        // ── Layer A — canvas Audience lens binds ──
+        const lensCtx = { storeType: s.storeBranch ? (s.lensStore || '') : '', role: s.roleBranch ? (s.lensRole || '') : '' };
+        const allBlocks = (mod?.blocks) || [];
+        const total = allBlocks.length;
+        const shown = allBlocks.filter(bl => this.audienceAllows(bl, lensCtx)).length;
+        const roleLabel = (s.roles || []).find(r => r.id === s.lensRole)?.label;
+        const storeLabel = s.lensStore === 'corporate' ? 'Corporate' : s.lensStore === 'franchise' ? 'Franchise' : '';
+        const active = !!((s.storeBranch && s.lensStore) || (s.roleBranch && s.lensRole));
+        const sumParts = [s.previewLang === 'es' ? 'Español' : 'English'];
+        if (s.storeBranch && storeLabel) sumParts.push(storeLabel);
+        if (s.roleBranch && roleLabel) sumParts.push(roleLabel);
+        return {
+          lensStore: s.lensStore || '', lensRole: s.lensRole || '',
+          lensShowStores: !!s.storeBranch, lensShowRoles: !!s.roleBranch,
+          lensAnyDim: !!(s.storeBranch || s.roleBranch),
+          lensStoreOpts: [{ v: '', l: 'Everyone (store)' }, { v: 'corporate', l: 'Corporate' }, { v: 'franchise', l: 'Franchise' }],
+          lensRoleOpts: [{ v: '', l: 'Everyone (role)' }].concat((s.roles || []).map(r => ({ v: r.id, l: (r.icon ? r.icon + ' ' : '') + r.label }))),
+          onLensStore: e => this.setState({ lensStore: e.target.value }),
+          onLensRole: e => this.setState({ lensRole: e.target.value }),
+          toggleHideExcluded: () => this.setState({ hideExcluded: !s.hideExcluded }),
+          hideExcluded: !!s.hideExcluded,
+          hideExcludedLabel: s.hideExcluded ? '🙈 Excluded hidden' : '👁 Show excluded',
+          hideExcludedTitle: s.hideExcluded ? 'Excluded blocks are hidden (pixel-true learner view). Click to ghost them instead.' : 'Excluded blocks are ghosted. Click to hide them for a pixel-true learner view.',
+          hideExcludedBg: s.hideExcluded ? '#5E2A2B' : 'var(--bx-card)',
+          hideExcludedColor: s.hideExcluded ? '#fff' : 'var(--bx-heading)',
+          hideExcludedBorder: s.hideExcluded ? '#5E2A2B' : 'rgba(var(--bx-line-rgb),.2)',
+          lensActive: active,
+          lensSummary: sumParts.join(' · '),
+          lensShownCount: shown, lensTotalCount: total,
+        };
+      })(),
       insertAtTop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ picker: true, pickerAt: 0, pickerSearch: '' }); },
       stopProp: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
       previewHint: s.selectedBlock !== null
@@ -6844,7 +7451,7 @@ class Component extends DCLogic {
       hasSections: (s.sections || []).length > 0,
       moduleSectionOptions: this.sectionOptions(s),
       moduleCurrentSection: (s.modules[s.selectedModule] && s.modules[s.selectedModule].sectionId) || '',
-      onModuleSection: e => this.assignModuleSection(s.selectedModule, e.target.value),
+      onModuleSection: e => this.assignModuleSection(this.state.selectedModule, e.target.value),
       assessEnabled: s.assessEnabled,
       assessCardBg: s.assessEnabled ? 'rgba(81,46,145,.06)' : 'rgba(94,42,43,.04)',
       assessCardBorder: s.assessEnabled ? 'rgba(81,46,145,.25)' : 'rgba(94,42,43,.1)',
@@ -7653,18 +8260,75 @@ class Component extends DCLogic {
       ...(() => {
         const sec = s.settingsSection || 'general';
         const onB = '#FF4D00', onC = '#fff', offB = 'transparent', offC = cdMuted;
-        const titles = { general: 'General', experience: 'Learner Experience', tracking: 'Tracking & Export' };
+        const titles = { general: 'General', experience: 'Learner Experience', tracking: 'Tracking & Export', collaborators: 'Collaborators', labels: 'Course Labels' };
         return {
           settingsIsGeneral: sec === 'general',
           settingsIsExperience: sec === 'experience',
           settingsIsTracking: sec === 'tracking',
+          settingsIsCollab: sec === 'collaborators',
+          settingsIsLabels: sec === 'labels',
           settingsSectionTitle: titles[sec] || 'Configuration',
           setSettingsGeneral: () => this.setSettingsSection('general'),
           setSettingsExperience: () => this.setSettingsSection('experience'),
           setSettingsTracking: () => this.setSettingsSection('tracking'),
+          setSettingsCollab: () => this.setSettingsSection('collaborators'),
+          setSettingsLabels: () => this.setSettingsSection('labels'),
           navGeneralBg: sec === 'general' ? onB : offB, navGeneralColor: sec === 'general' ? onC : offC,
           navExperienceBg: sec === 'experience' ? onB : offB, navExperienceColor: sec === 'experience' ? onC : offC,
           navTrackingBg: sec === 'tracking' ? onB : offB, navTrackingColor: sec === 'tracking' ? onC : offC,
+          navCollabBg: sec === 'collaborators' ? onB : offB, navCollabColor: sec === 'collaborators' ? onC : offC,
+          navLabelsBg: sec === 'labels' ? onB : offB, navLabelsColor: sec === 'labels' ? onC : offC,
+        };
+      })(),
+      // ── Custom course labels editor (edits the current working language: previewLang) ──
+      ...(() => {
+        const lang = s.previewLang === 'es' ? 'es' : 'en';
+        const ov = (s.labels && s.labels[lang]) || {};
+        const defs = this.LABEL_DEFAULTS[lang] || {};
+        const overrideCount = Object.keys(ov).filter(k => (ov[k] || '').trim()).length;
+        return {
+          labelsLang: lang,
+          labelsLangName: lang === 'es' ? 'Spanish' : 'English',
+          labelsOverrideCount: overrideCount,
+          hasLabelOverrides: overrideCount > 0,
+          onResetLabels: () => this.resetLabels(lang),
+          labelGroups: this.LABEL_GROUPS.map(g => ({
+            title: g.title,
+            fields: g.items.map(([key, desc]) => ({
+              key, desc,
+              def: defs[key] || '',
+              value: ov[key] || '',
+              isOverridden: !!(ov[key] && ov[key].trim()),
+              onChange: e => this.setLabel(key, lang, e.target.value),
+            })),
+          })),
+        };
+      })(),
+      // ── Collaborators / ownership ──
+      ...(() => {
+        const owner = s.courseOwner || s.currentAuthor || 'You';
+        const list = Array.isArray(s.collaborators) ? s.collaborators : [];
+        const team = Array.isArray(s.team) ? s.team : [];
+        const taken = new Set([owner.trim().toLowerCase(), ...list.map(c => (c.name || '').trim().toLowerCase())]);
+        return {
+          collabOwnerName: owner,
+          collabOwnerInitial: (owner.trim()[0] || '?').toUpperCase(),
+          collabRows: list.map((c, i) => ({
+            name: c.name || '', initial: ((c.name || '?').trim()[0] || '?').toUpperCase(),
+            roleVal: (c.role || 'editor') === 'viewer' ? 'viewer' : 'editor',
+            onRole: e => this.setCollaboratorRole(i, e.target.value),
+            onRemove: () => this.removeCollaborator(i),
+            onTransfer: () => this.transferOwnership(i),
+          })),
+          collabCount: list.length,
+          hasCollabs: list.length > 0,
+          collabDraft: s.collabDraft || '',
+          onCollabDraft: e => this.setState({ collabDraft: e.target.value }),
+          onCollabKey: e => { if (e.key === 'Enter') { e.preventDefault(); this.addCollaborator(); } },
+          collabRoleDraft: s.collabRoleDraft || 'editor',
+          onCollabRoleDraft: e => this.setState({ collabRoleDraft: e.target.value }),
+          addCollaborator: () => this.addCollaborator(),
+          collabTeamOpts: team.map(t => (typeof t === 'string' ? t : (t && t.name) || '')).filter(n => n && !taken.has(n.trim().toLowerCase())).map(n => ({ v: n })),
         };
       })(),
       // Global Question Banks

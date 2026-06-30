@@ -107,7 +107,7 @@
 
       <div style="width:100%;max-width:360px;margin-bottom:14px;animation:slideUp .7s .3s ease both">
         <div style="font-size:10px;font-weight:700;color:#FFD100;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">{{ nameLabel }}</div>
-        <input type="text" value="{{ nameInput }}" onChange="{{ onNameChange }}" onKeyDown="{{ onNameKeyDown }}" placeholder="{{ namePlaceholder }}" style="width:100%;padding:14px 20px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:50px;color:#fff;font-size:16px;font-family:'Exo',sans-serif;outline:none;transition:border-color .2s" style-focus="border-color:#FF4D00;background:rgba(255,77,0,.12)">
+        <input type="text" value="{{ nameInput }}" onChange="{{ onNameChange }}" onKeyDown="{{ onNameKeyDown }}" placeholder="{{ namePlaceholder }}" aria-label="{{ nameLabel }}" style="width:100%;padding:14px 20px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:50px;color:#fff;font-size:16px;font-family:'Exo',sans-serif;outline:none;transition:border-color .2s" style-focus="border-color:#FF4D00;background:rgba(255,77,0,.12)">
       </div>
 
       <div style="width:100%;max-width:360px;animation:slideUp .7s .42s ease both">
@@ -145,7 +145,7 @@
       <!-- Step: Store Type -->
       <sc-if value="{{ showStepStore }}" hint-placeholder-val="{{ true }}">
         <div style="flex:1;padding:24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;animation:slideUp .4s ease">
-          <div onClick="{{ selectCorporate }}" style="padding:22px;border-radius:22px;border:3px solid {{ corpBorder }};background:{{ corpBg }};cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .22s" style-hover="transform:translateY(-4px)">
+          <div onClick="{{ selectCorporate }}" role="button" tabIndex="0" aria-label="{{ corporate }}" style="padding:22px;border-radius:22px;border:3px solid {{ corpBorder }};background:{{ corpBg }};cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .22s" style-hover="transform:translateY(-4px)">
             <div style="width:58px;height:58px;background:linear-gradient(135deg,#5E2A2B,#8B3A3B);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">🏢</div>
             <div style="flex:1">
               <div style="font-size:18px;font-weight:900;color:{{ headingColor }};text-transform:uppercase">{{ corporateLabel }}</div>
@@ -153,7 +153,7 @@
             </div>
             <div style="width:30px;height:30px;border-radius:50%;background:{{ corpCheck }};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .22s"><span style="color:white;font-size:14px;font-weight:900">✓</span></div>
           </div>
-          <div onClick="{{ selectFranchise }}" style="padding:22px;border-radius:22px;border:3px solid {{ franBorder }};background:{{ franBg }};cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .22s" style-hover="transform:translateY(-4px)">
+          <div onClick="{{ selectFranchise }}" role="button" tabIndex="0" aria-label="{{ franchise }}" style="padding:22px;border-radius:22px;border:3px solid {{ franBorder }};background:{{ franBg }};cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .22s" style-hover="transform:translateY(-4px)">
             <div style="width:58px;height:58px;background:linear-gradient(135deg,#FF4D00,#FF8300);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">🍗</div>
             <div style="flex:1">
               <div style="font-size:18px;font-weight:900;color:{{ headingColor }};text-transform:uppercase">{{ franchiseLabel }}</div>
@@ -168,7 +168,7 @@
       <sc-if value="{{ showStepRole }}" hint-placeholder-val="{{ false }}">
         <div style="flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;animation:slideUp .4s ease">
           <sc-for list="{{ roles }}" as="r" hint-placeholder-count="4">
-            <div onClick="{{ r.onSelect }}" style="padding:18px 20px;border-radius:20px;border:3px solid {{ r.borderColor }};background:{{ r.bgColor }};cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .2s" style-hover="transform:translateX(5px)">
+            <div onClick="{{ r.onSelect }}" role="button" tabIndex="0" aria-label="{{ r.label }}" style="padding:18px 20px;border-radius:20px;border:3px solid {{ r.borderColor }};background:{{ r.bgColor }};cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .2s" style-hover="transform:translateX(5px)">
               <div style="width:50px;height:50px;background:{{ r.iconBg }};border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">{{ r.icon }}</div>
               <div style="flex:1">
                 <div style="font-size:16px;font-weight:900;color:{{ headingColor }};text-transform:uppercase">{{ r.label }}</div>
@@ -225,7 +225,7 @@
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
           <div style="display:inline-flex;align-items:center;gap:5px;background:{{ badgeBg }};border:1.5px solid {{ borderColor }};border-radius:50px;padding:5px 12px;font-size:11px;font-weight:700;color:{{ subtextColor }}">{{ roleBadge }}</div>
           <div style="display:inline-flex;align-items:center;gap:5px;background:{{ badgeBg }};border:1.5px solid {{ borderColor }};border-radius:50px;padding:5px 12px;font-size:11px;font-weight:700;color:{{ subtextColor }}">{{ storeBadge }}</div>
-          <sc-if value="{{ showStreak }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onOpenPassport }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,131,0,.12);border:1.5px solid #FF8300;border-radius:50px;padding:5px 12px;font-size:11px;font-weight:800;color:#c85f00;cursor:pointer">{{ streakChip }}</div></sc-if>
+          <sc-if value="{{ showStreak }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onOpenPassport }}" role="button" tabIndex="0" aria-label="{{ streakChip }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,131,0,.12);border:1.5px solid #FF8300;border-radius:50px;padding:5px 12px;font-size:11px;font-weight:800;color:#c85f00;cursor:pointer">{{ streakChip }}</div></sc-if>
         </div>
         <sc-if value="{{ courseFinished }}" hint-placeholder-val="{{ false }}">
           <button onClick="{{ onViewCompletion }}" style="margin-top:14px;width:100%;padding:12px;border-radius:50px;border:none;background:var(--accent);color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:1px;cursor:pointer;box-shadow:3px 3px 0 #5E2A2B">{{ viewCompletionLabel }}</button>
@@ -244,7 +244,7 @@
               <div style="flex:1;height:2px;background:{{ borderColor }};border-radius:2px"></div>
             </div>
           </sc-if>
-          <div onClick="{{ mod.onClick }}" style="border-radius:22px;border:3px solid {{ mod.borderColor }};background:{{ mod.bgColor }};overflow:hidden;cursor:{{ mod.cursor }};transition:transform .2s,box-shadow .2s;box-shadow:{{ mod.shadow }}" style-hover="transform:translateY(-3px)">
+          <div onClick="{{ mod.onClick }}" role="button" tabIndex="0" aria-label="{{ mod.ariaLabel }}" style="border-radius:22px;border:3px solid {{ mod.borderColor }};background:{{ mod.bgColor }};overflow:hidden;cursor:{{ mod.cursor }};transition:transform .2s,box-shadow .2s;box-shadow:{{ mod.shadow }}" style-hover="transform:translateY(-3px)">
             <div style="height:5px;background:{{ mod.accentColor }};transition:background .3s"></div>
             <div style="padding:16px 18px;display:flex;align-items:center;gap:14px">
               <div style="position:relative;flex-shrink:0">
@@ -263,7 +263,7 @@
 
         <!-- Assessment card -->
         <sc-if value="{{ assessEnabled }}" hint-placeholder-val="{{ true }}">
-          <div onClick="{{ onStartAssess }}" style="border-radius:22px;border:3px solid {{ assessBorder }};background:{{ cardBg }};overflow:hidden;cursor:{{ assessCursor }};transition:transform .2s;opacity:{{ assessOpacity }}" style-hover="transform:translateY(-3px)">
+          <div onClick="{{ onStartAssess }}" role="button" tabIndex="0" aria-label="{{ assessAria }}" style="border-radius:22px;border:3px solid {{ assessBorder }};background:{{ cardBg }};overflow:hidden;cursor:{{ assessCursor }};transition:transform .2s;opacity:{{ assessOpacity }}" style-hover="transform:translateY(-3px)">
             <div style="height:5px;background:linear-gradient(90deg,#512E91,#7B52C9)"></div>
             <div style="padding:16px 18px;display:flex;align-items:center;gap:14px">
               <div style="width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,#512E91,#7B52C9);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">📋</div>
@@ -337,10 +337,13 @@
         <div style="height:100%;width:{{ lessonViewedPct }};background:linear-gradient(90deg,{{ lessonColor }},#FFD100);transition:width .45s ease"></div>
       </div>
 
-      <!-- Scrollable blocks — ordered render of the lesson's real block list -->
+      <!-- Scrollable blocks — ordered render of the lesson's real block list.
+           Content sits in a centered max-760px column (Rise-style) so it doesn't stretch
+           edge-to-edge on wide desktop screens; full-width on mobile/tablet. -->
       <div style="flex:1;overflow-y:auto;padding-bottom:90px">
+        <div style="max-width:760px;margin:0 auto">
         <sc-for list="{{ lessonBlocks }}" as="b" hint-placeholder-count="6">
-          <div class="lb" data-lblk="{{ b.idx }}" style="border-bottom:{{ b.fmtBorder }};background:{{ b.fmtBg }};padding-top:{{ b.fmtPadTop }};padding-bottom:{{ b.fmtPadBot }}">
+          <div class="lb" data-lblk="{{ b.idx }}" style="border-bottom:{{ b.fmtBorder }};background:{{ b.fmtBg }};padding-top:{{ b.fmtPadTop }};padding-bottom:{{ b.fmtPadBot }};{{ b.fmtVars }}">
 
             <!-- HERO -->
             <sc-if value="{{ b.isHero }}" hint-placeholder-val="{{ true }}">
@@ -600,7 +603,7 @@
             <!-- CONTINUE (gate) -->
             <sc-if value="{{ b.isContinue }}" hint-placeholder-val="{{ false }}">
               <div style="padding:26px 20px;text-align:center">
-                <div onClick="{{ b.onContinue }}" aria-label="{{ b.contLabel }}" style="display:inline-flex;align-items:center;gap:8px;padding:15px 38px;border-radius:50px;background:var(--accent);color:#fff;font-family:'Exo',sans-serif;font-weight:900;font-size:15px;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.18)">{{ b.contLabel }} <span aria-hidden="true">↓</span></div>
+                <div onClick="{{ b.onContinue }}" role="button" tabIndex="0" aria-label="{{ b.contLabel }}" style="display:inline-flex;align-items:center;gap:8px;padding:15px 38px;border-radius:50px;background:var(--accent);color:#fff;font-family:'Exo',sans-serif;font-weight:900;font-size:15px;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.18)">{{ b.contLabel }} <span aria-hidden="true">↓</span></div>
               </div>
             </sc-if>
 
@@ -694,7 +697,7 @@
                 </sc-if>
                 <sc-if value="{{ b.isFill }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:20px">
-                    <input type="text" value="{{ b.fillValue }}" onChange="{{ b.onFillInput }}" placeholder="{{ b.fillPlaceholder }}" style="width:100%;padding:14px 16px;border-radius:15px;border:3px solid {{ b.fillBorder }};background:{{ cardBg }};font-family:'Exo',sans-serif;font-size:15px;color:{{ textColor }};outline:none" style-focus="border-color:#512E91">
+                    <input type="text" value="{{ b.fillValue }}" onChange="{{ b.onFillInput }}" placeholder="{{ b.fillPlaceholder }}" aria-label="{{ b.fillPlaceholder }}" style="width:100%;padding:14px 16px;border-radius:15px;border:3px solid {{ b.fillBorder }};background:{{ cardBg }};font-family:'Exo',sans-serif;font-size:15px;color:{{ textColor }};outline:none" style-focus="border-color:#512E91">
                     <sc-if value="{{ b.showCorrectHint }}" hint-placeholder-val="{{ false }}">
                       <div style="font-size:12px;color:{{ subtextColor }};margin-top:8px;font-weight:700">{{ b.correctHint }}</div>
                     </sc-if>
@@ -825,7 +828,7 @@
                 <div style="font-size:10px;font-weight:700;color:{{ b.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">🎯 {{ hotspotEyebrow }}</div>
                 <div style="position:relative;border-radius:16px;overflow:hidden;border:2px solid {{ borderColor }};background:{{ videoBg }}">
                   <sc-if value="{{ b.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ b.url }}" style="width:100%;display:block"></sc-if>
-                  <sc-if value="{{ b.noImg }}" hint-placeholder-val="{{ true }}"><div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:36px;color:{{ subtextColor }}">🖼️</div></sc-if>
+                  <sc-if value="{{ b.noImg }}" hint-placeholder-val="{{ true }}"><div style="aspect-ratio:16/9;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;color:{{ subtextColor }};font-size:13px;text-align:center;padding:18px"><div style="font-size:36px">🖼️</div><div>Add an image and place hotspots to explore</div></div></sc-if>
                   <sc-for list="{{ b.pins }}" as="pin" hint-placeholder-count="2">
                     <div onClick="{{ pin.onClick }}" aria-label="{{ pin.ariaLabel }}" style="position:absolute;left:{{ pin.x }};top:{{ pin.y }};transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:{{ pin.pinBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.3),0 0 0 5px rgba(255,77,0,.2);animation:pulse 2s ease-in-out infinite">{{ pin.label }}</div>
                   </sc-for>
@@ -849,7 +852,7 @@
                 </div>
                 <div style="display:flex;flex-direction:column;gap:10px">
                   <sc-for list="{{ b.choices }}" as="ch" hint-placeholder-count="2">
-                    <div onClick="{{ ch.onSelect }}" style="padding:14px 16px;border-radius:15px;border:3px solid {{ ch.border }};background:{{ ch.bg }};cursor:pointer;transition:all .2s;font-size:14px;color:{{ textColor }};line-height:1.4" style-hover="transform:translateX(5px)">{{ ch.text }}</div>
+                    <div onClick="{{ ch.onSelect }}" role="button" tabIndex="0" aria-label="{{ ch.text }}" style="padding:14px 16px;border-radius:15px;border:3px solid {{ ch.border }};background:{{ ch.bg }};cursor:pointer;transition:all .2s;font-size:14px;color:{{ textColor }};line-height:1.4" style-hover="transform:translateX(5px)">{{ ch.text }}</div>
                   </sc-for>
                 </div>
                 <sc-if value="{{ b.hasFeedback }}" hint-placeholder-val="{{ false }}">
@@ -866,7 +869,7 @@
             <sc-if value="{{ b.isChat }}" hint-placeholder-val="{{ false }}">
               <div style="padding:24px 20px">
                 <div style="font-size:10px;font-weight:700;color:{{ b.color }};text-transform:uppercase;letter-spacing:2px;margin-bottom:14px">💬 {{ b.title }}</div>
-                <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:12px;max-width:560px;margin:0 auto">
                   <sc-for list="{{ b.messages }}" as="msg" hint-placeholder-count="2">
                     <div class="lb" style="display:flex;justify-content:{{ msg.rowJustify }}">
                       <div style="max-width:80%;display:flex;flex-direction:column;gap:3px">
@@ -943,7 +946,7 @@
                 <div style="border-radius:16px;border:2px solid {{ borderColor }};background:{{ cardBg }};padding:20px 18px">
                   <div style="font-size:15px;color:{{ textColor }};line-height:1.6;margin-bottom:16px">{{ b.statement }}</div>
                   <sc-if value="{{ b.notSigned }}" hint-placeholder-val="{{ true }}">
-                    <div onClick="{{ b.onAck }}" aria-label="{{ b.ackLabel }}" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:13px;border:2px solid {{ b.color }};background:{{ b.cardTint }};cursor:pointer">
+                    <div onClick="{{ b.onAck }}" role="button" tabIndex="0" aria-label="{{ b.ackLabel }}" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:13px;border:2px solid {{ b.color }};background:{{ b.cardTint }};cursor:pointer">
                       <span style="font-size:22px;line-height:1;color:{{ b.color }};flex-shrink:0" aria-hidden="true">{{ b.ackBox }}</span>
                       <div style="font-size:14px;font-weight:700;color:{{ headingColor }};line-height:1.4">{{ b.ackLabel }}</div>
                     </div>
@@ -1083,6 +1086,7 @@
 
           </div>
         </sc-for>
+        </div>
       </div>
 
       <!-- Fixed bottom bar -->
@@ -1105,7 +1109,7 @@
           </div>
           <div style="flex:1;overflow-y:auto;padding:10px">
             <sc-for list="{{ lessonToc }}" as="tc" hint-placeholder-count="6">
-              <div onClick="{{ tc.onJump }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:12px;cursor:pointer;transition:background .15s" style-hover="background:{{ greetBg }}">
+              <div onClick="{{ tc.onJump }}" role="button" tabIndex="0" aria-label="{{ tc.label }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:12px;cursor:pointer;transition:background .15s" style-hover="background:{{ greetBg }}">
                 <div style="width:22px;height:22px;border-radius:50%;background:{{ tc.dotBg }};border:2px solid {{ tc.dotBorder }};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;flex-shrink:0">{{ tc.dotMark }}</div>
                 <span style="font-size:14px;flex-shrink:0" aria-hidden="true">{{ tc.icon }}</span>
                 <div style="flex:1;min-width:0;font-size:13px;color:{{ textColor }};line-height:1.35;font-weight:600">{{ tc.label }}</div>
@@ -1162,7 +1166,7 @@
             </div>
           </sc-if>
           <sc-if value="{{ assessIsFill }}" hint-placeholder-val="{{ false }}">
-            <input type="text" value="{{ assessFillValue }}" onChange="{{ onAssessFill }}" placeholder="{{ assessFillPlaceholder }}" style="width:100%;padding:16px 18px;border-radius:16px;border:3px solid {{ borderColor }};background:{{ cardBg }};font-family:'Exo',sans-serif;font-size:15px;color:{{ textColor }};outline:none" style-focus="border-color:#512E91">
+            <input type="text" value="{{ assessFillValue }}" onChange="{{ onAssessFill }}" placeholder="{{ assessFillPlaceholder }}" aria-label="{{ assessFillPlaceholder }}" style="width:100%;padding:16px 18px;border-radius:16px;border:3px solid {{ borderColor }};background:{{ cardBg }};font-family:'Exo',sans-serif;font-size:15px;color:{{ textColor }};outline:none" style-focus="border-color:#512E91">
           </sc-if>
         </div>
         <div style="padding:16px 20px;border-top:1px solid {{ borderColor }};flex-shrink:0">
@@ -1286,7 +1290,7 @@ class Component extends DCLogic {
     aQ: 0, aAnswers: {}, aDone: false, finalScore: 0,
     assessCfg: null, passCfg: 80, assessOff: false,
     assessBank: false, assessDrawN: 0, assessDraw: null,
-    dynamicMods: null, sectionsCfg: null, welcomeCfg: null,
+    dynamicMods: null, sectionsCfg: null, welcomeCfg: null, labelsCfg: null,
     branchCfg: { lang: true, store: true, role: true },
     themeCfg: { accent: '#FF4D00', headingFont: 'Exo' },
   };
@@ -1688,6 +1692,8 @@ class Component extends DCLogic {
       isRecipe: type==='recipe', isAck: type==='ack', isCompare: type==='compare', isSignoff: type==='signoff', isFindissues: type==='findissues',
       isChat: type==='chat', isTimeline: type==='timeline',
       fmtBg: FMT_BG[st.bg] || 'transparent', fmtPadTop: fmtPad, fmtPadBot: fmtPad,
+      // On a dark block background, lighten the text CSS vars so content stays readable.
+      fmtVars: st.bg === 'dark' ? '--pv-heading:#FFFFFF;--pv-text:#F3E7E2;--pv-subtext:rgba(243,231,226,.72);' : '',
       fmtBorder: st.noDivider ? 'none' : ('1px solid ' + th.borderColor),
       color: mod.color, colorBg: mod.color + '18', cardTint: mod.color + '10',
     };
@@ -2178,8 +2184,27 @@ class Component extends DCLogic {
       if (Array.isArray(cfg.sections)) this.setState({ sectionsCfg: cfg.sections });
       if (cfg.readAloud === false) this.setState({ readAloudOff: true });
       if (cfg.gamification && typeof cfg.gamification === 'object') this.setState({ gamiCfg: cfg.gamification });
+      if (cfg.labels && typeof cfg.labels === 'object') this.setState({ labelsCfg: cfg.labels });
       const mapped = this.mapBuilderConfig(cfg);
       if (mapped && mapped.length > 0) this.setState({ dynamicMods: mapped });
+    } catch(e) {}
+    // ── Builder "Preview as branch" splash-skip (flag-gated by presence; one-shot) ──
+    // When the Builder embeds this Player to preview a specific branch, it seeds the
+    // chosen Language × Store × Role and asks us to bypass the splash + branch wizard
+    // and jump straight to the map for that context. Cleared immediately so a real LMS
+    // launch (which never sets this key) is unaffected.
+    try {
+      const raw = localStorage.getItem('campero_preview_branch');
+      if (raw) {
+        localStorage.removeItem('campero_preview_branch');
+        const pv = JSON.parse(raw) || {};
+        const seed = { screen: 'map', branchStep: 0 };
+        if (pv.language === 'es' || pv.language === 'en') seed.language = pv.language;
+        if (pv.storeType === 'corporate' || pv.storeType === 'franchise') seed.storeType = pv.storeType;
+        if (pv.role) seed.role = pv.role;
+        if (!this.state.learnerName) { seed.learnerName = pv.learnerName || 'Preview'; seed.nameInput = seed.learnerName; }
+        this.setState(seed);
+      }
     } catch(e) {}
     // ── Accessibility: keyboard activation for div-based controls (Enter/Space) ──
     this._a11yKey = (e) => {
@@ -2344,6 +2369,23 @@ class Component extends DCLogic {
     }
     if (n > 1 && arr.every((v, i) => v === i)) { const t = arr[0]; arr[0] = arr[1]; arr[1] = t; }
     return arr;
+  }
+
+  // Merge author-defined per-course label overrides over the built-in EN/ES chrome
+  // strings. Only non-empty scalar string overrides for existing scalar keys are applied
+  // (nested arrays/objects like roles/tips/coach are left to the defaults). cfg.labels =
+  // { en:{key:override,…}, es:{…} }.
+  _labels(lang) {
+    const base = lang === 'es' ? this.ES : this.EN;
+    const ov = (this.state.labelsCfg && this.state.labelsCfg[lang]) || {};
+    let out = base;
+    for (const k in ov) {
+      if (typeof ov[k] === 'string' && ov[k].trim() && typeof base[k] === 'string') {
+        if (out === base) out = { ...base };
+        out[k] = ov[k];
+      }
+    }
+    return out;
   }
 
   get EN() { return {
@@ -2593,6 +2635,7 @@ class Component extends DCLogic {
         statusColor: done?m.color:locked?th.subtextColor:'#FF4D00',
         statusBg: done?`${m.color}20`:locked?th.progressBg:'rgba(255,77,0,.1)',
         statusIcon: done?'✅':locked?'🔒':'→',
+        ariaLabel: (isEs?m.titleEs:m.title) + ' — ' + (done?t.completed:locked?t.locked:t.startNow),
         num:`0${i+1}`,
         numBg: (done||!locked)?m.color:th.progressBg,
         numColor: (done||!locked)?'white':th.subtextColor,
@@ -2699,7 +2742,7 @@ class Component extends DCLogic {
     const cur=s.aAnswers[s.aQ];
     const mrSel=Array.isArray(cur)?cur:[];
     const med=Array.isArray(q.optMedia)?q.optMedia:[];
-    return q.options.map((text,i) => {
+    return (Array.isArray(q.options)?q.options:[]).map((text,i) => {
       const sel=isMr ? mrSel.includes(i) : (cur===i);
       let border=th.borderColor,bg=th.cardBg,dotBorder=th.subtextColor,
           dotBg='transparent',dotColor=th.subtextColor,fw='400';
@@ -2806,7 +2849,7 @@ class Component extends DCLogic {
   }
   startCourse(){
     const {nameInput,language}=this.state;
-    const t=language==='es'?this.ES:this.EN;
+    const t=this._labels(language==='es'?'es':'en');
     const name = nameInput.trim()||t.friend;
     const steps = this.branchStepsFor(this.state);
     if (steps.length) this.setState({learnerName:name,screen:'branch',branchStep:0});
@@ -2904,7 +2947,7 @@ class Component extends DCLogic {
   generateCertificate() {
     const { learnerName, language, role, storeType, finalScore } = this.state;
     const isEs = language === 'es';
-    const t = isEs ? this.ES : this.EN;
+    const t = this._labels(isEs ? 'es' : 'en');
     const date = new Date().toLocaleDateString(isEs ? 'es-US' : 'en-US', { year:'numeric', month:'long', day:'numeric' });
     const roleLabel  = (t.badgeRoles  || {})[role]      || '';
     const storeLabel = (t.badgeStore  || {})[storeType] || '';
@@ -2999,7 +3042,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const s=this.state, isEs=s.language==='es';
-    const t=isEs?this.ES:this.EN, th=this.getTheme(s.dark);
+    const t=this._labels(isEs?'es':'en'), th=this.getTheme(s.dark);
     const pollitoOn=this.props.pollitoHelper!==false;
     const assessOn=this.props.assessmentEnabled!==false && !s.assessOff;
     const scr=s.screen;
@@ -3123,6 +3166,7 @@ class Component extends DCLogic {
         ? `${isEs?'Extrae':'Draws'} ${assessTotal} ${isEs?'de':'of'} ${pool.length} · ${pass}% ${isEs?'para aprobar':'to pass'}`
         : `${assessTotal} ${isEs?(assessTotal===1?'pregunta':'preguntas'):(assessTotal===1?'question':'questions')} · ${pass}% ${isEs?'para aprobar':'to pass'}`,
       assessBorder:allDone?'#512E91':th.borderColor,
+      assessAria:t.assessEyebrow+': '+t.assessTitle+(allDone?'':' ('+(isEs?'bloqueado':'locked')+')'),
       assessCursor:allDone?'pointer':'not-allowed',
       assessOpacity:allDone?'1':'0.45',
       onStartAssess:()=>allDone&&this.setState({screen:'assess',aQ:0,aAnswers:{},aDone:false,assessDraw:this.computeAssessDraw(s),coachMsg:null}),
