@@ -5589,7 +5589,26 @@ class Component extends DCLogic {
         });
       });
     });
+    // Welcome / splash screen copy (cfg.welcome)
+    const w = this.state.welcome || {};
+    [['title','Headline'],['subtitle','Subtitle'],['bubble','Mascot bubble'],['nameLabel','Name field label'],['namePlaceholder','Name field hint'],['startLabel','Start button']]
+      .forEach(([f, l]) => { if (has(w[f])) out.push({ id: 'w.' + f, group: 'Welcome Screen', label: l, en: w[f], es: w[f + '_es'] || '' }); });
+    // Completion / done screen copy (cfg.done)
+    const d = this.state.done || {};
+    [['eyebrow','Eyebrow'],['title','Headline'],['body','Message']]
+      .forEach(([f, l]) => { if (has(d[f])) out.push({ id: 'd.' + f, group: 'Completion Screen', label: l, en: d[f], es: d[f + '_es'] || '' }); });
     return out;
+  }
+
+  // Apply one Spanish value to the right place (modules tree, welcome, or done) on an
+  // accumulator { mods, welcome, done }. Welcome/done ids are prefixed 'w.'/'d.'.
+  _applyEsUnified(acc, id, value) {
+    const sid = String(id);
+    if (sid.indexOf('w.') === 0) { acc.welcome[sid.slice(2) + '_es'] = value; return; }
+    if (sid.indexOf('d.') === 0) { acc.done[sid.slice(2) + '_es'] = value; return; }
+    const q = this._parseId(id);
+    if (isNaN(q.mi)) return;
+    this._applyEs(acc.mods, q.mi, q.bi, q.field, q.idx, q.sub, value);
   }
 
   // Write one Spanish value into a (cloned) modules tree by location parts.
@@ -5609,17 +5628,15 @@ class Component extends DCLogic {
     return { mi: parseInt(p[0]), bi: parseInt(p[1]), field: p[2], idx: (p[3] != null ? parseInt(p[3]) : null), sub: (p[4] != null ? p[4] : null) };
   }
   setTranslation(id, value) {
-    const mods = JSON.parse(JSON.stringify(this.state.modules));
-    const q = this._parseId(id);
-    if (isNaN(q.mi)) return;
-    this._applyEs(mods, q.mi, q.bi, q.field, q.idx, q.sub, value);
-    this.setState({ modules: mods });
+    const acc = { mods: JSON.parse(JSON.stringify(this.state.modules)), welcome: { ...this.state.welcome }, done: { ...this.state.done } };
+    this._applyEsUnified(acc, id, value);
+    this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done });
   }
   seedSpanishDrafts() {
     const entries = this.translatableEntries();
-    const mods = JSON.parse(JSON.stringify(this.state.modules));
-    entries.forEach(e => { if (e.es && e.es.trim()) return; const q = this._parseId(e.id); this._applyEs(mods, q.mi, q.bi, q.field, q.idx, q.sub, e.en); });
-    this.setState({ modules: mods });
+    const acc = { mods: JSON.parse(JSON.stringify(this.state.modules)), welcome: { ...this.state.welcome }, done: { ...this.state.done } };
+    entries.forEach(e => { if (e.es && e.es.trim()) return; this._applyEsUnified(acc, e.id, e.en); });
+    this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done });
   }
   exportToBox() {
     const payload = this.translatableEntries().map(e => ({ id: e.id, en: e.en, es: e.es }));
@@ -5629,16 +5646,14 @@ class Component extends DCLogic {
     let arr;
     try { arr = JSON.parse(this.state.translateBox); } catch (e) { alert('Could not parse the box — paste valid JSON (the same shape as Export).'); return; }
     if (!Array.isArray(arr)) { alert('Expected a JSON array of { id, es } items.'); return; }
-    const mods = JSON.parse(JSON.stringify(this.state.modules));
+    const acc = { mods: JSON.parse(JSON.stringify(this.state.modules)), welcome: { ...this.state.welcome }, done: { ...this.state.done } };
     let n = 0;
     arr.forEach(item => {
       if (!item || item.id == null || item.es == null || String(item.es).trim() === '') return;
-      const q = this._parseId(item.id);
-      if (isNaN(q.mi)) return;
-      this._applyEs(mods, q.mi, q.bi, q.field, q.idx, q.sub, String(item.es));
+      this._applyEsUnified(acc, item.id, String(item.es));
       n++;
     });
-    this.setState({ modules: mods });
+    this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done });
     alert('Imported ' + n + ' Spanish strings.');
   }
   openTranslateModal() { this.setState({ translateModal: true }); }
