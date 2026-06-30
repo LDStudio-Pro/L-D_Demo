@@ -1182,8 +1182,13 @@
       <div style="position:absolute;inset:0;background-image:url('assets/textures/wood-orange.png');background-size:cover;opacity:.06;pointer-events:none"></div>
       {{ confetti }}
       <div style="position:relative;z-index:1;width:100%;max-width:380px;margin:auto 0">
-        <div style="margin-bottom:14px;animation:bounceIn .8s ease both">
-          <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Mascot" pose="cool" base="assets/mascot" size="{{ 130 }}" hint-size="130px,148px"></x-import>
+        <div style="margin-bottom:14px;animation:bounceIn .8s ease both;display:flex;justify-content:center">
+          <sc-if value="{{ doneHasImage }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ doneImage }}" alt="" aria-hidden="true" style="width:130px;height:130px;object-fit:contain">
+          </sc-if>
+          <sc-if value="{{ doneNoImage }}" hint-placeholder-val="{{ true }}">
+            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Mascot" pose="cool" base="assets/mascot" size="{{ 130 }}" hint-size="130px,148px"></x-import>
+          </sc-if>
         </div>
         <div style="font-size:10px;font-weight:700;color:#FFD100;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;animation:fadeIn .6s .2s ease both">{{ doneEyebrow }}</div>
         <div style="font-size:28px;font-weight:900;color:white;text-transform:uppercase;line-height:1.2;margin-bottom:10px;animation:slideUp .6s .3s ease both;font-family:var(--head)">{{ doneTitle }}</div>
@@ -2152,6 +2157,7 @@ class Component extends DCLogic {
       if (cfg.assessBank === true) this.setState({ assessBank: true });
       if (typeof cfg.assessDrawN === 'number' && cfg.assessDrawN > 0) this.setState({ assessDrawN: cfg.assessDrawN });
       if (typeof cfg.courseTitle === 'string' && cfg.courseTitle.trim()) this.setState({ courseTitleCfg: cfg.courseTitle.trim() });
+      if (cfg.done && typeof cfg.done === 'object') this.setState({ doneCfg: cfg.done });
       if (Array.isArray(cfg.sections)) this.setState({ sectionsCfg: cfg.sections });
       if (cfg.readAloud === false) this.setState({ readAloudOff: true });
       if (cfg.gamification && typeof cfg.gamification === 'object') this.setState({ gamiCfg: cfg.gamification });
@@ -2949,6 +2955,19 @@ class Component extends DCLogic {
     const allDone=completedN>=totalN;
 
     const tipKey=scr==='lesson'?'lesson':scr==='assess'?'assess':scr==='done'?'done':scr==='map'?'map':scr==='branch'?'branch':'splash';
+    // Author-editable completion screen (cfg.done). Each field: bilingual *_es fallback,
+    // then EN, then the built-in default. {name} token expands to the learner's name.
+    const dl = s.doneCfg || {};
+    const dlPick = (k, def) => {
+      let v = isEs ? (dl[k+'_es'] || dl[k]) : dl[k];
+      v = (typeof v === 'string' && v.trim()) ? v : def;
+      return String(v).replace(/\{name\}/g, s.learnerName || '');
+    };
+    const doneEyebrowV = dlPick('eyebrow', t.doneEyebrow);
+    const doneTitleV   = dlPick('title', '¡' + (s.learnerName || '') + '!');
+    const doneBodyV    = dlPick('body', t.doneBody);
+    const doneHasImageV = !!(dl.image && String(dl.image).trim());
+    const doneImageV   = dl.image || '';
     const st=s.branchStep;
     const branchSteps=this.branchStepsFor(s);
     const curStep=branchSteps[st];
@@ -3115,9 +3134,10 @@ class Component extends DCLogic {
       // Completion
       confetti:scr==='done'?this.makeConfetti():null,
       onDownloadCert: () => this.generateCertificate(),
-      doneEyebrow:t.doneEyebrow,
-      doneTitle:`¡${s.learnerName}!`,
-      doneBody:t.doneBody,
+      doneEyebrow:doneEyebrowV,
+      doneTitle:doneTitleV,
+      doneBody:doneBodyV,
+      doneHasImage:doneHasImageV, doneNoImage:!doneHasImageV, doneImage:doneImageV,
       doneScore:`${s.finalScore}% ${t.passed}`,
       doneCertLabel:t.doneCertLabel, doneBackLabel:t.doneBackLabel,
 

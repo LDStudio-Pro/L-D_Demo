@@ -2381,6 +2381,50 @@
           </div>
         </div>
 
+        <!-- Completion / Finish Screen editor -->
+        <div style="padding:20px;border-radius:18px;border:2px solid rgba(255,77,0,.2);background:rgba(255,77,0,.03)">
+          <div style="font-size:14px;font-weight:900;color:#FF4D00;text-transform:uppercase;margin-bottom:4px">🏁 Completion Screen</div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:16px">The last screen — shown after a learner finishes &amp; passes. Use <strong>{name}</strong> in the headline or message to insert the learner's name. Leave a field blank to keep the default.</div>
+          <div style="display:grid;grid-template-columns:1fr 230px;gap:18px;align-items:start">
+
+            <!-- Fields -->
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Eyebrow</div>
+                <input type="text" value="{{ doneEyebrowVal }}" onChange="{{ onDoneEyebrow }}" placeholder="TRAINING COMPLETE!" style="width:100%;padding:8px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Headline</div>
+                <input type="text" value="{{ doneTitleVal }}" onChange="{{ onDoneTitle }}" placeholder="¡{name}!" style="width:100%;padding:8px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Message</div>
+                <textarea value="{{ doneBodyVal }}" onChange="{{ onDoneBody }}" rows="3" placeholder="You've completed all modules and passed the assessment." style="width:100%;padding:8px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none;resize:vertical;line-height:1.5" style-focus="border-color:#FF4D00"></textarea>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Celebration image (optional — replaces Pollito)</div>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <label style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:9px;border:1.5px dashed #FF4D00;background:rgba(255,77,0,.05);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:#FF4D00;white-space:nowrap" style-hover="background:rgba(255,77,0,.12)">📁 Upload<input type="file" accept="image/*" onChange="{{ onDoneImageFile }}" style="display:none"></label>
+                  <input type="text" value="{{ doneImageVal }}" onChange="{{ onDoneImage }}" placeholder="…or paste an image URL" style="flex:1;padding:8px 11px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);font-family:'Exo',sans-serif;font-size:14px;color:var(--bx-text);outline:none" style-focus="border-color:#FF4D00">
+                  <sc-if value="{{ doneImgIsSet }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onDoneImageClear }}" style="width:30px;height:30px;border-radius:8px;border:none;background:rgba(255,77,0,.1);color:#FF4D00;cursor:pointer;font-size:14px;flex-shrink:0" title="Remove image">✕</button></sc-if>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live mini-preview of the done screen -->
+            <div style="border-radius:20px;background:linear-gradient(160deg,#5E2A2B 0%,#3a1515 52%,#1a0a0b 100%);padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)">
+              <div style="margin-bottom:6px">
+                <sc-if value="{{ doneImgIsSet }}" hint-placeholder-val="{{ false }}"><img src="{{ doneImageVal }}" alt="" style="width:56px;height:56px;object-fit:contain"></sc-if>
+                <sc-if value="{{ doneImgNotSet }}" hint-placeholder-val="{{ true }}"><img src="assets/mascot/pollito-circle.png" alt="" style="width:56px;height:56px;object-fit:contain"></sc-if>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFD100;text-transform:uppercase;margin-bottom:6px">{{ donePreviewEyebrow }}</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.15;margin-bottom:6px">{{ donePreviewTitle }}</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.5;margin-bottom:10px">{{ donePreviewBody }}</div>
+              <div style="width:100%;padding:9px;border-radius:50px;background:#FF4D00;color:#fff;font-size:13px;font-weight:900;box-shadow:3px 3px 0 #5E2A2B">📄 Certificate</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Course Theme -->
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(81,46,145,.2);background:rgba(81,46,145,.03)">
           <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">🎨 Course Theme</div>
@@ -3274,6 +3318,7 @@ class Component extends DCLogic {
       startLabel: 'Begin My Journey',
       bgImage: '',
     },
+    done: { eyebrow: '', title: '', body: '', image: '' },
     modules: [
       { title:'Welcome to the Family', icon:'🏠', color:'#FF4D00', duration:'8 min', locked:false,
         blocks:[
@@ -3901,7 +3946,7 @@ class Component extends DCLogic {
     if (host) host.dispatchEvent(new Event('input', { bubbles: true }));
   }
   // Content keys tracked for undo/redo + autosave.
-  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary']; }
+  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','done','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary']; }
   snapKeys(src) { const o = {}; this.HISTORY_KEYS.forEach(k => o[k] = src[k]); return o; }
 
   // dc only passes prevProps (no prevState), so we track our own last snapshot.
@@ -3962,7 +4007,7 @@ class Component extends DCLogic {
       assessEnabled: s.assessEnabled, passingScore: s.passingScore,
       assessBank: s.assessBank, assessDrawN: s.assessDrawN,
       pollitoEnabled: s.pollitoEnabled, readAloud: s.readAloud, gamification: s.gamification, scormVersion: s.scormVersion,
-      welcome: s.welcome, assessQuestions: s.assessQuestions, theme: s.theme,
+      welcome: s.welcome, done: s.done, assessQuestions: s.assessQuestions, theme: s.theme,
       mediaLibrary: s.mediaLibrary,
       savedAt: new Date().toISOString(),
     };
@@ -3988,7 +4033,7 @@ class Component extends DCLogic {
       assessBank: c.assessBank === true, assessDrawN: c.assessDrawN || 5,
       pollitoEnabled: c.pollitoEnabled !== false, readAloud: c.readAloud !== false, scormVersion: c.scormVersion || 'xapi',
       gamification: (c.gamification && typeof c.gamification === 'object') ? c.gamification : { enabled: false, badges: [] },
-      welcome: c.welcome || this.state.welcome, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
+      welcome: c.welcome || this.state.welcome, done: c.done || this.state.done, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
       mediaLibrary: Array.isArray(c.mediaLibrary) ? c.mediaLibrary : [],
       theme: c.theme || { accent: '#FF4D00', headingFont: 'Exo' },
       selectedModule: 0, selectedBlock: null, tab: 'content',
@@ -4014,7 +4059,7 @@ class Component extends DCLogic {
         { id: 'b_quiz',  name: 'Quiz Champ',  icon: '🧠', trigger: 'assessment', n: 0 },
         { id: 'b_pro',   name: 'Campero Pro', icon: '🏆', trigger: 'course',  n: 0 },
       ] },
-      welcome: { ...this.state.welcome }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], savedAt: new Date().toISOString(),
+      welcome: { ...this.state.welcome }, done: { eyebrow: '', title: '', body: '', image: '' }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], savedAt: new Date().toISOString(),
     };
     const lib = [...this.state.library, blank];
     this.setState({ library: lib });
@@ -5878,8 +5923,8 @@ class Component extends DCLogic {
     alert('✅ Draft saved! The Course Player will use these settings when opened in this browser.');
   }
   writeConfig() {
-    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, theme, mediaLibrary } = this.state;
-    localStorage.setItem('campero_builder_config', JSON.stringify({ courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, theme, mediaLibrary, savedAt: new Date().toISOString() }));
+    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, theme, mediaLibrary } = this.state;
+    localStorage.setItem('campero_builder_config', JSON.stringify({ courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, theme, mediaLibrary, savedAt: new Date().toISOString() }));
   }
 
   addModule() {
@@ -7798,6 +7843,28 @@ class Component extends DCLogic {
         if (!f) return;
         const reader = new FileReader();
         reader.onload = () => this.setState({ welcome: { ...this.state.welcome, bgImage: reader.result } });
+        reader.readAsDataURL(f);
+      },
+      // Completion / finish screen editor (cfg.done)
+      doneEyebrowVal: s.done?.eyebrow || '',
+      doneTitleVal: s.done?.title || '',
+      doneBodyVal: s.done?.body || '',
+      doneImageVal: s.done?.image || '',
+      doneImgIsSet: !!(s.done?.image),
+      doneImgNotSet: !(s.done?.image),
+      donePreviewEyebrow: (s.done?.eyebrow || 'TRAINING COMPLETE!'),
+      donePreviewTitle: (s.done?.title || '¡{name}!').replace(/\{name\}/g, 'Carisa'),
+      donePreviewBody: (s.done?.body || "You've completed all modules and passed the assessment. Welcome to the #CamperoFamily!").replace(/\{name\}/g, 'Carisa'),
+      onDoneEyebrow: e => this.setState({ done: { ...s.done, eyebrow: e.target.value } }),
+      onDoneTitle: e => this.setState({ done: { ...s.done, title: e.target.value } }),
+      onDoneBody: e => this.setState({ done: { ...s.done, body: e.target.value } }),
+      onDoneImage: e => this.setState({ done: { ...s.done, image: e.target.value } }),
+      onDoneImageClear: () => this.setState({ done: { ...s.done, image: '' } }),
+      onDoneImageFile: e => {
+        const f = e && e.target && e.target.files && e.target.files[0];
+        if (!f) return;
+        const reader = new FileReader();
+        reader.onload = () => this.setState({ done: { ...this.state.done, image: reader.result } });
         reader.readAsDataURL(f);
       },
       scormLabel: s.scormVersion==='xapi' ? 'xAPI' : s.scormVersion==='scorm12' ? 'SCORM 1.2' : 'SCORM 2004',
