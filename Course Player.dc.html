@@ -194,6 +194,7 @@
 
       <!-- Greeting + progress -->
       <div style="padding:20px;background:{{ greetBg }};border-bottom:1px solid {{ borderColor }};flex-shrink:0">
+       <div style="width:100%;max-width:680px;margin:0 auto">
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
           <div style="width:48px;height:48px;flex-shrink:0;animation:pollitoFloat 3s ease-in-out infinite">
             <img src="assets/mascot/pollito-circle.png" alt="Pollito" style="width:48px;height:48px;object-fit:contain">
@@ -215,10 +216,12 @@
           <div style="display:inline-flex;align-items:center;gap:5px;background:{{ badgeBg }};border:1.5px solid {{ borderColor }};border-radius:50px;padding:5px 12px;font-size:11px;font-weight:700;color:{{ subtextColor }}">{{ storeBadge }}</div>
           <sc-if value="{{ showStreak }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onOpenPassport }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,131,0,.12);border:1.5px solid #FF8300;border-radius:50px;padding:5px 12px;font-size:11px;font-weight:800;color:#c85f00;cursor:pointer">{{ streakChip }}</div></sc-if>
         </div>
+       </div>
       </div>
 
       <!-- Module list -->
-      <div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+      <div style="flex:1;overflow-y:auto;padding:16px 20px">
+       <div style="width:100%;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:12px">
         <sc-for list="{{ modules }}" as="mod" hint-placeholder-count="4">
           <sc-if value="{{ mod.showSectionHeader }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:10px;margin:8px 2px 0">
@@ -260,6 +263,7 @@
           </div>
         </sc-if>
         <div style="height:20px"></div>
+       </div>
       </div>
     </div>
   </sc-if>
@@ -2522,12 +2526,17 @@ class Component extends DCLogic {
     const isEs = s.language==='es';
     const sections = s.sectionsCfg || [];
     const secById = new Map(sections.map(sec => [sec.id, sec]));
+    // Section dividers should only appear for ≥2 genuinely-used sections. A single
+    // section (commonly the untouched "New Section" default) is just noise above the
+    // first card, so suppress dividers entirely in that case.
+    const usedSecIds = new Set(MODS.map(m => secById.has(m.sectionId) ? m.sectionId : null).filter(Boolean));
+    const showSections = usedSecIds.size >= 2;
     let prevSid = '__none__';
     return MODS.map((m,i) => {
       const done = s.done.includes(m.id);
       const locked = i>0 && !s.done.includes(MODS[i-1].id);
       const sid = m.sectionId || null;
-      const realSec = secById.has(sid);
+      const realSec = showSections && secById.has(sid);
       const showSectionHeader = realSec && sid !== prevSid;
       const sectionHeader = showSectionHeader ? (secById.get(sid).title || 'Section') : '';
       prevSid = sid;
