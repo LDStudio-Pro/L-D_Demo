@@ -219,6 +219,9 @@
           <div style="display:inline-flex;align-items:center;gap:5px;background:{{ badgeBg }};border:1.5px solid {{ borderColor }};border-radius:50px;padding:5px 12px;font-size:11px;font-weight:700;color:{{ subtextColor }}">{{ storeBadge }}</div>
           <sc-if value="{{ showStreak }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onOpenPassport }}" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,131,0,.12);border:1.5px solid #FF8300;border-radius:50px;padding:5px 12px;font-size:11px;font-weight:800;color:#c85f00;cursor:pointer">{{ streakChip }}</div></sc-if>
         </div>
+        <sc-if value="{{ courseFinished }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ onViewCompletion }}" style="margin-top:14px;width:100%;padding:12px;border-radius:50px;border:none;background:var(--accent);color:#fff;font-family:'Exo',sans-serif;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:1px;cursor:pointer;box-shadow:3px 3px 0 #5E2A2B">{{ viewCompletionLabel }}</button>
+        </sc-if>
        </div>
       </div>
 
@@ -1266,7 +1269,7 @@ class Component extends DCLogic {
     screen: 'splash', branchStep: 0,
     nameInput: '', learnerName: '',
     language: 'en', storeType: null, role: null,
-    dark: false, pollitoOpen: false, pollitoDismissed: false,
+    dark: false, pollitoOpen: false, pollitoDismissed: false, courseFinished: false,
     module: 0, done: [],
     kq: {}, vid: {}, ui: {},
     tocOpen: false, viewed: {}, bankDraws: {}, continued: {},
@@ -2920,7 +2923,7 @@ class Component extends DCLogic {
       module: 0, done: [], kq: {}, vid: {}, ui: {}, viewed: {}, bankDraws: {}, continued: {},
       acks: {}, signoffs: {}, signoffDraft: {}, spots: {}, tocOpen: false,
       aQ: 0, aAnswers: {}, aDone: false, finalScore: 0, assessDraw: null,
-      badges: {}, streak: 0, badgeToast: null, coachMsg: null,
+      badges: {}, streak: 0, badgeToast: null, coachMsg: null, courseFinished: false,
     });
   }
   finishCourse() {
@@ -2931,7 +2934,7 @@ class Component extends DCLogic {
     // even though one package reports one score per learner-attempt.
     const audience = { role: this.state.role || '', store: this.state.storeType || '', lang: this.state.language || 'en' };
     try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score, audience }, '*'); } catch(e) {}
-    this.setState({ screen: 'done', coachMsg: null });
+    this.setState({ screen: 'done', coachMsg: null, courseFinished: true });
     if (passed) {
       const MODS = this.state.dynamicMods || this.MODULES;
       this._evalBadges({ lessonsDone: this.state.done.length, total: MODS.length, streak: this.state.streak, assessPassed: true, courseDone: true });
@@ -3038,6 +3041,9 @@ class Component extends DCLogic {
 
       // Map
       mapEyebrow:t.mapEyebrow, courseTitle:(s.courseTitleCfg || t.courseTitle),
+      courseFinished:s.courseFinished,
+      viewCompletionLabel:(isEs?'🎉 Ver Finalización':'🎉 View Completion'),
+      onViewCompletion:()=>this.setState({screen:'done', coachMsg:null}),
       mapGreeting:`${t.hello}, ${s.learnerName}! 👋`, mapSubgreeting:t.mapSubgreeting,
       progressLabel:t.progress, progressWidth:`${pct}%`,
       greetBg:th.greetBg, badgeBg:th.badgeBg,
