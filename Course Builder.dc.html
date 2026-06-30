@@ -3212,11 +3212,16 @@
         </div>
         <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:12px">{{ translateStats }}. Edit Spanish inline, or use the box below to translate everything in one pass. Empty Spanish falls back to English for learners.</div>
 
-        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+          <button onClick="{{ onTranslateAi }}" disabled="{{ xlateBusy }}" style="padding:8px 14px;border-radius:8px;border:none;background:#512E91;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B" title="Translate every empty Spanish field with Claude (informal tú; brand terms kept in English)">{{ xlateLabel }}</button>
+          <button onClick="{{ onRetranslateAi }}" disabled="{{ xlateBusy }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-purple)" title="Overwrite ALL Spanish with fresh AI translations">↻ Re-translate all</button>
           <button onClick="{{ onSeedSpanish }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-bg2);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(var(--bx-line-rgb),.74)" title="Copy English into any empty Spanish fields as a starting draft">✨ Draft-fill (copy EN→ES)</button>
           <button onClick="{{ onExportBox }}" style="padding:8px 14px;border-radius:8px;border:1.5px solid rgba(81,46,145,.25);background:rgba(81,46,145,.06);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:var(--bx-purple)" title="Fill the box below with all strings to send for translation">⤓ Export to box</button>
           <button onClick="{{ onImportBox }}" style="padding:8px 14px;border-radius:8px;border:none;background:#512E91;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;box-shadow:2px 2px 0 #5E2A2B" title="Apply the translated JSON from the box">⤴ Import from box</button>
         </div>
+        <sc-if value="{{ xlateStatus }}" hint-placeholder-val="{{ '' }}">
+          <div style="font-size:13px;color:var(--bx-purple);margin-bottom:12px;font-weight:600">{{ xlateStatus }}</div>
+        </sc-if>
 
         <div style="flex:1;overflow-y:auto;min-height:0;border:1.5px solid rgba(var(--bx-line-rgb),.1);border-radius:12px;padding:12px;background:var(--bx-bg2)">
           <sc-if value="{{ translateEmpty }}" hint-placeholder-val="{{ false }}">
@@ -5638,6 +5643,42 @@ class Component extends DCLogic {
     entries.forEach(e => { if (e.es && e.es.trim()) return; this._applyEsUnified(acc, e.id, e.en); });
     this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done });
   }
+  // ── AI Spanish translation (reuses the campero_ai_connector + BYO key; tone = informal "tú") ──
+  async translateAllSpanish(overwrite) {
+    if (this.state.xlateBusy) return;
+    const key = (this.state.aiKey || '').trim();
+    if (!key) { this.setState({ xlateStatus: 'Add your Claude API key in Settings → AI Assistant first.' }); return; }
+    const all = this.translatableEntries();
+    const pending = all.filter(e => overwrite ? true : !(e.es && e.es.trim()));
+    if (!pending.length) { this.setState({ xlateStatus: 'Everything already has Spanish. Use “Re-translate all” to overwrite with fresh AI translations.' }); return; }
+    this.setState({ xlateBusy: true, xlateStatus: 'Translating ' + pending.length + ' strings with Claude…' });
+    const base = ((this.state.aiBaseUrl || '').trim() || 'https://api.anthropic.com').replace(/\/$/, '');
+    const model = this.state.aiModel || 'claude-sonnet-4-6';
+    const schema = { type: 'object', additionalProperties: false, required: ['translations'], properties: { translations: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'es'], properties: { id: { type: 'string' }, es: { type: 'string' } } } } } };
+    const sys = 'You are a professional Spanish localizer for a Pollo Campero frontline restaurant training course. Translate each English string into natural, warm Latin-American Spanish using the INFORMAL "tú" register — never "usted". Keep it concise and job-relevant for hands-busy QSR staff. DO NOT translate brand terms, product or menu item names, hashtags, or proper nouns — keep these EXACTLY as written in English (e.g. "Pollo Campero", "Campero", "#CamperoFamily", and any menu item names). Preserve any {curly-brace tokens}, emoji, and markdown formatting (such as **bold**) exactly. Return exactly one translation per input id, echoing the id unchanged.';
+    const acc = { mods: JSON.parse(JSON.stringify(this.state.modules)), welcome: { ...this.state.welcome }, done: { ...this.state.done } };
+    const CHUNK = 40; let applied = 0;
+    try {
+      for (let i = 0; i < pending.length; i += CHUNK) {
+        const slice = pending.slice(i, i + CHUNK);
+        const user = 'Translate these strings into informal-"tú" Spanish. Return JSON with a "translations" array holding one {id, es} object per input id.\n\n' + JSON.stringify(slice.map(e => ({ id: e.id, en: e.en })));
+        const res = await fetch(base + '/v1/messages', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+          body: JSON.stringify({ model, max_tokens: 8192, system: sys, output_config: { format: { type: 'json_schema', schema } }, messages: [{ role: 'user', content: user }] }),
+        });
+        if (!res.ok) { let msg = ''; try { const e = await res.json(); msg = (e.error && e.error.message) || ''; } catch (_) {} this.setState({ xlateBusy: false, xlateStatus: 'API error ' + res.status + (msg ? ': ' + msg : '') + '. Check your key and model.' }); return; }
+        const data = await res.json();
+        const tb = (data.content || []).find(b => b.type === 'text');
+        let parsed; try { parsed = JSON.parse(tb ? tb.text : '{}'); } catch (_) { this.setState({ xlateBusy: false, xlateStatus: 'Could not parse the AI response. Try again.' }); return; }
+        (parsed.translations || []).forEach(t => { if (t && t.id != null && t.es != null && String(t.es).trim()) { this._applyEsUnified(acc, t.id, String(t.es)); applied++; } });
+        this.setState({ xlateStatus: 'Translating… ' + Math.min(i + CHUNK, pending.length) + ' / ' + pending.length });
+      }
+      this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done, xlateBusy: false, xlateStatus: '✨ Translated ' + applied + ' strings — review inline below and edit anything that needs a human touch.' });
+    } catch (err) {
+      this.setState({ xlateBusy: false, xlateStatus: 'Network error calling Claude. If your browser blocks it (CORS), set a proxy Base URL in Settings.' });
+    }
+  }
   exportToBox() {
     const payload = this.translatableEntries().map(e => ({ id: e.id, en: e.en, es: e.es }));
     this.setState({ translateBox: JSON.stringify(payload, null, 2) });
@@ -5656,7 +5697,7 @@ class Component extends DCLogic {
     this.setState({ modules: acc.mods, welcome: acc.welcome, done: acc.done });
     alert('Imported ' + n + ' Spanish strings.');
   }
-  openTranslateModal() { this.setState({ translateModal: true }); }
+  openTranslateModal() { this.setState({ translateModal: true, xlateStatus: '', xlateBusy: false }); }
   closeTranslateModal() { this.setState({ translateModal: false }); }
 
   updateBlockOptItem(idx, value) {
@@ -7696,6 +7737,11 @@ class Component extends DCLogic {
           openTranslateModal: () => this.openTranslateModal(),
           closeTranslateModal: () => this.closeTranslateModal(),
           onSeedSpanish: () => this.seedSpanishDrafts(),
+          onTranslateAi: () => this.translateAllSpanish(false),
+          onRetranslateAi: () => this.translateAllSpanish(true),
+          xlateBusy: !!s.xlateBusy,
+          xlateStatus: s.xlateStatus || '',
+          xlateLabel: s.xlateBusy ? '⏳ Translating…' : '✨ Translate all to Spanish with AI',
           onExportBox: () => this.exportToBox(),
           onImportBox: () => this.importFromBox(),
           translateBox: s.translateBox,
