@@ -1234,8 +1234,15 @@
         <img src="assets/mascot/pollito-emoji.png" alt="Pollito" style="width:40px;height:40px;object-fit:contain">
       </div>
       <sc-if value="{{ pollitoHasTip }}" hint-placeholder-val="{{ false }}">
-        <div style="position:absolute;top:0;right:0;width:16px;height:16px;background:#FF4D00;border-radius:50%;border:2px solid {{ bgColor }};animation:pulse 1.5s ease-in-out infinite"></div>
+        <div style="position:absolute;top:0;right:0;width:16px;height:16px;background:#FF4D00;border-radius:50%;border:2px solid {{ bgColor }};animation:pulse 1.5s ease-in-out infinite;pointer-events:none"></div>
       </sc-if>
+      <button onClick="{{ dismissPollito }}" aria-label="{{ pollitoDismissAria }}" title="{{ pollitoDismissAria }}" style="position:absolute;top:-5px;left:-5px;width:22px;height:22px;border-radius:50%;background:{{ headerBg }};border:2px solid {{ borderColor }};color:{{ textColor }};font-size:11px;font-weight:900;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:1">✕</button>
+    </div>
+  </sc-if>
+  <!-- Pollito dismissed → slim restore tab on the edge -->
+  <sc-if value="{{ pollitoTabVisible }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ restorePollito }}" role="button" aria-label="{{ pollitoRestoreAria }}" title="{{ pollitoRestoreAria }}" style="position:fixed;bottom:{{ pollitoBottom }};right:0;z-index:999;width:34px;height:46px;border-radius:15px 0 0 15px;background:linear-gradient(135deg,#FFD100,#FF8300);box-shadow:-3px 3px 12px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.92;transition:width .2s,opacity .2s" style-hover="width:40px;opacity:1">
+      <img src="assets/mascot/pollito-emoji.png" alt="" aria-hidden="true" style="width:24px;height:24px;object-fit:contain">
     </div>
   </sc-if>
 
@@ -1252,7 +1259,7 @@ class Component extends DCLogic {
     screen: 'splash', branchStep: 0,
     nameInput: '', learnerName: '',
     language: 'en', storeType: null, role: null,
-    dark: false, pollitoOpen: false,
+    dark: false, pollitoOpen: false, pollitoDismissed: false,
     module: 0, done: [],
     kq: {}, vid: {}, ui: {},
     tocOpen: false, viewed: {}, bankDraws: {}, continued: {},
@@ -1303,7 +1310,7 @@ class Component extends DCLogic {
         if (blk.type === 'qbank') draws[i + ':' + bi] = this.computeBankDraw(blk.content || {});
       });
     }
-    this.setState({ screen: 'lesson', module: i, bankDraws: draws, continued: {} });
+    this.setState({ screen: 'lesson', module: i, bankDraws: draws, continued: {}, coachMsg: null });
   }
 
   // Pick drawN random questions from a pool + an answer-option permutation per question.
@@ -2915,7 +2922,7 @@ class Component extends DCLogic {
     // even though one package reports one score per learner-attempt.
     const audience = { role: this.state.role || '', store: this.state.storeType || '', lang: this.state.language || 'en' };
     try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score, audience }, '*'); } catch(e) {}
-    this.setState({ screen: 'done' });
+    this.setState({ screen: 'done', coachMsg: null });
     if (passed) {
       const MODS = this.state.dynamicMods || this.MODULES;
       this._evalBadges({ lessonsDone: this.state.done.length, total: MODS.length, streak: this.state.streak, assessPassed: true, courseDone: true });
@@ -3018,7 +3025,7 @@ class Component extends DCLogic {
       assessBorder:allDone?'#512E91':th.borderColor,
       assessCursor:allDone?'pointer':'not-allowed',
       assessOpacity:allDone?'1':'0.45',
-      onStartAssess:()=>allDone&&this.setState({screen:'assess',aQ:0,aAnswers:{},aDone:false,assessDraw:this.computeAssessDraw(s)}),
+      onStartAssess:()=>allDone&&this.setState({screen:'assess',aQ:0,aAnswers:{},aDone:false,assessDraw:this.computeAssessDraw(s),coachMsg:null}),
       toggleDark:()=>this.setState({dark:!s.dark}),
       darkLabel: s.dark ? (isEs?'Cambiar a modo claro':'Switch to light mode') : (isEs?'Cambiar a modo oscuro':'Switch to dark mode'),
 
@@ -3062,7 +3069,7 @@ class Component extends DCLogic {
           tocCloseLabel: isEs ? 'Cerrar' : 'Close',
         };
       })(),
-      onBackToMap:()=>this.setState({screen:'map'}),
+      onBackToMap:()=>this.setState({screen:'map', coachMsg:null}),
       onStartOver:()=>this.restart(),
       startOverLabel: (s.language==='es') ? 'Empezar de nuevo' : 'Start over · try another path',
       backLabel:t.backLabel,
@@ -3154,8 +3161,14 @@ class Component extends DCLogic {
         };
       })(),
 
-      // Pollito (+ reactive coach moments)
-      pollitoVisible:pollitoOn,
+      // Pollito (+ reactive coach moments). Hidden on the done screen (it has its own
+      // centered mascot there) and when the learner has dismissed it to the edge tab.
+      pollitoVisible:pollitoOn && !s.pollitoDismissed && scr!=='done',
+      pollitoTabVisible:pollitoOn && s.pollitoDismissed && scr!=='done',
+      dismissPollito:()=>this.setState({pollitoDismissed:true, pollitoOpen:false, coachMsg:null}),
+      restorePollito:()=>this.setState({pollitoDismissed:false}),
+      pollitoDismissAria:(isEs?'Ocultar a Pollito':'Hide Pollito'),
+      pollitoRestoreAria:(isEs?'Mostrar a Pollito':'Show Pollito'),
       pollitoOpen:s.pollitoOpen,
       pollitoHasTip:!s.pollitoOpen,
       pollitoCoach: !!s.coachMsg,
