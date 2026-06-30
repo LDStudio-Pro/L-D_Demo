@@ -3000,6 +3000,12 @@ class Component extends DCLogic {
     const _ltoc = (scr === 'lesson') ? this.getLessonToc(s, t) : [];
     const _lviewed = _ltoc.filter(x => x.done).length;
     const lessonReadyV = _ltoc.length ? (_lviewed >= _ltoc.length) : true;
+    // Splash/welcome copy: localize by language. EN → author's welcome text (or EN
+    // default); ES → author's Spanish translation (welcomeCfg.<field>_es) or the
+    // Spanish default — so picking Español actually switches the whole splash, not
+    // just the Pollito bubble. (Previously the English welcome config overrode ES.)
+    const _wc = s.welcomeCfg || {};
+    const wPick = (wcField, tField) => isEs ? (_wc[wcField + '_es'] || t[tField]) : (_wc[wcField] || t[tField]);
     const st=s.branchStep;
     const branchSteps=this.branchStepsFor(s);
     const curStep=branchSteps[st];
@@ -3017,12 +3023,12 @@ class Component extends DCLogic {
       showDone:   scr==='done',
 
       // Splash — Builder welcome overrides win over localized defaults when set
-      splashBubble:(s.welcomeCfg&&s.welcomeCfg.bubble)||t.splashBubble,
-      splashTitle:(s.welcomeCfg&&s.welcomeCfg.title)||t.splashTitle,
-      splashSubtitle:(s.welcomeCfg&&s.welcomeCfg.subtitle)||t.splashSubtitle,
-      nameLabel:(s.welcomeCfg&&s.welcomeCfg.nameLabel)||t.nameLabel,
-      namePlaceholder:(s.welcomeCfg&&s.welcomeCfg.namePlaceholder)||t.namePlaceholder,
-      startLabel:(s.welcomeCfg&&s.welcomeCfg.startLabel)||t.startLabel,
+      splashBubble:wPick('bubble','splashBubble'),
+      splashTitle:wPick('title','splashTitle'),
+      splashSubtitle:wPick('subtitle','splashSubtitle'),
+      nameLabel:wPick('nameLabel','nameLabel'),
+      namePlaceholder:wPick('namePlaceholder','namePlaceholder'),
+      startLabel:wPick('startLabel','startLabel'),
       nameInput:s.nameInput,
       onNameChange:e=>this.setState({nameInput:e.target.value}),
       onNameKeyDown:e=>{if(e.key==='Enter')this.startCourse();},
