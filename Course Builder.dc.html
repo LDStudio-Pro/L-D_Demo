@@ -346,15 +346,15 @@
   <sc-if value="{{ isEditorView }}" hint-placeholder-val="{{ true }}">
   <!-- ══ TOP BAR ══ -->
   <div style="height:56px;border-bottom:1.5px solid rgba(var(--bx-line-rgb),.1);display:flex;align-items:center;padding:0 14px;gap:7px;flex-shrink:0;background:var(--bx-card);z-index:10">
-    <button onClick="{{ backToDashboard }}" aria-label="Back to course library" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0" title="Back to course library"><span aria-hidden="true">▦</span></button>
+    <button onClick="{{ backToDashboard }}" aria-label="Back to course library" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--bx-heading)" title="All courses" style-hover="border-color:#FF4D00"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="1.5" y="1.5" width="5.2" height="5.2" rx="1.6"/><rect x="9.3" y="1.5" width="5.2" height="5.2" rx="1.6"/><rect x="1.5" y="9.3" width="5.2" height="5.2" rx="1.6"/><rect x="9.3" y="9.3" width="5.2" height="5.2" rx="1.6"/></svg></button>
     <sc-if value="{{ isContent }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ toggleLeftCollapse }}" aria-label="{{ leftColToggleTitle }}" style="width:30px;height:30px;border-radius:8px;border:1.5px solid {{ leftColToggleBorder }};background:{{ leftColToggleBg }};cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--bx-heading)" title="{{ leftColToggleTitle }}"><span aria-hidden="true">{{ leftColToggleIcon }}</span></button>
     </sc-if>
     <img src="assets/logos/logo-primary.png" alt="Campero" style="height:24px;object-fit:contain;flex-shrink:0">
     <div style="width:1px;height:24px;background:rgba(var(--bx-line-rgb),.15);flex-shrink:0"></div>
 
-    <!-- Course title input -->
-    <input type="text" value="{{ courseTitle }}" onChange="{{ onTitleChange }}" style="flex:1;min-width:0;max-width:190px;padding:6px 10px;background:rgba(var(--bx-line-rgb),.04);border:1.5px solid transparent;border-radius:8px;font-size:14px;font-weight:700;color:var(--bx-heading);outline:none;transition:border-color .2s" style-focus="border-color:#FF4D00;background:var(--bx-card)">
+    <!-- Course title — compact, non-truncating echo (edit it in the Modules panel header) -->
+    <div style="min-width:0;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800;color:var(--bx-heading)" title="{{ courseTitle }}">{{ courseTitle }}</div>
 
     <div style="flex:1"></div>
 
@@ -380,8 +380,14 @@
       <div style="width:7px;height:7px;border-radius:50%;background:{{ saveStateColor }}"></div>{{ saveStateLabel }}
     </div>
 
-    <!-- Spanish translation -->
-    <button onClick="{{ openTranslateModal }}" style="display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;border:1.5px solid rgba(var(--bx-line-rgb),.15);background:var(--bx-card);cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);transition:all .2s" style-hover="background:rgba(var(--bx-line-rgb),.06)" title="Translate to Spanish">🌐 Español</button>
+    <!-- Working-language switch: flip the whole builder between English and Spanish editing -->
+    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+      <span style="font-size:15px" aria-hidden="true">🌐</span>
+      <div style="display:flex;gap:2px;background:rgba(var(--bx-line-rgb),.08);border-radius:9px;padding:3px" title="Switch the builder between editing English and Spanish">
+        <button onClick="{{ setLangEn }}" style="padding:5px 12px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;background:{{ langEnBg }};color:{{ langEnColor }};transition:all .2s">EN</button>
+        <button onClick="{{ setLangEs }}" style="padding:5px 12px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;background:{{ langEsBg }};color:{{ langEsColor }};transition:all .2s">ES</button>
+      </div>
+    </div>
 
     <button onClick="{{ onPublish }}" style="padding:8px 16px;border-radius:8px;border:none;background:#FF4D00;color:#FFFFFF;cursor:pointer;font-family:'Exo',sans-serif;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0;box-shadow:2px 2px 0 #5E2A2B;transition:transform .15s" style-hover="transform:translateY(-1px)">🚀 Publish</button>
   </div>
@@ -392,11 +398,18 @@
 
       <!-- LEFT: Module List (slides in/out via the header ⟨ button or the top-bar toggle) -->
       <div style="border-right:1.5px solid rgba(var(--bx-line-rgb),.1);overflow-y:auto;background:var(--bx-bg2);animation:{{ leftPanelAnim }}">
-        <div style="padding:14px 14px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bx-bg2);z-index:1">
+        <!-- Course title — primary editable home (Rise-style), roomy and never truncated -->
+        <div style="padding:13px 14px 2px;position:sticky;top:0;background:var(--bx-bg2);z-index:2">
+          <input type="text" value="{{ courseTitle }}" onChange="{{ onTitleChange }}" placeholder="Course title" aria-label="Course title" style="width:100%;padding:7px 9px;background:transparent;border:1.5px solid transparent;border-radius:8px;font-size:16px;font-weight:900;color:var(--bx-heading);outline:none;transition:all .15s" style-focus="border-color:#FF4D00;background:var(--bx-card)" style-hover="background:rgba(var(--bx-line-rgb),.05)">
+        </div>
+        <div style="padding:6px 14px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:48px;background:var(--bx-bg2);z-index:1">
           <span style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);letter-spacing:2px;text-transform:uppercase">Modules</span>
-          <div style="display:flex;gap:4px;align-items:center">
-            <button onClick="{{ addSection }}" style="height:22px;padding:0 8px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);color:var(--bx-heading);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px" title="Add a section to group lessons">▦ Section</button>
-            <button onClick="{{ addModule }}" style="width:22px;height:22px;border-radius:6px;border:none;background:#FF4D00;color:white;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;line-height:1" title="Add a module">+</button>
+          <div style="display:flex;gap:6px;align-items:center">
+            <!-- Split add control: + Module (primary) · Section (rare) — one unified control -->
+            <div style="display:flex;align-items:center;border-radius:7px;overflow:hidden;box-shadow:1px 1px 0 #5E2A2B">
+              <button onClick="{{ addModule }}" style="height:24px;padding:0 9px;border:none;background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:4px;line-height:1" title="Add a module"><span style="font-size:14px;font-weight:900">+</span>Module</button>
+              <button onClick="{{ addSection }}" style="height:24px;padding:0 9px;border:none;border-left:1px solid rgba(255,255,255,.4);background:#FF4D00;color:#fff;font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;line-height:1" title="Add a section to group lessons">Section</button>
+            </div>
             <button onClick="{{ toggleLeftCollapse }}" style="width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);color:var(--bx-heading);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1" title="Hide the Modules panel" aria-label="Hide the Modules panel">⟨</button>
           </div>
         </div>
@@ -490,14 +503,12 @@
                 <button onClick="{{ setDeviceTablet }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ devTabletBg }};color:{{ devTabletColor }};transition:all .2s">📋 Tablet</button>
                 <button onClick="{{ setDeviceDesktop }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ devDesktopBg }};color:{{ devDesktopColor }};transition:all .2s">🖥 Desktop</button>
               </div>
-              <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
-              <!-- Language toggle (preview EN / Spanish *_es view) -->
-              <div style="display:flex;gap:2px;background:rgba(var(--bx-line-rgb),.06);border-radius:9px;padding:3px" title="Preview the course in English or Spanish (uses the *_es translations)">
-                <button onClick="{{ setLangEn }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ langEnBg }};color:{{ langEnColor }};transition:all .2s">EN</button>
-                <button onClick="{{ setLangEs }}" style="padding:5px 11px;border-radius:7px;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;background:{{ langEsBg }};color:{{ langEsColor }};transition:all .2s">ES</button>
-              </div>
+              <!-- Spanish-mode context: editing indicator + AI translate + bulk table (only while working in ES) -->
               <sc-if value="{{ previewLangEs }}" hint-placeholder-val="{{ false }}">
-                <span style="font-size:11px;font-weight:700;color:#512E91;white-space:nowrap" title="In Spanish preview, the canvas is read-only — edit Spanish in the 🌐 Español modal">🌐 ES preview · read-only</span>
+                <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
+                <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:#5E2A2B;white-space:nowrap"><span style="width:7px;height:7px;border-radius:50%;background:#5E2A2B;display:inline-block"></span>Editing Spanish</span>
+                <button onClick="{{ onTranslateAllEs }}" style="padding:5px 11px;border-radius:8px;border:none;background:#512E91;color:#fff;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;white-space:nowrap" title="Auto-translate empty Spanish fields with Claude (informal tú; brand terms kept)">✨ Translate all</button>
+                <button onClick="{{ openBulkEs }}" style="padding:5px 11px;border-radius:8px;border:1.5px solid rgba(81,46,145,.3);background:rgba(81,46,145,.06);color:var(--bx-purple);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;white-space:nowrap" title="Bulk table view: every string side-by-side, export/import for an agency">Bulk edit</button>
               </sc-if>
               <div style="width:1px;height:20px;background:rgba(var(--bx-line-rgb),.15)"></div>
               <button onClick="{{ togglePrevDark }}" title="{{ prevDarkTitle }}" aria-label="{{ prevDarkTitle }}" aria-pressed="{{ prevDark }}" style="padding:5px 11px;border-radius:8px;border:1.5px solid {{ prevDarkBorder }};background:{{ prevDarkBg }};color:{{ prevDarkColor }};cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;transition:all .2s">{{ prevDarkIcon }}</button>
@@ -1181,10 +1192,14 @@
                     <div style="font-size:14px;font-weight:700;color:var(--bx-text)">{{ selBlockLabel }}</div>
                   </div>
                 </div>
+                <!-- Spanish-mode clarity: text is edited on the canvas; panel fields are shared structure -->
+                <sc-if value="{{ previewLangEs }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-bottom:10px;padding:9px 11px;border-radius:8px;background:rgba(94,42,43,.06);border:1px solid rgba(94,42,43,.18);font-size:12px;color:#5E2A2B;line-height:1.5"><b>🌐 Editing Spanish.</b> Type Spanish text right on the canvas. Fields below set <b>shared structure</b> (correct answers, media, layout) — the same in English and Spanish.</div>
+                </sc-if>
                 <!-- Rich-text formatting hint -->
                 <sc-if value="{{ selBlockRichText }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;padding:8px 10px;border-radius:8px;background:rgba(81,46,145,.05);border:1px solid rgba(81,46,145,.15);font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.5">
-                    ✍️ <b style="color:var(--bx-purple)">Formatting:</b> select text on the canvas to <b>bold</b>, <i>italicize</i>, link, or list it · type <b style="color:#FF4D00">[name]</b> to insert the learner's name
+                    ✍️ <b style="color:var(--bx-purple)">Edit on the canvas.</b> Select text for <b>bold</b> · <i>italic</i> · link · list · type <b style="color:#FF4D00">[name]</b> for the learner's name.
                   </div>
                 </sc-if>
                 <!-- Media Library access (media blocks) — relocated here from the top bar -->
@@ -1192,9 +1207,6 @@
                   <button onClick="{{ openMediaModal }}" style="width:100%;margin-bottom:10px;padding:9px;border-radius:9px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-bg2);cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:800;color:var(--bx-heading)" style-hover="border-color:#FF4D00;color:#FF4D00" title="Insert a reusable asset from the Media Library">📚 Media Library</button>
                 </sc-if>
                 <!-- Content editing by block type -->
-                <sc-if value="{{ selBlockIsHero }}" hint-placeholder-val="{{ false }}">
-                  <div style="margin-bottom:10px;padding:9px 11px;border-radius:8px;background:rgba(var(--bx-line-rgb),.04);font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.45">✍️ Click the headline or intro text on the canvas to edit it directly.</div>
-                </sc-if>
                 <sc-if value="{{ selBlockIsObjectives }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;padding:9px 11px;border-radius:8px;background:rgba(var(--bx-line-rgb),.04);font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.45">✍️ Click each objective on the canvas to edit it (up to 4).</div>
                 </sc-if>
@@ -1515,7 +1527,7 @@
                     <div style="font-size:14px;font-weight:700;color:var(--bx-text)">Lock section</div>
                     <div style="font-size:13px;color:rgba(var(--bx-line-rgb),.74);margin-top:1px">Require completion before advancing</div>
                   </div>
-                  <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ selBlockLocked }}" onChange="{{ toggleBlockLock }}" hint-size="42px,24px"></x-import>
+                  <button onClick="{{ togLock.onClick }}" role="switch" aria-checked="{{ togLock.on }}" aria-label="Lock section" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togLock.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togLock.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
                 </div>
                 <!-- VIDEO: title + caption + source + URL -->
                 <sc-if value="{{ selBlockIsVideo }}" hint-placeholder-val="{{ false }}">
@@ -1775,7 +1787,7 @@
                     <button onClick="{{ onAddSignoffCriterion }}" style="width:100%;padding:7px;border-radius:8px;border:1.5px dashed #512E91;background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:var(--bx-purple)">+ Add Criterion</button>
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;padding:8px 10px;border-radius:9px;background:rgba(81,46,145,.05);border:1.5px solid rgba(81,46,145,.15)">
                       <div style="font-size:13px;font-weight:700;color:var(--bx-text)">Require manager name</div>
-                      <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ signoffReqMgr }}" onChange="{{ toggleSignoffReqMgr }}" hint-size="42px,24px"></x-import>
+                      <button onClick="{{ togSignoff.onClick }}" role="switch" aria-checked="{{ togSignoff.on }}" aria-label="Require manager name" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togSignoff.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togSignoff.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
                     </div>
                     <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.74);line-height:1.4">🔒 Gates the lesson until a manager checks every item + signs. Emits an xAPI <b>passed</b> statement in an LMS; learners can print the sheet to sign on paper.</div>
                   </div>
@@ -1807,7 +1819,7 @@
                   <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:8px">
                     <div style="display:flex;align-items:center;justify-content:space-between">
                       <div style="font-size:13px;font-weight:700;color:var(--bx-text)">First row is a header</div>
-                      <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ tableHasHeader }}" onChange="{{ toggleTableHeader }}" hint-size="42px,24px"></x-import>
+                      <button onClick="{{ togTableHdr.onClick }}" role="switch" aria-checked="{{ togTableHdr.on }}" aria-label="Header row" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togTableHdr.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togTableHdr.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
                     </div>
                     <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px">Title (optional)</div>
                     <input type="text" value="{{ blockTableTitle }}" onChange="{{ onBlockTableTitle }}" placeholder="Table title…" style="width:100%;padding:6px 9px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-bg2);font-family:'Exo',sans-serif;font-size:13px;color:var(--bx-text);outline:none" style-focus="border-color:#B4BD00">
@@ -1864,7 +1876,7 @@
                   </div>
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
                     <div style="font-size:12px;font-weight:700;color:var(--bx-text)">Hide divider line</div>
-                    <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ fmtNoDivider }}" onChange="{{ toggleFmtDivider }}" hint-size="42px,24px"></x-import>
+                    <button onClick="{{ togDivider.onClick }}" role="switch" aria-checked="{{ togDivider.on }}" aria-label="Hide divider line" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togDivider.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togDivider.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
                   </div>
                 </div>
               </div>
@@ -1926,13 +1938,13 @@
 
             <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1.5px">Quick Branching Config</div>
             <div style="padding:12px;border-radius:12px;background:rgba(var(--bx-line-rgb),.03);border:1.5px solid rgba(var(--bx-line-rgb),.1)">
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ langBranch }}" onChange="{{ toggleLang }}" label="Language (EN / ES)" hint-size="100%,36px"></x-import>
+              <div onClick="{{ togLang.onClick }}" role="switch" aria-checked="{{ togLang.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">Language (EN / ES)</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togLang.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togLang.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
             </div>
             <div style="padding:12px;border-radius:12px;background:rgba(var(--bx-line-rgb),.03);border:1.5px solid rgba(var(--bx-line-rgb),.1)">
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ storeBranch }}" onChange="{{ toggleStore }}" label="Store Type (Corp / Franchise)" hint-size="100%,36px"></x-import>
+              <div onClick="{{ togStore.onClick }}" role="switch" aria-checked="{{ togStore.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">Store Type (Corp / Franchise)</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togStore.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togStore.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
             </div>
             <div style="padding:12px;border-radius:12px;background:rgba(var(--bx-line-rgb),.03);border:1.5px solid rgba(var(--bx-line-rgb),.1)">
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ roleBranch }}" onChange="{{ toggleRole }}" label="Role Branching" hint-size="100%,36px"></x-import>
+              <div onClick="{{ togRole.onClick }}" role="switch" aria-checked="{{ togRole.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">Role Branching</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togRole.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togRole.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
             </div>
             <div style="padding:10px;border-radius:10px;background:rgba(255,77,0,.06);border:1.5px solid rgba(255,77,0,.2)">
               <div style="font-size:13px;font-weight:700;color:#FF4D00;margin-bottom:4px">💡 Full config in Branching tab</div>
@@ -2042,7 +2054,7 @@
               <div style="font-size:22px;font-weight:900;color:var(--bx-heading)">{{ totalBlocks }}</div>
             </div>
             <div style="padding:12px;border-radius:12px;background:rgba(255,77,0,.06);border:1.5px solid rgba(255,77,0,.2)">
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ pollitoEnabled }}" onChange="{{ togglePollito }}" label="Pollito Guide" hint-size="100%,36px"></x-import>
+              <div onClick="{{ togPollito.onClick }}" role="switch" aria-checked="{{ togPollito.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">Pollito Guide</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togPollito.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togPollito.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
             </div>
           </div>
         </sc-if>
@@ -2067,20 +2079,20 @@
           <div style="padding:20px;border-radius:18px;border:2px solid {{ langBorder }};background:{{ langCardBg }};transition:all .2s">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
               <div style="font-size:24px">🌐</div>
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ langBranch }}" onChange="{{ toggleLang }}" hint-size="42px,24px"></x-import>
+              <button onClick="{{ togLang.onClick }}" role="switch" aria-checked="{{ togLang.on }}" aria-label="Language branching" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togLang.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togLang.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
             </div>
             <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Language</div>
             <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Branch into English and Spanish paths</div>
             <div style="margin-top:12px;display:flex;gap:6px">
-              <div style="padding:4px 12px;border-radius:50px;background:rgba(255,77,0,.1);font-size:13px;font-weight:700;color:#FF4D00;border:1px solid rgba(255,77,0,.2)">🇺🇸 EN</div>
-              <div style="padding:4px 12px;border-radius:50px;background:rgba(255,77,0,.1);font-size:13px;font-weight:700;color:#FF4D00;border:1px solid rgba(255,77,0,.2)">🇬🇹 ES</div>
+              <div style="padding:4px 12px;border-radius:50px;background:rgba(255,77,0,.1);font-size:13px;font-weight:700;color:#FF4D00;border:1px solid rgba(255,77,0,.2)">EN</div>
+              <div style="padding:4px 12px;border-radius:50px;background:rgba(255,77,0,.1);font-size:13px;font-weight:700;color:#FF4D00;border:1px solid rgba(255,77,0,.2)">ES</div>
             </div>
           </div>
 
           <div style="padding:20px;border-radius:18px;border:2px solid {{ storeBorder }};background:{{ storeCardBg }};transition:all .2s">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
               <div style="font-size:24px">🏪</div>
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ storeBranch }}" onChange="{{ toggleStore }}" hint-size="42px,24px"></x-import>
+              <button onClick="{{ togStore.onClick }}" role="switch" aria-checked="{{ togStore.on }}" aria-label="Store type branching" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togStore.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togStore.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
             </div>
             <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Store Type</div>
             <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Separate content for Corporate vs Franchise</div>
@@ -2093,7 +2105,7 @@
           <div style="padding:20px;border-radius:18px;border:2px solid {{ roleBorder }};background:{{ roleCardBg }};transition:all .2s">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
               <div style="font-size:24px">👥</div>
-              <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ roleBranch }}" onChange="{{ toggleRole }}" hint-size="42px,24px"></x-import>
+              <button onClick="{{ togRole.onClick }}" role="switch" aria-checked="{{ togRole.on }}" aria-label="Role branching" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togRole.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togRole.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
             </div>
             <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:4px">Job Role</div>
             <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Customize content by team member role</div>
@@ -2174,7 +2186,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px">
           <div style="padding:16px;border-radius:14px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
             <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Status</div>
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ assessEnabled }}" onChange="{{ toggleAssessEnabled }}" label="{{ assessEnabled ? 'Enabled' : 'Disabled' }}" hint-size="100%,36px"></x-import>
+            <div onClick="{{ togAssess.onClick }}" role="switch" aria-checked="{{ togAssess.on }}" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;width:100%;padding:7px 2px"><span style="font-size:14px;font-weight:700;color:var(--bx-text)">{{ assessEnabled ? 'Enabled' : 'Disabled' }}</span><span style="width:42px;height:24px;border-radius:50px;background:{{ togAssess.trackBg }};position:relative;flex-shrink:0;display:inline-block;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togAssess.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></span></div>
           </div>
           <div style="padding:16px;border-radius:14px;border:2px solid rgba(var(--bx-line-rgb),.12);background:var(--bx-card)">
             <div style="font-size:12px;font-weight:700;color:rgba(var(--bx-line-rgb),.74);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Passing Score</div>
@@ -2197,7 +2209,7 @@
               <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase">Randomize as a Question Bank</div>
               <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Draw a random subset each attempt and shuffle question + answer order. Retakes re-draw.</div>
             </div>
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ assessBank }}" onChange="{{ toggleAssessBank }}" hint-size="42px,24px"></x-import>
+            <button onClick="{{ togAssessBank.onClick }}" role="switch" aria-checked="{{ togAssessBank.on }}" aria-label="Use question bank" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togAssessBank.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togAssessBank.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
           </div>
           <sc-if value="{{ assessBank }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1.5px solid rgba(81,46,145,.15)">
@@ -2513,7 +2525,7 @@
               <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:3px">Pollito Navigation Guide</div>
               <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Show Pollito as a floating guide throughout the course, providing contextual tips and navigation help to learners.</div>
             </div>
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ pollitoEnabled }}" onChange="{{ togglePollito }}" hint-size="42px,24px"></x-import>
+            <button onClick="{{ togPollito.onClick }}" role="switch" aria-checked="{{ togPollito.on }}" aria-label="Pollito guide" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togPollito.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togPollito.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
           </div>
         </div>
 
@@ -2525,7 +2537,7 @@
               <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:3px">Read Aloud (Text-to-Speech)</div>
               <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Adds a 🔊 Listen button to every lesson so learners can hear the content spoken — bilingual (EN/ES) and fully offline. Great for the bilingual, hands-busy frontline.</div>
             </div>
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ readAloudEnabled }}" onChange="{{ toggleReadAloud }}" hint-size="42px,24px"></x-import>
+            <button onClick="{{ togReadAloud.onClick }}" role="switch" aria-checked="{{ togReadAloud.on }}" aria-label="Read aloud" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togReadAloud.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togReadAloud.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
           </div>
         </div>
 
@@ -2579,7 +2591,7 @@
               <div style="font-size:15px;font-weight:900;color:var(--bx-heading);text-transform:uppercase;margin-bottom:3px">Badges &amp; Streaks</div>
               <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74)">Award badges as learners progress, with a streak counter and a Passport screen. Motivation for a high-turnover frontline. (Per-learner; pushes an xAPI statement per badge in an LMS.)</div>
             </div>
-            <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Switch" checked="{{ gamiEnabled }}" onChange="{{ toggleGamification }}" hint-size="42px,24px"></x-import>
+            <button onClick="{{ togGami.onClick }}" role="switch" aria-checked="{{ togGami.on }}" aria-label="Gamification" style="width:42px;height:24px;border-radius:50px;border:none;background:{{ togGami.trackBg }};position:relative;cursor:pointer;flex-shrink:0;padding:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ togGami.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .2s"></span></button>
           </div>
           <sc-if value="{{ gamiEnabled }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:8px">
@@ -3337,6 +3349,7 @@ class Component extends DCLogic {
     langBranch: true,
     storeBranch: true,
     roleBranch: true,
+    previewLang: 'en',
     roles: [
       {id:'manager', icon:'👔', label:'Manager'},
       {id:'cashier', icon:'💳', label:'Cashier'},
@@ -3597,13 +3610,17 @@ class Component extends DCLogic {
   }
 
 
+  // When the builder's working language is Spanish (previewLang==='es'), inline canvas
+  // edits target the parallel `*_es` field/array instead of English — so flipping to ES
+  // and typing edits the Spanish version in place. EN behaviour is unchanged.
+  _langKey(field) { return this.state.previewLang === 'es' ? field + '_es' : field; }
   updateBlockContentAt(blockIdx, field, value) {
     const mods = JSON.parse(JSON.stringify(this.state.modules));
     const mod = mods[this.state.selectedModule];
     if (!mod) return;
     const block = mod.blocks[blockIdx];
     if (!block) return;
-    block.content = { ...(block.content||{}), [field]: value };
+    block.content = { ...(block.content||{}), [this._langKey(field)]: value };
     this.setState({ modules: mods });
   }
 
@@ -3613,9 +3630,11 @@ class Component extends DCLogic {
     if (!mod) return;
     const block = mod.blocks[blockIdx];
     if (!block) return;
-    const items = [...(block.content?.items||['','','',''])];
+    const es = this.state.previewLang === 'es', key = this._langKey('items');
+    const items = Array.isArray(block.content?.[key]) ? [...block.content[key]] : (es ? [] : ['','','','']);
+    while (items.length <= itemIdx) items.push('');
     items[itemIdx] = value;
-    block.content = { ...(block.content||{}), items };
+    block.content = { ...(block.content||{}), [key]: items };
     this.setState({ modules: mods });
   }
 
@@ -3625,35 +3644,39 @@ class Component extends DCLogic {
     if (!mod) return;
     const block = mod.blocks[blockIdx];
     if (!block) return;
-    const options = [...(block.content?.options||['','','',''])];
+    const es = this.state.previewLang === 'es', key = this._langKey('options');
+    const options = Array.isArray(block.content?.[key]) ? [...block.content[key]] : (es ? [] : ['','','','']);
+    while (options.length <= optIdx) options.push('');
     options[optIdx] = value;
-    block.content = { ...(block.content||{}), options };
+    block.content = { ...(block.content||{}), [key]: options };
     this.setState({ modules: mods });
   }
 
   // Generic explicit-block-index array editors (for inline canvas editing).
-  // Array of strings: block.content[field][itemIdx] = value
+  // Array of strings: block.content[field][itemIdx] = value  (or *_es in Spanish mode)
   updateBlockArrAt(blockIdx, field, itemIdx, value) {
     const mods = JSON.parse(JSON.stringify(this.state.modules));
     const mod = mods[this.state.selectedModule];
     const block = mod && mod.blocks[blockIdx];
     if (!block) return;
-    const arr = Array.isArray(block.content?.[field]) ? [...block.content[field]] : [];
+    const key = this._langKey(field);
+    const arr = Array.isArray(block.content?.[key]) ? [...block.content[key]] : [];
     while (arr.length <= itemIdx) arr.push('');
     arr[itemIdx] = value;
-    block.content = { ...(block.content||{}), [field]: arr };
+    block.content = { ...(block.content||{}), [key]: arr };
     this.setState({ modules: mods });
   }
-  // Array of objects: block.content[field][itemIdx][sub] = value
+  // Array of objects: block.content[field][itemIdx][sub] = value  (or *_es in Spanish mode)
   updateBlockArrObjAt(blockIdx, field, itemIdx, sub, value) {
     const mods = JSON.parse(JSON.stringify(this.state.modules));
     const mod = mods[this.state.selectedModule];
     const block = mod && mod.blocks[blockIdx];
     if (!block) return;
-    const arr = Array.isArray(block.content?.[field]) ? block.content[field].map(o => ({ ...(o||{}) })) : [];
+    const key = this._langKey(field);
+    const arr = Array.isArray(block.content?.[key]) ? block.content[key].map(o => ({ ...(o||{}) })) : [];
     while (arr.length <= itemIdx) arr.push({});
     arr[itemIdx] = { ...(arr[itemIdx]||{}), [sub]: value };
-    block.content = { ...(block.content||{}), [field]: arr };
+    block.content = { ...(block.content||{}), [key]: arr };
     this.setState({ modules: mods });
   }
 
@@ -4087,7 +4110,7 @@ class Component extends DCLogic {
       welcome: c.welcome || this.state.welcome, done: c.done || this.state.done, certificate: c.certificate || this.state.certificate, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
       mediaLibrary: Array.isArray(c.mediaLibrary) ? c.mediaLibrary : [],
       theme: c.theme || { accent: '#FF4D00', headingFont: 'Exo' },
-      selectedModule: 0, selectedBlock: null, tab: 'content',
+      selectedModule: 0, selectedBlock: null, tab: 'content', previewLang: 'en',
       leftCollapsed: false,   // Modules panel always open when a course opens (in-session collapse is fine)
     });
   }
@@ -4917,7 +4940,7 @@ class Component extends DCLogic {
 
   getBranchTree(s) {
     const langs = s.langBranch
-      ? [{flag:'🇺🇸',label:'English (EN)'},{flag:'🇬🇹',label:'Español (ES)'}]
+      ? [{flag:'',label:'English (EN)'},{flag:'',label:'Español (ES)'}]
       : [{flag:'🌐',label:'All Languages'}];
     const stores = s.storeBranch
       ? [{icon:'🏢',label:'Corporate'},{icon:'🍗',label:'Franchise'}]
@@ -6456,7 +6479,12 @@ class Component extends DCLogic {
     const label = newRoleInput.trim();
     if (!label) return;
     const icons = ['🧑‍💼','🧑‍🍳','🧑‍🔧','🧑‍💻','🧑‍🎤'];
-    const newRole = { id: label.toLowerCase().replace(/\s+/g,'-'), icon: icons[roles.length % icons.length], label };
+    // Stable, unique id (NOT derived from the label) so duplicate/blank names don't collide
+    // onto one id — otherwise renaming one role would rename every role sharing that id.
+    const slug = label.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'role';
+    const used = new Set((roles || []).map(r => r.id));
+    let id = slug, n = 2; while (used.has(id)) { id = slug + '-' + n; n++; }
+    const newRole = { id, icon: icons[roles.length % icons.length], label };
     this.setState({ roles: [...roles, newRole], newRoleInput: '' });
   }
 
@@ -6490,6 +6518,28 @@ class Component extends DCLogic {
     // Muted inactive-text token, tuned for WCAG AA on both themes: warm-gray on dark,
     // a darker brown on light (the original .5–.6 browns were below AA on cream/white).
     const cdMuted = s.chromeDark ? 'rgba(243,231,226,.72)' : 'rgba(94,42,43,.8)';
+
+    // ── Self-contained inline toggles ──────────────────────────────────────────
+    // Replaces the external design-system <Switch> web component, which renders as a
+    // blank box wherever the _ds bundle global doesn't resolve (e.g. the deployed/SCORM
+    // builds). These are plain buttons → render everywhere, correct a11y, brand styling.
+    const _sb = (s.modules[s.selectedModule]?.blocks || [])[s.selectedBlock] || null;
+    const togV = (on) => ({ on: !!on, trackBg: on ? '#B4BD00' : 'rgba(var(--bx-line-rgb),.22)', knobLeft: on ? '21px' : '3px' });
+    const togBinds = {
+      togLock:       { ...togV(_sb?.locked), onClick: () => { const mods = JSON.parse(JSON.stringify(s.modules)); const m = mods[s.selectedModule]; if (m && s.selectedBlock !== null && m.blocks[s.selectedBlock]) { m.blocks[s.selectedBlock].locked = !_sb?.locked; this.setState({ modules: mods }); } } },
+      togSignoff:    { ...togV(_sb?.content?.requireManagerName !== false), onClick: () => this.toggleSignoffReqMgr(!(_sb?.content?.requireManagerName !== false)) },
+      togTableHdr:   { ...togV(!!_sb?.content?.header), onClick: () => this.toggleTableHeader() },
+      togDivider:    { ...togV(!!(_sb?.style || {}).noDivider), onClick: () => this.setBlockStyle('noDivider', !((_sb?.style || {}).noDivider)) },
+      togLang:       { ...togV(s.langBranch),     onClick: () => this.setState({ langBranch: !s.langBranch }) },
+      togStore:      { ...togV(s.storeBranch),    onClick: () => this.setState({ storeBranch: !s.storeBranch }) },
+      togRole:       { ...togV(s.roleBranch),     onClick: () => this.setState({ roleBranch: !s.roleBranch }) },
+      togPollito:    { ...togV(s.pollitoEnabled), onClick: () => this.setState({ pollitoEnabled: !s.pollitoEnabled }) },
+      togAssess:     { ...togV(s.assessEnabled),  onClick: () => this.setState({ assessEnabled: !s.assessEnabled }) },
+      togAssessBank: { ...togV(s.assessBank),     onClick: () => this.toggleAssessBank(!s.assessBank) },
+      togReadAloud:  { ...togV(s.readAloud),      onClick: () => this.setState({ readAloud: !s.readAloud }) },
+      togGami:       { ...togV(s.gamification && s.gamification.enabled), onClick: () => this.toggleGamification(!(s.gamification && s.gamification.enabled)) },
+    };
+
     const tb = (key) => {
       const active = s.tab === key;
       return { bg: active ? '#FFFFFF' : 'transparent', color: active ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)') };
@@ -6509,6 +6559,7 @@ class Component extends DCLogic {
     const colorOpts = ['#FF4D00','#B4BD00','#FFD100','#FF8300','#512E91','#5E2A2B'];
 
     return {
+      ...togBinds,
       // Tab bar
       tabContent:  tb('content').bg,  tabContentColor:  tb('content').color,
       tabBranch:   tb('branch').bg,   tabBranchColor:   tb('branch').color,
@@ -6725,16 +6776,20 @@ class Component extends DCLogic {
       isPreview: s.tab==='content',
       isEditor:  false,
       previewModuleTitle: (s.previewLang==='es' && mod?.title_es && mod.title_es.trim()) ? mod.title_es : (mod?.title || ''),
-      // EN/ES live-preview language toggle. ES applies localizeContent (Player parity) and makes
-      // inline editing read-only (ceEdit) so Spanish review can't overwrite English on the canvas.
+      // Working-language switch (top bar). EN = English; ES applies localizeContent (Player parity)
+      // AND routes inline canvas edits to the parallel *_es fields, so flipping to ES edits the
+      // Spanish version in place. The canvas stays editable in both languages.
       previewLangEs: s.previewLang==='es',
-      ceEdit: s.previewLang==='es' ? 'false' : 'true',
+      ceEdit: 'true',
       setLangEn: () => this.setState({ previewLang: 'en' }),
       setLangEs: () => this.setState({ previewLang: 'es' }),
       langEnBg:    s.previewLang==='es' ? 'transparent' : '#FFFFFF',
       langEnColor: s.previewLang==='es' ? (cdMuted || 'rgba(94,42,43,.55)') : '#FF4D00',
-      langEsBg:    s.previewLang==='es' ? '#FFFFFF' : 'transparent',
-      langEsColor: s.previewLang==='es' ? '#FF4D00' : (cdMuted || 'rgba(94,42,43,.55)'),
+      langEsBg:    s.previewLang==='es' ? '#5E2A2B' : 'transparent',
+      langEsColor: s.previewLang==='es' ? '#FFFFFF' : (cdMuted || 'rgba(94,42,43,.55)'),
+      // ES-mode canvas actions (translate + bulk), surfaced only when working in Spanish
+      onTranslateAllEs: () => this.translateAllSpanish(false),
+      openBulkEs: () => this.setState({ translateModal: true, xlateStatus: '', xlateBusy: false }),
       previewModColor: mod?.color || '#FF4D00',
       previewBlocks: this.getPreviewBlocks(s),
       insertAtTop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ picker: true, pickerAt: 0, pickerSearch: '' }); },
