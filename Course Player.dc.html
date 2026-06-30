@@ -2737,6 +2737,45 @@ class Component extends DCLogic {
     return Math.round((c/qs.length)*100);
   }
 
+  // Normalized per-question results for LMS reporting. The launcher maps these to
+  // SCORM cmi.interactions.* (visible in Absorb) and to xAPI "answered" statements
+  // (mirrored to the external LRS for rich, sliceable dashboards). One entry per
+  // question on the final assessment, as actually drawn/answered by this learner.
+  _assessInteractions(s) {
+    const qs = this.assessActiveQs(s);
+    return qs.map((q, i) => {
+      const a = s.aAnswers[i];
+      const opts = Array.isArray(q.options) ? q.options : [];
+      const optText = ix => (ix != null && opts[ix] != null) ? String(opts[ix]) : '';
+      let type = 'choice', response = '', correctResponse = '', correct = false;
+      if (q.qType === 'fill') {
+        type = 'fill-in';
+        response = String(a == null ? '' : a);
+        correctResponse = String(q.answers || '');
+        const accepted = (q.answers || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
+        correct = accepted.length ? accepted.includes(response.trim().toLowerCase()) : false;
+      } else if (q.qType === 'mr') {
+        type = 'choice';
+        const sel = Array.isArray(a) ? a : [];
+        response = sel.map(optText).filter(Boolean).join(' | ');
+        correctResponse = (q.correctMulti || []).map(optText).filter(Boolean).join(' | ');
+        const ss = sel.slice().sort((x, y) => x - y), cm = (q.correctMulti || []).slice().sort((x, y) => x - y);
+        correct = ss.length > 0 && ss.length === cm.length && ss.every((v, k) => v === cm[k]);
+      } else if (q.qType === 'tf') {
+        type = 'true-false';
+        response = (a === 0 ? 'true' : a === 1 ? 'false' : '');
+        correctResponse = (q.correct === 0 ? 'true' : 'false');
+        correct = a === q.correct;
+      } else {
+        type = 'choice';
+        response = optText(typeof a === 'number' ? a : null);
+        correctResponse = optText(q.correct);
+        correct = a === q.correct;
+      }
+      return { id: 'q' + (i + 1), type, description: String(q.question || ('Question ' + (i + 1))), response, correctResponse, correct };
+    });
+  }
+
   makeConfetti() {
     const cols=['#FF4D00','#FFD100','#B4BD00','#5E2A2B','#FF8300','#512E91','#FFFFFF'];
     return React.createElement('div',{style:{position:'absolute',inset:0,overflow:'hidden',pointerEvents:'none',zIndex:0}},
@@ -2948,7 +2987,8 @@ class Component extends DCLogic {
     // learner's audience so an LRS / Absorb can slice pass rates by role/store/lang
     // even though one package reports one score per learner-attempt.
     const audience = { role: this.state.role || '', store: this.state.storeType || '', lang: this.state.language || 'en' };
-    try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score, audience }, '*'); } catch(e) {}
+    const interactions = this._assessInteractions(this.state);
+    try { window.parent.postMessage({ source: 'campero_course', type: 'complete', score, passed, audience, interactions }, '*'); } catch(e) {}
     this.setState({ screen: 'done', coachMsg: null, courseFinished: true });
     if (passed) {
       const MODS = this.state.dynamicMods || this.MODULES;
