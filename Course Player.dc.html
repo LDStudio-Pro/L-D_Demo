@@ -189,6 +189,7 @@
         <sc-if value="{{ showLangChoice }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleLang }}" aria-label="{{ langSwitchLabel }}" style="height:36px;padding:0 12px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:11px;font-weight:700;color:{{ subtextColor }};display:flex;align-items:center;gap:4px;flex-shrink:0" title="{{ langSwitchLabel }}">{{ langToggleLabel }}</button></sc-if>
         <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" aria-label="{{ passportLabel }}" title="{{ passportLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">🎒</span></button></sc-if>
         <button onClick="{{ toggleDark }}" aria-label="{{ darkLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ darkIcon }}</span></button>
+        <button onClick="{{ onStartOver }}" aria-label="{{ startOverLabel }}" title="{{ startOverLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">🔄</span></button>
       </div>
 
       <!-- Greeting + progress -->
@@ -1188,6 +1189,7 @@
           <button onClick="{{ onDownloadCert }}" style="width:100%;padding:16px;background:var(--accent);color:white;border:none;border-radius:50px;font-family:'Exo',sans-serif;font-weight:900;font-size:16px;cursor:pointer;text-transform:uppercase;letter-spacing:2px;box-shadow:4px 4px 0 rgba(0,0,0,.4)">{{ doneCertLabel }}</button>
           <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🎒 {{ passportLabel }}</button></sc-if>
           <button onClick="{{ onBackToMap }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">{{ doneBackLabel }}</button>
+          <button onClick="{{ onStartOver }}" style="width:100%;padding:14px;background:transparent;color:rgba(255,255,255,.85);border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🔄 {{ startOverLabel }}</button>
         </div>
       </div>
     </div>
@@ -2874,6 +2876,18 @@ class Component extends DCLogic {
     if (win) { win.document.write(html); win.document.close(); }
   }
 
+  // Start the course over from the splash — clears progress + branch picks so the learner
+  // can re-take it or try a different path (language / store / role). Keeps their name prefilled.
+  restart() {
+    this.setState({
+      screen: 'splash', branchStep: 0,
+      storeType: null, role: null, language: 'en',
+      module: 0, done: [], kq: {}, vid: {}, ui: {}, viewed: {}, bankDraws: {}, continued: {},
+      acks: {}, signoffs: {}, signoffDraft: {}, spots: {}, tocOpen: false,
+      aQ: 0, aAnswers: {}, aDone: false, finalScore: 0, assessDraw: null,
+      badges: {}, streak: 0, badgeToast: null, coachMsg: null,
+    });
+  }
   finishCourse() {
     const score = this.state.finalScore;
     const passed = score >= (this.state.passCfg || 80);
@@ -3028,6 +3042,8 @@ class Component extends DCLogic {
         };
       })(),
       onBackToMap:()=>this.setState({screen:'map'}),
+      onStartOver:()=>this.restart(),
+      startOverLabel: (s.language==='es') ? 'Empezar de nuevo' : 'Start over · try another path',
       backLabel:t.backLabel,
       lessonOfLabel:`${t.lessonOf} ${s.module+1} / ${totalN}`,
       completeLessonLabel:t.completeLesson,
