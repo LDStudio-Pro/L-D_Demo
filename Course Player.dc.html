@@ -184,14 +184,14 @@
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:fadeIn .4s ease">
 
       <div style="padding:12px 20px;border-bottom:1px solid {{ borderColor }};display:flex;align-items:center;gap:12px;flex-shrink:0;background:{{ headerBg }}">
-        <img src="{{ logoSrc }}" alt="Campero" style="height:30px;object-fit:contain">
+        <img src="{{ logoSrc }}" alt="Campero" style="height:{{ logoHeight }};object-fit:contain">
         <div style="flex:1;min-width:0">
           <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase">{{ mapEyebrow }}</div>
           <div style="font-size:14px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;line-height:1.2;overflow-wrap:anywhere">{{ courseTitle }}</div>
         </div>
         <sc-if value="{{ showLangChoice }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleLang }}" aria-label="{{ langSwitchLabel }}" style="height:36px;padding:0 12px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:11px;font-weight:700;color:{{ subtextColor }};display:flex;align-items:center;gap:4px;flex-shrink:0" title="{{ langSwitchLabel }}">{{ langToggleLabel }}</button></sc-if>
         <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" aria-label="{{ passportLabel }}" title="{{ passportLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">🎒</span></button></sc-if>
-        <button onClick="{{ toggleDark }}" aria-label="{{ darkLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ darkIcon }}</span></button>
+        <button onClick="{{ toggleDark }}" aria-label="{{ darkLabel }}" title="{{ darkLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ darkIcon }}</span></button>
         <button onClick="{{ onStartOver }}" aria-label="{{ startOverLabel }}" title="{{ startOverLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">🔄</span></button>
       </div>
 
@@ -322,7 +322,7 @@
         <button onClick="{{ toggleToc }}" aria-label="{{ tocTitle }}" title="{{ tocTitle }}" style="width:32px;height:32px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:14px;color:{{ subtextColor }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">☰</span></button>
         <sc-if value="{{ readAloudOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleReadAloud }}" aria-label="{{ readAloudLabel }}" aria-pressed="{{ readAloudPressed }}" title="{{ readAloudLabel }}" style="width:32px;height:32px;border-radius:50%;border:2px solid {{ speakBorder }};background:{{ speakBg }};cursor:pointer;font-size:14px;color:{{ speakColor }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ speakIcon }}</span></button></sc-if>
         <sc-if value="{{ showLangChoice }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleLang }}" aria-label="{{ langSwitchLabel }}" style="height:32px;padding:0 10px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:10px;font-weight:700;color:{{ subtextColor }};display:flex;align-items:center;gap:3px;flex-shrink:0" title="{{ langSwitchLabel }}">{{ langToggleLabel }}</button></sc-if>
-        <button onClick="{{ toggleDark }}" aria-label="{{ darkLabel }}" style="width:32px;height:32px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ darkIcon }}</span></button>
+        <button onClick="{{ toggleDark }}" aria-label="{{ darkLabel }}" title="{{ darkLabel }}" style="width:32px;height:32px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">{{ darkIcon }}</span></button>
       </div>
 
       <div style="height:5px;background:{{ progressBg }};flex-shrink:0">
@@ -2536,6 +2536,9 @@ class Component extends DCLogic {
     darkIcon: dark?'☀️':'🌙',
     logoFilter: dark?'brightness(0) invert(1)':'none',
     logoSrc: dark?'assets/logos/logo-white.png':'assets/logos/logo-primary.png',
+    // White logo is a wider horizontal lockup (≈2.83:1) vs the stacked primary (≈1.78:1);
+    // shrink its height in dark mode so both render at a consistent on-screen width.
+    logoHeight: dark?'19px':'30px',
   };}
 
   getRoles(selectedRole, t, th) {
