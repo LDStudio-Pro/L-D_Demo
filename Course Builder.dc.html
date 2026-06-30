@@ -2425,6 +2425,42 @@
           </div>
         </div>
 
+        <!-- Certificate (optional + audience-gated) -->
+        <div style="padding:20px;border-radius:18px;border:2px solid rgba(255,77,0,.2);background:rgba(255,77,0,.03)">
+          <div style="font-size:14px;font-weight:900;color:#FF4D00;text-transform:uppercase;margin-bottom:4px">📄 In-Course Certificate</div>
+          <div style="font-size:14px;color:rgba(var(--bx-line-rgb),.74);margin-bottom:14px">Offer a downloadable certificate on the completion screen. Tip: Absorb already issues certificates for Corporate learners, so this shines for Franchises — narrow it by store/role below.</div>
+          <div onClick="{{ onToggleCert }}" role="button" aria-pressed="{{ certEnabled }}" style="display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:50px;border:2px solid {{ certToggleBorder }};background:{{ certToggleBg }};color:{{ certToggleColor }};font-family:'Exo',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:14px">{{ certEnabledLabel }}</div>
+          <sc-if value="{{ certEnabled }}" hint-placeholder-val="{{ true }}">
+            <div style="border-top:1px solid rgba(var(--bx-line-rgb),.12);padding-top:14px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+                <div style="font-size:13px;font-weight:700;color:var(--bx-text)">{{ certAudSummary }}</div>
+                <sc-if value="{{ certAudTargeted }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onClearCertAud }}" style="padding:4px 10px;border-radius:7px;border:1.5px solid rgba(var(--bx-line-rgb),.18);background:var(--bx-card);color:var(--bx-text);font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Everyone</button></sc-if>
+              </div>
+              <sc-if value="{{ certAudAnyDim }}" hint-placeholder-val="{{ true }}">
+                <sc-if value="{{ certAudShowStores }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:1px;margin:8px 0 5px">Store type</div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap">
+                    <sc-for list="{{ certStores }}" as="cs" hint-placeholder-count="2">
+                      <div onClick="{{ cs.onToggle }}" role="button" style="padding:6px 13px;border-radius:50px;border:1.5px solid {{ cs.border }};background:{{ cs.bg }};color:{{ cs.color }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer">{{ cs.mark }}{{ cs.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ certAudShowRoles }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-size:11px;font-weight:700;color:rgba(var(--bx-line-rgb),.6);text-transform:uppercase;letter-spacing:1px;margin:10px 0 5px">Job role</div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap">
+                    <sc-for list="{{ certRoles }}" as="cr" hint-placeholder-count="3">
+                      <div onClick="{{ cr.onToggle }}" role="button" style="padding:6px 13px;border-radius:50px;border:1.5px solid {{ cr.border }};background:{{ cr.bg }};color:{{ cr.color }};font-family:'Exo',sans-serif;font-size:12px;font-weight:700;cursor:pointer">{{ cr.mark }}{{ cr.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
+              <sc-if value="{{ certAudNoDim }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:12px;color:rgba(var(--bx-line-rgb),.6)">Turn on store/role branching (Branching tab) to target the certificate by audience.</div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+
         <!-- Course Theme -->
         <div style="padding:20px;border-radius:18px;border:2px solid rgba(81,46,145,.2);background:rgba(81,46,145,.03)">
           <div style="font-size:14px;font-weight:900;color:var(--bx-purple);text-transform:uppercase;margin-bottom:4px">🎨 Course Theme</div>
@@ -3319,6 +3355,7 @@ class Component extends DCLogic {
       bgImage: '',
     },
     done: { eyebrow: '', title: '', body: '', image: '' },
+    certificate: { enabled: true, audience: { stores: [], roles: [] } },
     modules: [
       { title:'Welcome to the Family', icon:'🏠', color:'#FF4D00', duration:'8 min', locked:false,
         blocks:[
@@ -3946,7 +3983,7 @@ class Component extends DCLogic {
     if (host) host.dispatchEvent(new Event('input', { bubbles: true }));
   }
   // Content keys tracked for undo/redo + autosave.
-  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','done','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary']; }
+  get HISTORY_KEYS() { return ['courseTitle','modules','sections','welcome','done','certificate','roles','langBranch','storeBranch','roleBranch','assessEnabled','passingScore','assessBank','assessDrawN','pollitoEnabled','readAloud','gamification','scormVersion','assessQuestions','theme','mediaLibrary']; }
   snapKeys(src) { const o = {}; this.HISTORY_KEYS.forEach(k => o[k] = src[k]); return o; }
 
   // dc only passes prevProps (no prevState), so we track our own last snapshot.
@@ -4007,7 +4044,7 @@ class Component extends DCLogic {
       assessEnabled: s.assessEnabled, passingScore: s.passingScore,
       assessBank: s.assessBank, assessDrawN: s.assessDrawN,
       pollitoEnabled: s.pollitoEnabled, readAloud: s.readAloud, gamification: s.gamification, scormVersion: s.scormVersion,
-      welcome: s.welcome, done: s.done, assessQuestions: s.assessQuestions, theme: s.theme,
+      welcome: s.welcome, done: s.done, certificate: s.certificate, assessQuestions: s.assessQuestions, theme: s.theme,
       mediaLibrary: s.mediaLibrary,
       savedAt: new Date().toISOString(),
     };
@@ -4033,7 +4070,7 @@ class Component extends DCLogic {
       assessBank: c.assessBank === true, assessDrawN: c.assessDrawN || 5,
       pollitoEnabled: c.pollitoEnabled !== false, readAloud: c.readAloud !== false, scormVersion: c.scormVersion || 'xapi',
       gamification: (c.gamification && typeof c.gamification === 'object') ? c.gamification : { enabled: false, badges: [] },
-      welcome: c.welcome || this.state.welcome, done: c.done || this.state.done, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
+      welcome: c.welcome || this.state.welcome, done: c.done || this.state.done, certificate: c.certificate || this.state.certificate, assessQuestions: this.normalizeAssessQuestions(c.assessQuestions),
       mediaLibrary: Array.isArray(c.mediaLibrary) ? c.mediaLibrary : [],
       theme: c.theme || { accent: '#FF4D00', headingFont: 'Exo' },
       selectedModule: 0, selectedBlock: null, tab: 'content',
@@ -4059,7 +4096,7 @@ class Component extends DCLogic {
         { id: 'b_quiz',  name: 'Quiz Champ',  icon: '🧠', trigger: 'assessment', n: 0 },
         { id: 'b_pro',   name: 'Campero Pro', icon: '🏆', trigger: 'course',  n: 0 },
       ] },
-      welcome: { ...this.state.welcome }, done: { eyebrow: '', title: '', body: '', image: '' }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], savedAt: new Date().toISOString(),
+      welcome: { ...this.state.welcome }, done: { eyebrow: '', title: '', body: '', image: '' }, certificate: { enabled: true, audience: { stores: [], roles: [] } }, assessQuestions: [], theme: { ...this.state.theme }, mediaLibrary: [], savedAt: new Date().toISOString(),
     };
     const lib = [...this.state.library, blank];
     this.setState({ library: lib });
@@ -5852,6 +5889,22 @@ class Component extends DCLogic {
     });
   }
   clearAssessAudience(qi) { this.assessEdit(aq => { if (aq[qi]) aq[qi].audience = null; }); }
+  toggleCertEnabled() {
+    const c = this.state.certificate || {};
+    this.setState({ certificate: { ...c, enabled: c.enabled === false } });
+  }
+  toggleCertAudience(dim, value) {
+    const c = this.state.certificate || {};
+    const a = c.audience || { stores: [], roles: [] };
+    const arr = Array.isArray(a[dim]) ? [...a[dim]] : [];
+    const at = arr.indexOf(value);
+    if (at >= 0) arr.splice(at, 1); else arr.push(value);
+    this.setState({ certificate: { ...c, audience: { ...a, [dim]: arr } } });
+  }
+  clearCertAudience() {
+    const c = this.state.certificate || {};
+    this.setState({ certificate: { ...c, audience: { stores: [], roles: [] } } });
+  }
   setPassingScore(v) { this.setState({ passingScore: Math.max(1, Math.min(100, v || 1)) }); }
   toggleAssessBank(v) { this.setState({ assessBank: typeof v === 'boolean' ? v : !this.state.assessBank }); }
   setAssessDrawN(v) { this.setState({ assessDrawN: Math.max(1, v || 1) }); }
@@ -5923,8 +5976,8 @@ class Component extends DCLogic {
     alert('✅ Draft saved! The Course Player will use these settings when opened in this browser.');
   }
   writeConfig() {
-    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, theme, mediaLibrary } = this.state;
-    localStorage.setItem('campero_builder_config', JSON.stringify({ courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, theme, mediaLibrary, savedAt: new Date().toISOString() }));
+    const { courseTitle, modules, sections, langBranch, storeBranch, roleBranch, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary } = this.state;
+    localStorage.setItem('campero_builder_config', JSON.stringify({ courseTitle, modules, sections, branching: { lang: langBranch, store: storeBranch, role: roleBranch }, roles, assessEnabled, passingScore, assessBank, assessDrawN, assessQuestions, pollitoEnabled, readAloud, gamification, scormVersion, welcome, done, certificate, theme, mediaLibrary, savedAt: new Date().toISOString() }));
   }
 
   addModule() {
@@ -7867,6 +7920,34 @@ class Component extends DCLogic {
         reader.onload = () => this.setState({ done: { ...this.state.done, image: reader.result } });
         reader.readAsDataURL(f);
       },
+      // Certificate gating (cfg.certificate) — optional + audience-targeted
+      ...(() => {
+        const cc = s.certificate || { enabled: true, audience: { stores: [], roles: [] } };
+        const enabled = cc.enabled !== false;
+        const cStores = (cc.audience && cc.audience.stores) || [];
+        const cRoles = (cc.audience && cc.audience.roles) || [];
+        const storeDefs = [{ id: 'corporate', label: 'Corporate' }, { id: 'franchise', label: 'Franchise' }];
+        const targeted = cStores.length > 0 || cRoles.length > 0;
+        const cchip = on => ({ bg: on ? 'rgba(255,77,0,.12)' : 'var(--bx-card)', border: on ? '#FF4D00' : 'rgba(var(--bx-line-rgb),.18)', color: on ? '#FF4D00' : 'var(--bx-text)' });
+        return {
+          certEnabled: enabled,
+          certEnabledLabel: enabled ? 'Certificate ON' : 'Certificate OFF',
+          certToggleBg: enabled ? '#FF4D00' : 'var(--bx-card)',
+          certToggleColor: enabled ? '#fff' : 'var(--bx-text)',
+          certToggleBorder: enabled ? '#FF4D00' : 'rgba(var(--bx-line-rgb),.25)',
+          onToggleCert: () => this.toggleCertEnabled(),
+          certAudShowRoles: !!s.roleBranch, certAudShowStores: !!s.storeBranch,
+          certAudAnyDim: !!(s.storeBranch || s.roleBranch),
+          certAudNoDim: !(s.storeBranch || s.roleBranch),
+          certAudTargeted: targeted,
+          certAudSummary: targeted
+            ? ('🎯 ' + [cRoles.map(r => ((s.roles || []).find(x => x.id === r) || {}).label || r).join(', '), cStores.map(st => (storeDefs.find(d => d.id === st) || {}).label || st).join(' / ')].filter(Boolean).join(' · '))
+            : '👥 Everyone who passes gets a certificate',
+          onClearCertAud: () => this.clearCertAudience(),
+          certRoles: (s.roles || []).map(r => { const on = cRoles.includes(r.id); const c = cchip(on); return { label: r.label, mark: on ? '✓ ' : '', bg: c.bg, border: c.border, color: c.color, onToggle: () => this.toggleCertAudience('roles', r.id) }; }),
+          certStores: storeDefs.map(d => { const on = cStores.includes(d.id); const c = cchip(on); return { label: d.label, mark: on ? '✓ ' : '', bg: c.bg, border: c.border, color: c.color, onToggle: () => this.toggleCertAudience('stores', d.id) }; }),
+        };
+      })(),
       scormLabel: s.scormVersion==='xapi' ? 'xAPI' : s.scormVersion==='scorm12' ? 'SCORM 1.2' : 'SCORM 2004',
       scormXapiBg: scormBg('xapi'), scormXapiBorder: scormBorder('xapi'), scormXapiColor: scormColor('xapi'),
       scorm12Bg:   scormBg('scorm12'), scorm12Border: scormBorder('scorm12'), scorm12Color: scormColor('scorm12'),

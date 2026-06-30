@@ -1198,7 +1198,9 @@
           <span style="font-size:16px;font-weight:900;color:white;text-transform:uppercase">{{ doneScore }}</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;animation:slideUp .5s .6s ease both">
-          <button onClick="{{ onDownloadCert }}" style="width:100%;padding:16px;background:var(--accent);color:white;border:none;border-radius:50px;font-family:'Exo',sans-serif;font-weight:900;font-size:16px;cursor:pointer;text-transform:uppercase;letter-spacing:2px;box-shadow:4px 4px 0 rgba(0,0,0,.4)">{{ doneCertLabel }}</button>
+          <sc-if value="{{ showCertBtn }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ onDownloadCert }}" style="width:100%;padding:16px;background:var(--accent);color:white;border:none;border-radius:50px;font-family:'Exo',sans-serif;font-weight:900;font-size:16px;cursor:pointer;text-transform:uppercase;letter-spacing:2px;box-shadow:4px 4px 0 rgba(0,0,0,.4)">{{ doneCertLabel }}</button>
+          </sc-if>
           <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🎒 {{ passportLabel }}</button></sc-if>
           <button onClick="{{ onBackToMap }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">{{ doneBackLabel }}</button>
           <button onClick="{{ onStartOver }}" style="width:100%;padding:14px;background:transparent;color:rgba(255,255,255,.85);border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🔄 {{ startOverLabel }}</button>
@@ -2158,6 +2160,7 @@ class Component extends DCLogic {
       if (typeof cfg.assessDrawN === 'number' && cfg.assessDrawN > 0) this.setState({ assessDrawN: cfg.assessDrawN });
       if (typeof cfg.courseTitle === 'string' && cfg.courseTitle.trim()) this.setState({ courseTitleCfg: cfg.courseTitle.trim() });
       if (cfg.done && typeof cfg.done === 'object') this.setState({ doneCfg: cfg.done });
+      if (cfg.certificate && typeof cfg.certificate === 'object') this.setState({ certCfg: cfg.certificate });
       if (Array.isArray(cfg.sections)) this.setState({ sectionsCfg: cfg.sections });
       if (cfg.readAloud === false) this.setState({ readAloudOff: true });
       if (cfg.gamification && typeof cfg.gamification === 'object') this.setState({ gamiCfg: cfg.gamification });
@@ -2365,7 +2368,7 @@ class Component extends DCLogic {
     passed:'PASSED!', tryAgain:'SO CLOSE!',
     passedDesc:"You've aced it! You're officially ready to represent the #CamperoFamily.",
     tryAgainDesc:"Great effort! Review the material and try again — you've got this!",
-    finish:'Get My Certificate 🎉', retake:'Try Again',
+    finish:'Get My Certificate 🎉', finishNoCert:'Finish 🎉', retake:'Try Again',
     doneEyebrow:'TRAINING COMPLETE!',
     doneBody:"You've completed all modules and passed the assessment. Welcome to the #CamperoFamily!",
     doneCertLabel:'📄 Download My Certificate', doneBackLabel:'Back to Course Map',
@@ -2411,7 +2414,7 @@ class Component extends DCLogic {
     passed:'¡APROBADO!', tryAgain:'¡MUY CERCA!',
     passedDesc:'¡Lo lograste! Estás listo para representar a la #FamiliaCampero.',
     tryAgainDesc:'¡Gran esfuerzo! Repasa el material e inténtalo de nuevo. ¡Tú puedes!',
-    finish:'Obtener Mi Certificado 🎉', retake:'Intentar de Nuevo',
+    finish:'Obtener Mi Certificado 🎉', finishNoCert:'Finalizar 🎉', retake:'Intentar de Nuevo',
     doneEyebrow:'¡ENTRENAMIENTO COMPLETO!',
     doneBody:'Has completado todos los módulos y aprobado la evaluación. ¡Bienvenido a la #FamiliaCampero!',
     doneCertLabel:'📄 Descargar Mi Certificado', doneBackLabel:'Regresar al Mapa del Curso',
@@ -2968,6 +2971,11 @@ class Component extends DCLogic {
     const doneBodyV    = dlPick('body', t.doneBody);
     const doneHasImageV = !!(dl.image && String(dl.image).trim());
     const doneImageV   = dl.image || '';
+    // In-course certificate: optional + audience-gated (cfg.certificate={enabled,audience}).
+    // Default (no config) = enabled for everyone (backward-compatible).
+    const certCfg = s.certCfg || null;
+    const certEnabled = !certCfg || certCfg.enabled !== false;
+    const certAllowedV = certEnabled && this.audienceAllows({ audience: certCfg && certCfg.audience }, s);
     const st=s.branchStep;
     const branchSteps=this.branchStepsFor(s);
     const curStep=branchSteps[st];
@@ -3126,7 +3134,7 @@ class Component extends DCLogic {
       resultColor:score>=pass?'#B4BD00':'#FF8300',
       resultTitle:score>=pass?t.passed:t.tryAgain,
       resultBody:score>=pass?t.passedDesc:t.tryAgainDesc,
-      finishLabel:t.finish, showRetake:score<pass,
+      finishLabel:(certAllowedV?t.finish:t.finishNoCert), showRetake:score<pass,
       retakeLabel:t.retake,
       onFinish:()=>this.finishCourse(),
       onRetake:()=>this.retakeAssess(),
@@ -3134,6 +3142,7 @@ class Component extends DCLogic {
       // Completion
       confetti:scr==='done'?this.makeConfetti():null,
       onDownloadCert: () => this.generateCertificate(),
+      showCertBtn: certAllowedV,
       doneEyebrow:doneEyebrowV,
       doneTitle:doneTitleV,
       doneBody:doneBodyV,
