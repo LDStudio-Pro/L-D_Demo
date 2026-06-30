@@ -1079,8 +1079,8 @@
 
       <!-- Fixed bottom bar -->
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 20px;border-top:1px solid {{ borderColor }};display:flex;align-items:center;gap:12px;background:{{ bottomNavBg }};backdrop-filter:blur(14px)">
-        <button onClick="{{ onBackToMap }}" style="height:44px;padding:0 18px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ textColor }};white-space:nowrap;flex-shrink:0">{{ backLabel }}</button>
-        <div style="flex:1;text-align:center;font-size:11px;color:{{ subtextColor }};font-weight:600">{{ lessonOfLabel }}</div>
+        <button onClick="{{ onBackToMap }}" aria-label="{{ backLabel }}" title="{{ backLabel }}" style="height:42px;padding:0 14px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ textColor }};white-space:nowrap;flex-shrink:0">{{ lessonBackLabel }}</button>
+        <div style="flex:1;text-align:center;font-size:11px;color:{{ subtextColor }};font-weight:600;white-space:nowrap">{{ lessonOfLabel }}</div>
         <button onClick="{{ onCompleteLesson }}" aria-disabled="{{ completeDisabledAria }}" title="{{ completeHint }}" style="height:42px;padding:0 20px;border-radius:12px;border:none;background:{{ completeBg }};color:{{ completeColor }};font-family:'Exo',sans-serif;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;cursor:{{ completeCursor }};box-shadow:{{ completeShadow }};white-space:nowrap;flex-shrink:0;opacity:{{ completeOpacity }};transition:opacity .2s,background .2s">{{ completeLessonLabel }}</button>
       </div>
 
@@ -3119,6 +3119,7 @@ class Component extends DCLogic {
       onStartOver:()=>this.restart(),
       startOverLabel: (s.language==='es') ? 'Empezar de nuevo' : 'Start over · try another path',
       backLabel:t.backLabel,
+      lessonBackLabel:t.back,
       lessonOfLabel:`${t.lessonOf} ${s.module+1} / ${totalN}`,
       completeLessonLabel: lessonReadyV ? t.completeLesson : (isEs?'Sigue leyendo…':'Keep reading…'),
       onCompleteLesson:()=>{ if (lessonReadyV) this.completeModule(); },
