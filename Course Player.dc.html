@@ -74,13 +74,14 @@
 
   <!-- ══ SPLASH ══ -->
   <sc-if value="{{ showSplash }}" hint-placeholder-val="{{ true }}">
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;overflow:hidden;background:linear-gradient(160deg,#5E2A2B 0%,#3a1515 52%,#1a0a0b 100%);animation:fadeIn .6s ease">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:28px 24px;overflow-y:auto;background:linear-gradient(160deg,#5E2A2B 0%,#3a1515 52%,#1a0a0b 100%);animation:fadeIn .6s ease">
       <div style="position:absolute;inset:0;background-image:url('assets/textures/wood-orange.png');background-size:cover;opacity:.07;pointer-events:none"></div>
       <sc-if value="{{ hasSplashBg }}" hint-placeholder-val="{{ false }}">
         <div style="position:absolute;inset:0;background-image:url('{{ splashBgImage }}');background-size:cover;background-position:center;pointer-events:none"></div>
         <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(94,42,43,.82),rgba(26,10,11,.9));pointer-events:none"></div>
       </sc-if>
 
+      <div style="margin:auto 0;width:100%;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
       <div style="margin-bottom:14px;animation:slideDown .7s ease both;position:relative">
         <img src="assets/logos/logo-white.png" alt="Pollo Campero" style="width:148px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))">
       </div>
@@ -114,6 +115,7 @@
           </div>
         </div>
       </sc-if>
+      </div>
     </div>
   </sc-if>
 
@@ -121,7 +123,8 @@
   <sc-if value="{{ showBranch }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:fadeIn .35s ease">
 
-      <div style="padding:20px 24px 16px;border-bottom:1px solid {{ borderColor }};flex-shrink:0;background:{{ headerBg }}">
+      <div style="padding:14px 24px 16px;border-bottom:1px solid {{ borderColor }};flex-shrink:0;background:{{ headerBg }}">
+        <button onClick="{{ onBranchBack }}" aria-label="{{ branchBackLabel }}" style="background:transparent;border:none;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ subtextColor }};padding:4px 0;margin-bottom:8px;display:inline-flex;align-items:center">{{ branchBackLabel }}</button>
         <div style="font-size:10px;font-weight:700;color:#FF4D00;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">{{ stepLabel }}</div>
         <div style="font-size:22px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;line-height:1.2">{{ branchTitle }}</div>
         <div style="display:flex;gap:7px;margin-top:14px;align-items:center">
@@ -133,7 +136,7 @@
 
       <!-- Step: Store Type -->
       <sc-if value="{{ showStepStore }}" hint-placeholder-val="{{ true }}">
-        <div style="flex:1;padding:24px;display:flex;flex-direction:column;gap:14px;animation:slideUp .4s ease">
+        <div style="flex:1;padding:24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;animation:slideUp .4s ease">
           <div onClick="{{ selectCorporate }}" style="padding:22px;border-radius:22px;border:3px solid {{ corpBorder }};background:{{ corpBg }};cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .22s" style-hover="transform:translateY(-4px)">
             <div style="width:58px;height:58px;background:linear-gradient(135deg,#5E2A2B,#8B3A3B);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">🏢</div>
             <div style="flex:1">
@@ -1175,10 +1178,10 @@
 
   <!-- ══ COMPLETION ══ -->
   <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#5E2A2B 0%,#3a1515 52%,#1a0a0b 100%);text-align:center;padding:28px;overflow:hidden;animation:fadeIn .5s ease">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;background:linear-gradient(160deg,#5E2A2B 0%,#3a1515 52%,#1a0a0b 100%);text-align:center;padding:28px;overflow-y:auto;animation:fadeIn .5s ease">
       <div style="position:absolute;inset:0;background-image:url('assets/textures/wood-orange.png');background-size:cover;opacity:.06;pointer-events:none"></div>
       {{ confetti }}
-      <div style="position:relative;z-index:1;width:100%;max-width:380px">
+      <div style="position:relative;z-index:1;width:100%;max-width:380px;margin:auto 0">
         <div style="margin-bottom:14px;animation:bounceIn .8s ease both">
           <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Mascot" pose="cool" base="assets/mascot" size="{{ 130 }}" hint-size="130px,148px"></x-import>
         </div>
@@ -2744,6 +2747,12 @@ class Component extends DCLogic {
     if (this.state.branchStep < steps.length-1) this.setState({branchStep:this.state.branchStep+1});
     else this.setState({screen:'map'});
   }
+  branchBack(){
+    // Step back through the branch wizard; from the first step, return to the splash
+    // so a learner who picked the wrong store/role (or language) can correct it.
+    if (this.state.branchStep > 0) this.setState({branchStep:this.state.branchStep-1});
+    else this.setState({screen:'splash'});
+  }
   completeModule(){
     const {module:m,done}=this.state;
     const MODS=this.state.dynamicMods||this.MODULES;
@@ -2984,6 +2993,8 @@ class Component extends DCLogic {
       branchNextOpacity: stepReady ? '1' : '0.45',
       branchNextPE: stepReady ? 'auto' : 'none',
       onBranchNext:()=>this.branchNext(),
+      onBranchBack:()=>this.branchBack(),
+      branchBackLabel:(isEs?'← Atrás':'← Back'),
       corpBorder:s.storeType==='corporate'?'#FF4D00':th.borderColor, corpBg:s.storeType==='corporate'?'rgba(255,77,0,.08)':th.cardBg, corpCheck:s.storeType==='corporate'?'#FF4D00':th.progressBg,
       franBorder:s.storeType==='franchise'?'#FF4D00':th.borderColor, franBg:s.storeType==='franchise'?'rgba(255,77,0,.08)':th.cardBg, franCheck:s.storeType==='franchise'?'#FF4D00':th.progressBg,
       corporateLabel:t.corporate, corporateDesc:t.corporateDesc,
