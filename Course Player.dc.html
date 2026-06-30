@@ -184,7 +184,7 @@
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:fadeIn .4s ease">
 
       <div style="padding:12px 20px;border-bottom:1px solid {{ borderColor }};display:flex;align-items:center;gap:12px;flex-shrink:0;background:{{ headerBg }}">
-        <img src="assets/logos/logo-primary.png" alt="Campero" style="height:30px;object-fit:contain;filter:{{ logoFilter }}">
+        <img src="{{ logoSrc }}" alt="Campero" style="height:30px;object-fit:contain">
         <div style="flex:1;min-width:0">
           <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase">{{ mapEyebrow }}</div>
           <div style="font-size:14px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;line-height:1.2;overflow-wrap:anywhere">{{ courseTitle }}</div>
@@ -1081,7 +1081,7 @@
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 20px;border-top:1px solid {{ borderColor }};display:flex;align-items:center;gap:12px;background:{{ bottomNavBg }};backdrop-filter:blur(14px)">
         <button onClick="{{ onBackToMap }}" style="height:44px;padding:0 18px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-family:'Exo',sans-serif;font-size:13px;font-weight:700;color:{{ textColor }};white-space:nowrap;flex-shrink:0">{{ backLabel }}</button>
         <div style="flex:1;text-align:center;font-size:11px;color:{{ subtextColor }};font-weight:600">{{ lessonOfLabel }}</div>
-        <x-import component-from-global-scope="PolloCamperoDesignSystem_af736f.Button" variant="primary" size="md" pop onClick="{{ onCompleteLesson }}" hint-size="auto,44px">{{ completeLessonLabel }}</x-import>
+        <button onClick="{{ onCompleteLesson }}" aria-disabled="{{ completeDisabledAria }}" title="{{ completeHint }}" style="height:42px;padding:0 20px;border-radius:12px;border:none;background:{{ completeBg }};color:{{ completeColor }};font-family:'Exo',sans-serif;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;cursor:{{ completeCursor }};box-shadow:{{ completeShadow }};white-space:nowrap;flex-shrink:0;opacity:{{ completeOpacity }};transition:opacity .2s,background .2s">{{ completeLessonLabel }}</button>
       </div>
 
       <!-- TOC drawer (table of contents + per-section completion) -->
@@ -1196,17 +1196,17 @@
         <div style="font-size:10px;font-weight:700;color:#FFD100;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;animation:fadeIn .6s .2s ease both">{{ doneEyebrow }}</div>
         <div style="font-size:28px;font-weight:900;color:white;text-transform:uppercase;line-height:1.2;margin-bottom:10px;animation:slideUp .6s .3s ease both;font-family:var(--head)">{{ doneTitle }}</div>
         <div style="font-size:14px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:22px;animation:fadeIn .6s .4s ease both">{{ doneBody }}</div>
-        <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FF4D00,#FF8300);border-radius:50px;padding:10px 28px;margin-bottom:28px;animation:bounceIn .6s .5s ease both;box-shadow:3px 3px 0 #5E2A2B">
-          <span style="font-size:18px">⭐</span>
-          <span style="font-size:16px;font-weight:900;color:white;text-transform:uppercase">{{ doneScore }}</span>
+        <div style="display:inline-flex;align-items:center;gap:9px;background:rgba(255,209,0,.13);border:2px solid rgba(255,209,0,.55);border-radius:14px;padding:9px 22px;margin-bottom:28px;animation:bounceIn .6s .5s ease both">
+          <span style="font-size:20px">🏆</span>
+          <span style="font-size:17px;font-weight:900;color:#FFD100;text-transform:uppercase;letter-spacing:.5px">{{ doneScore }}</span>
         </div>
-        <div style="display:flex;flex-direction:column;gap:12px;animation:slideUp .5s .6s ease both">
+        <div style="display:flex;flex-direction:column;gap:11px;animation:slideUp .5s .6s ease both">
           <sc-if value="{{ showCertBtn }}" hint-placeholder-val="{{ true }}">
-            <button onClick="{{ onDownloadCert }}" style="width:100%;padding:16px;background:var(--accent);color:white;border:none;border-radius:50px;font-family:'Exo',sans-serif;font-weight:900;font-size:16px;cursor:pointer;text-transform:uppercase;letter-spacing:2px;box-shadow:4px 4px 0 rgba(0,0,0,.4)">{{ doneCertLabel }}</button>
+            <button onClick="{{ onDownloadCert }}" style="width:100%;padding:15px;background:linear-gradient(135deg,#FF4D00,#FF8300);color:white;border:none;border-radius:14px;font-family:'Exo',sans-serif;font-weight:900;font-size:15px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;box-shadow:0 8px 22px rgba(255,77,0,.45);transition:transform .15s,box-shadow .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,77,0,.55)">{{ doneCertLabel }}</button>
           </sc-if>
-          <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🎒 {{ passportLabel }}</button></sc-if>
-          <button onClick="{{ onBackToMap }}" style="width:100%;padding:14px;background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">{{ doneBackLabel }}</button>
-          <button onClick="{{ onStartOver }}" style="width:100%;padding:14px;background:transparent;color:rgba(255,255,255,.85);border:2px solid rgba(255,255,255,.25);border-radius:50px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase">🔄 {{ startOverLabel }}</button>
+          <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" style="width:100%;padding:13px;background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.28);border-radius:14px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase;transition:background .15s" style-hover="background:rgba(255,255,255,.2)">🎒 {{ passportLabel }}</button></sc-if>
+          <button onClick="{{ onBackToMap }}" style="width:100%;padding:13px;background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.28);border-radius:14px;font-family:'Exo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase;transition:background .15s" style-hover="background:rgba(255,255,255,.2)">{{ doneBackLabel }}</button>
+          <button onClick="{{ onStartOver }}" style="width:100%;padding:11px;background:transparent;color:rgba(255,255,255,.6);border:none;font-family:'Exo',sans-serif;font-weight:700;font-size:13px;cursor:pointer;text-transform:uppercase;transition:color .15s" style-hover="color:rgba(255,255,255,.9)">🔄 {{ startOverLabel }}</button>
         </div>
       </div>
     </div>
@@ -1321,6 +1321,9 @@ class Component extends DCLogic {
       });
     }
     this.setState({ screen: 'lesson', module: i, bankDraws: draws, continued: {}, coachMsg: null });
+    // Mark blocks already on-screen as viewed (so a short lesson that needs no
+    // scrolling still satisfies the "viewed all sections" gate on the Complete button).
+    setTimeout(() => this.scanViewed(), 140);
   }
 
   // Pick drawN random questions from a pool + an answer-option permutation per question.
@@ -2532,6 +2535,7 @@ class Component extends DCLogic {
     bottomNavBg: dark?'rgba(26,10,11,.96)':'rgba(255,251,243,.96)',
     darkIcon: dark?'☀️':'🌙',
     logoFilter: dark?'brightness(0) invert(1)':'none',
+    logoSrc: dark?'assets/logos/logo-white.png':'assets/logos/logo-primary.png',
   };}
 
   getRoles(selectedRole, t, th) {
@@ -2979,6 +2983,12 @@ class Component extends DCLogic {
     const certCfg = s.certCfg || null;
     const certEnabled = !certCfg || certCfg.enabled !== false;
     const certAllowedV = certEnabled && this.audienceAllows({ audience: certCfg && certCfg.audience }, s);
+    // Lesson Complete gate: enabled only once every section has been viewed (scrolled
+    // into view). Because getLessonToc counts ALL blocks — including ones hidden behind
+    // an un-passed continue/ack/signoff gate — this also forces those gates to be met.
+    const _ltoc = (scr === 'lesson') ? this.getLessonToc(s, t) : [];
+    const _lviewed = _ltoc.filter(x => x.done).length;
+    const lessonReadyV = _ltoc.length ? (_lviewed >= _ltoc.length) : true;
     const st=s.branchStep;
     const branchSteps=this.branchStepsFor(s);
     const curStep=branchSteps[st];
@@ -3107,8 +3117,15 @@ class Component extends DCLogic {
       startOverLabel: (s.language==='es') ? 'Empezar de nuevo' : 'Start over · try another path',
       backLabel:t.backLabel,
       lessonOfLabel:`${t.lessonOf} ${s.module+1} / ${totalN}`,
-      completeLessonLabel:t.completeLesson,
-      onCompleteLesson:()=>this.completeModule(),
+      completeLessonLabel: lessonReadyV ? t.completeLesson : (isEs?'Sigue leyendo…':'Keep reading…'),
+      onCompleteLesson:()=>{ if (lessonReadyV) this.completeModule(); },
+      completeBg: lessonReadyV ? 'var(--accent)' : (s.dark?'rgba(255,255,255,.1)':'rgba(94,42,43,.1)'),
+      completeColor: lessonReadyV ? '#fff' : th.subtextColor,
+      completeCursor: lessonReadyV ? 'pointer' : 'not-allowed',
+      completeShadow: lessonReadyV ? '0 4px 14px rgba(255,77,0,.4)' : 'none',
+      completeOpacity: lessonReadyV ? '1' : '.85',
+      completeDisabledAria: lessonReadyV ? 'false' : 'true',
+      completeHint: lessonReadyV ? '' : (isEs?'Desplázate por toda la lección para continuar':'Scroll through the whole lesson to continue'),
       bottomNavBg:th.bottomNavBg,
 
       // Assessment
