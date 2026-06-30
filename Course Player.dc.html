@@ -184,7 +184,7 @@
         <img src="assets/logos/logo-primary.png" alt="Campero" style="height:30px;object-fit:contain;filter:{{ logoFilter }}">
         <div style="flex:1;min-width:0">
           <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase">{{ mapEyebrow }}</div>
-          <div style="font-size:14px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ courseTitle }}</div>
+          <div style="font-size:14px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;line-height:1.2;overflow-wrap:anywhere">{{ courseTitle }}</div>
         </div>
         <sc-if value="{{ showLangChoice }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleLang }}" aria-label="{{ langSwitchLabel }}" style="height:36px;padding:0 12px;border-radius:50px;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:11px;font-weight:700;color:{{ subtextColor }};display:flex;align-items:center;gap:4px;flex-shrink:0" title="{{ langSwitchLabel }}">{{ langToggleLabel }}</button></sc-if>
         <sc-if value="{{ gamiOn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onOpenPassport }}" aria-label="{{ passportLabel }}" title="{{ passportLabel }}" style="width:36px;height:36px;border-radius:50%;border:2px solid {{ borderColor }};background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true">🎒</span></button></sc-if>
@@ -239,7 +239,7 @@
               </div>
               <div style="flex:1;min-width:0">
                 <div style="font-size:10px;font-weight:700;color:{{ mod.statusColor }};text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">{{ mod.statusLabel }}</div>
-                <div style="font-size:15px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ mod.title }}</div>
+                <div style="font-size:15px;font-weight:900;color:{{ headingColor }};text-transform:uppercase;line-height:1.2;overflow-wrap:anywhere">{{ mod.title }}</div>
                 <div style="font-size:12px;color:{{ subtextColor }};margin-top:2px">{{ mod.duration }}</div>
               </div>
               <div style="width:38px;height:38px;border-radius:50%;background:{{ mod.statusBg }};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">{{ mod.statusIcon }}</div>
@@ -2141,6 +2141,7 @@ class Component extends DCLogic {
       if (cfg.assessEnabled === false) this.setState({ assessOff: true });
       if (cfg.assessBank === true) this.setState({ assessBank: true });
       if (typeof cfg.assessDrawN === 'number' && cfg.assessDrawN > 0) this.setState({ assessDrawN: cfg.assessDrawN });
+      if (typeof cfg.courseTitle === 'string' && cfg.courseTitle.trim()) this.setState({ courseTitleCfg: cfg.courseTitle.trim() });
       if (Array.isArray(cfg.sections)) this.setState({ sectionsCfg: cfg.sections });
       if (cfg.readAloud === false) this.setState({ readAloudOff: true });
       if (cfg.gamification && typeof cfg.gamification === 'object') this.setState({ gamiCfg: cfg.gamification });
@@ -2991,7 +2992,7 @@ class Component extends DCLogic {
       roles:this.getRoles(s.role,t,th),
 
       // Map
-      mapEyebrow:t.mapEyebrow, courseTitle:t.courseTitle,
+      mapEyebrow:t.mapEyebrow, courseTitle:(s.courseTitleCfg || t.courseTitle),
       mapGreeting:`${t.hello}, ${s.learnerName}! 👋`, mapSubgreeting:t.mapSubgreeting,
       progressLabel:t.progress, progressWidth:`${pct}%`,
       greetBg:th.greetBg, badgeBg:th.badgeBg,
