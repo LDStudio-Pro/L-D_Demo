@@ -4022,14 +4022,37 @@ class Component extends DCLogic {
       e.stopPropagation();
     };
     document.addEventListener('keydown', this._escKey, true);
+    // ── Accessibility: trap Tab focus inside an open modal dialog ──
+    this._trapKey = (e) => {
+      if (e.key !== 'Tab') return;
+      const dlg = document.querySelector('[role="dialog"]');
+      if (!dlg) return;
+      const f = this._dialogFocusables(dlg);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1], active = document.activeElement;
+      if (e.shiftKey && (active === first || !dlg.contains(active))) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && (active === last || !dlg.contains(active))) {
+        e.preventDefault(); first.focus();
+      }
+    };
+    document.addEventListener('keydown', this._trapKey, true);
     this._enhanceA11y();
     this._initRichToolbar();
     this._seedEditables();
   }
 
+  // Focusable descendants of an open dialog, in DOM order.
+  _dialogFocusables(dlg) {
+    return Array.from(dlg.querySelectorAll(
+      'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null);
+  }
+
   componentWillUnmount() {
     if (this._a11yKey) document.removeEventListener('keydown', this._a11yKey, true);
     if (this._escKey) document.removeEventListener('keydown', this._escKey, true);
+    if (this._trapKey) document.removeEventListener('keydown', this._trapKey, true);
     this._endSplit();
   }
 
@@ -4272,6 +4295,16 @@ class Component extends DCLogic {
   componentDidUpdate(prevProps) {
     this._enhanceA11y();
     this._seedEditables();
+    // A11y: when a modal dialog newly appears, move focus into it.
+    const dlg = document.querySelector('[role="dialog"]');
+    if (dlg && !this._dlgFocused) {
+      this._dlgFocused = true;
+      const f = this._dialogFocusables(dlg);
+      const target = dlg.querySelector('[autofocus]') || f[0];
+      if (target) try { target.focus(); } catch (e) {}
+    } else if (!dlg) {
+      this._dlgFocused = false;
+    }
     const s = this.state;
     if (!s || s.view !== 'editor') { this._lastSnapshot = null; return; }
     const cur = this.snapKeys(s);
