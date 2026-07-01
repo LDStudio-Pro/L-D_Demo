@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campero Analytics — Course Overview</title>
+<style>
+  :root{
+    --ink:#3d1e1e; --paper:#fff; --bg:#faf4ec; --line:#eaddcd;
+    --accent:#ff4d00; --accent2:#512e91; --good:#1e9e5a; --bad:#d64545;
+    --muted:#8a7a6b; --card:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.5}
+  header{background:linear-gradient(120deg,#5e2a2b,#7a3536);color:#fff;padding:20px 28px;
+         display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header .logo{width:38px;height:38px;border-radius:9px;background:#ffd100;color:#5e2a2b;
+       display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px}
+  header h1{font-size:19px;margin:0;font-weight:800}
+  header .sub{font-size:12px;opacity:.75;margin-top:2px}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 28px 60px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;
+       background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:22px}
+  .controls label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;
+       letter-spacing:.5px;color:var(--muted);margin-bottom:5px}
+  .controls input{padding:9px 12px;border:1.5px solid var(--line);border-radius:9px;
+       font-size:14px;font-family:inherit;min-width:180px}
+  .controls input:focus{outline:none;border-color:var(--accent)}
+  .controls .grow{flex:1;min-width:240px}
+  button{padding:10px 18px;border:none;border-radius:9px;background:var(--accent);color:#fff;
+       font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+  button.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+  button:hover{filter:brightness(1.05)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+  @media(max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .stat .v{font-size:30px;font-weight:900;margin-top:4px}
+  .stat .v small{font-size:14px;color:var(--muted);font-weight:700}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.6px;margin:24px 0 12px}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+  .q .top{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .q .prompt{font-weight:700;flex:1}
+  .q .pct{font-weight:900;font-size:20px;white-space:nowrap}
+  .bar{height:8px;border-radius:6px;background:#f0e6d8;margin:10px 0 12px;overflow:hidden}
+  .bar > span{display:block;height:100%;border-radius:6px}
+  .meta{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .ans{display:flex;align-items:center;gap:10px;font-size:13px;padding:4px 0}
+  .ans .chip{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;
+       justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+  .ans .abar{flex:1;height:6px;border-radius:5px;background:#f0e6d8;overflow:hidden}
+  .ans .abar > span{display:block;height:100%}
+  .ans .n{width:60px;text-align:right;color:var(--muted);font-size:12px}
+  .banner{padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:13px;font-weight:600}
+  .banner.info{background:#fff5e9;border:1px solid #ffd9a8;color:#8a5a00}
+  .banner.err{background:#fdecec;border:1px solid #f3b4b4;color:#a01d1d}
+  .muted{color:var(--muted)}
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;
+       background:#f0e6d8;color:var(--ink);margin-left:8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">C</div>
+  <div>
+    <h1>Campero Analytics</h1>
+    <div class="sub">Completion × per-question — your data, your dashboard</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div>
+      <label>LRS base URL</label>
+      <input id="base" placeholder="https://campero-lrs.….workers.dev">
+    </div>
+    <div>
+      <label>Dashboard token</label>
+      <input id="token" type="password" placeholder="DASH_TOKEN">
+    </div>
+    <div class="grow">
+      <label>Course id</label>
+      <input id="course" class="grow" placeholder="https://lndstudio.io/campero/food-safety">
+    </div>
+    <button id="load">Load</button>
+    <button id="demo" class="ghost">Demo data</button>
+  </div>
+
+  <div id="banner"></div>
+  <div id="out"></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+
+function fmtCards(c){
+  const rate = c.completion_rate==null ? '—' : c.completion_rate+'<small>%</small>';
+  const score = c.avg_score==null ? '—' : c.avg_score+'<small>%</small>';
+  return `<div class="cards">
+    <div class="stat"><div class="k">Enrolled</div><div class="v">${c.enrolled}</div></div>
+    <div class="stat"><div class="k">Complete</div><div class="v">${c.complete}</div></div>
+    <div class="stat"><div class="k">Completion rate</div><div class="v">${rate}</div></div>
+    <div class="stat"><div class="k">Avg score</div><div class="v">${score}</div></div>
+  </div>`;
+}
+
+function barColor(pct){ return pct>=80?'var(--good)':pct>=50?'#e0a020':'var(--bad)'; }
+
+function fmtQuestion(q){
+  const total = q.answers.reduce((s,a)=>s+a.n,0) || 1;
+  const answers = q.answers.map(a=>{
+    const pct = Math.round(a.n/total*100);
+    const col = a.correct ? 'var(--good)' : '#c98a8a';
+    const chip = a.correct
+      ? '<span class="chip" style="background:var(--good)">✓</span>'
+      : '<span class="chip" style="background:#c98a8a">✕</span>';
+    return `<div class="ans">${chip}
+      <span style="min-width:120px">${esc(a.response)}</span>
+      <span class="abar"><span style="width:${pct}%;background:${col}"></span></span>
+      <span class="n">${a.n} · ${pct}%</span></div>`;
+  }).join('');
+  return `<div class="q">
+    <div class="top"><div class="prompt">${esc(q.question||q.question_id)}</div>
+      <div class="pct" style="color:${barColor(q.pct_correct)}">${q.pct_correct}%</div></div>
+    <div class="bar"><span style="width:${q.pct_correct}%;background:${barColor(q.pct_correct)}"></span></div>
+    <div class="meta">${q.attempts} attempts · ${q.correct} correct${q.avg_seconds!=null?' · avg '+q.avg_seconds+'s':''}</div>
+    ${answers}
+  </div>`;
+}
+
+function render(data){
+  const c = data.completion;
+  const hardest = data.hardest_questions||[];
+  const html = fmtCards(c)
+    + (c.enrolled===0 ? '<div class="banner info">No Absorb completion data yet — run the Absorb sync (P2) to populate this. Per-question analytics below come straight from the LRS.</div>' : '')
+    + '<h2>Hardest questions <span class="pill">'+hardest.length+'</span></h2>'
+    + (hardest.length ? hardest.map(fmtQuestion).join('')
+        : '<div class="muted">No answered-question statements for this course yet.</div>')
+    + (data.questions && data.questions.length>hardest.length
+        ? '<h2>All questions</h2>'+data.questions.map(fmtQuestion).join('') : '');
+  $('#out').innerHTML = html;
+}
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function banner(msg,kind){ $('#banner').innerHTML = msg?`<div class="banner ${kind}">${esc(msg)}</div>`:''; }
+
+async function load(){
+  const base=$('#base').value.replace(/\/+$/,''), token=$('#token').value, course=$('#course').value.trim();
+  if(!base||!token||!course){ banner('Fill in base URL, token, and course id — or click Demo data.','info'); return; }
+  banner('Loading…','info');
+  try{
+    const r = await fetch(`${base}/api/analytics/course?course=${encodeURIComponent(course)}`,
+      { headers:{ Authorization:`Bearer ${token}` }});
+    if(!r.ok){ banner(`Request failed: ${r.status} ${await r.text()}`,'err'); return; }
+    banner('',''); render(await r.json());
+  }catch(e){ banner('Network error: '+e.message,'err'); }
+}
+
+// ---- Demo data (matches the /api/analytics/course response shape) ----
+const DEMO = {
+  course_id:"https://lndstudio.io/campero/food-safety",
+  completion:{ enrolled:52, complete:47, in_progress:4, completion_rate:90, avg_score:88 },
+  hardest_questions:[
+    { question_id:"q3", question:"What is the safe holding temperature for hot food?",
+      attempts:52, correct:32, pct_correct:62, avg_seconds:14,
+      answers:[{response:"140°F or above",n:32,correct:true},{response:"125°F",n:14,correct:false},{response:"110°F",n:6,correct:false}] },
+    { question_id:"q7", question:"How often should you change sanitizer buckets?",
+      attempts:52, correct:38, pct_correct:73, avg_seconds:9,
+      answers:[{response:"Every 4 hours",n:38,correct:true},{response:"Once a shift",n:11,correct:false},{response:"Daily",n:3,correct:false}] },
+    { question_id:"q1", question:"Which item is a Time/Temperature Control for Safety food?",
+      attempts:52, correct:44, pct_correct:85, avg_seconds:8,
+      answers:[{response:"Cooked chicken",n:44,correct:true},{response:"Dry rice",n:5,correct:false},{response:"Sealed soda",n:3,correct:false}] },
+  ]
+};
+DEMO.questions = DEMO.hardest_questions;
+
+$('#load').onclick = load;
+$('#demo').onclick = ()=>{ banner('Showing demo data (no backend call).','info'); $('#course').value=DEMO.course_id; render(DEMO); };
+
+// Config seam — this module is self-contained and lift-out-able. When embedded
+// (e.g. inside the Course Builder dashboard) the host writes the backend config
+// to localStorage.campero_analytics_cfg = { base, token, course }. Standalone,
+// the fields are just empty and it falls back to demo data.
+function boot(){
+  let cfg = {};
+  try { cfg = JSON.parse(localStorage.getItem('campero_analytics_cfg') || '{}'); } catch(e){}
+  if(cfg.base)   $('#base').value = cfg.base;
+  if(cfg.token)  $('#token').value = cfg.token;
+  if(cfg.course) $('#course').value = cfg.course;
+  if(cfg.base && cfg.token && cfg.course) load();   // live
+  else $('#demo').click();                          // never blank
+}
+window.addEventListener('DOMContentLoaded', boot);
+</script>
+</body>
+</html>
